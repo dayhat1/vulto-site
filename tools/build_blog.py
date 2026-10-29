@@ -1,0 +1,342 @@
+#!/usr/bin/env python3
+"""
+Gera o blog da Vulto em HTML estatico a partir dos posts em content/blog/*.md.
+Sem dependencias externas: roda com Python 3 puro (3.8+).
+
+Uso:
+    python3 tools/build_blog.py
+
+Saida:
+    public/blog/index.html              -> lista de posts
+    public/blog/<slug>/index.html       -> cada post
+    public/rss.xml                      -> feed RSS
+    public/blog-sitemap.xml             -> sitemap so do blog
+
+Publicar um post novo: crie content/blog/AAAA-MM-DD-slug.md, rode este script,
+e faca commit dos .md + dos .html gerados. O Render serve ./public sem build.
+"""
+
+import html
+import os
+import re
+from datetime import datetime, timezone
+
+# ----- config -----
+SITE = "https://vulto.tech"
+WHATSAPP = "5521951001137"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(ROOT, "content", "blog")
+OUT = os.path.join(ROOT, "public", "blog")
+
+OFERTAS = {
+    "meta-ads": "Gestão de Meta Ads",
+    "salestack": "SaleStack — prospecção automática",
+    "lobby": "LOBBY — sistema para pousadas",
+    "assistente-ia": "Assistente IA sob medida",
+    "mvp": "SaaS e MVP sob medida",
+    "shopify": "Loja Shopify que converte",
+    "seguranca": "Auditoria de segurança",
+}
+
+MESES = ["", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho",
+         "agosto", "setembro", "outubro", "novembro", "dezembro"]
+
+
+# ----- frontmatter + markdown minimo -----
+def parse_post(path):
+    raw = open(path, encoding="utf-8").read()
+    m = re.match(r"^---\s*\n(.*?)\n---\s*\n(.*)$", raw, re.S)
+    if not m:
+        raise ValueError(f"{path}: frontmatter ausente")
+    meta = {}
+    for line in m.group(1).splitlines():
+        if ":" not in line:
+            continue
+        k, v = line.split(":", 1)
+        meta[k.strip()] = v.strip().strip('"').strip("'")
+    meta["body_html"] = md_to_html(m.group(2).strip())
+    meta["slug"] = os.path.splitext(os.path.basename(path))[0]
+    meta.setdefault("cta", "Quero meu diagnóstico grátis")
+    meta["draft"] = str(meta.get("draft", "false")).lower() == "true"
+    return meta
+
+
+def inline(text):
+    text = html.escape(text, quote=False)
+    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', text)
+    text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
+    text = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", r"<em>\1</em>", text)
+    return text
+
+
+def md_to_html(md):
+    out, lst = [], []
+
+    def flush():
+        if lst:
+            out.append("<ul>" + "".join(f"<li>{inline(i)}</li>" for i in lst) + "</ul>")
+            lst.clear()
+
+    for line in md.splitlines():
+        s = line.strip()
+        if not s:
+            flush()
+            continue
+        if s.startswith("### "):
+            flush(); out.append(f"<h3>{inline(s[4:])}</h3>")
+        elif s.startswith("## "):
+            flush(); out.append(f"<h2>{inline(s[3:])}</h2>")
+        elif s.startswith("> "):
+            flush(); out.append(f"<blockquote>{inline(s[2:])}</blockquote>")
+        elif s.startswith("- "):
+            lst.append(s[2:])
+        else:
+            flush(); out.append(f"<p>{inline(s)}</p>")
+    flush()
+    return "\n".join(out)
+
+
+def fmt_date(iso):
+    try:
+        d = datetime.fromisoformat(iso)
+    except ValueError:
+        d = datetime.strptime(iso, "%Y-%m-%d")
+    return f"{d.day:02d} de {MESES[d.month]} de {d.year}", d
+
+
+# ----- template compartilhado (usa os tokens do sócio) -----
+HEAD = """<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{canonical}">
+<meta property="og:type" content="{ogtype}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{SITE}/img/og.jpg">
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+{schema}
+<style>
+:root{{--bg:#0b090a;--surface:#151113;--line:#2e2529;--fg:#f1eaec;--muted:#a8999e;--red:#e3172e;--red-soft:#ff4a5c;--red-deep:#5c0a14;--on-red:#fff;--display:"Archivo","Arial Narrow",Arial,sans-serif;--body:"IBM Plex Sans","Segoe UI",Roboto,Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;color-scheme:dark;}}
+*{{box-sizing:border-box;}}
+html{{scroll-behavior:smooth;}}
+body{{margin:0;background:var(--bg);color:var(--fg);font:400 1.05rem/1.7 var(--body);-webkit-font-smoothing:antialiased;}}
+a{{color:inherit;}}
+.wrap{{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}}
+.narrow{{max-width:720px;}}
+.eyebrow{{font:500 .78rem/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--red-soft);margin:0 0 .6rem;}}
+h1,h2,h3{{font-family:var(--display);text-wrap:balance;margin:0;}}
+h1{{font-size:clamp(1.9rem,5vw,3rem);font-weight:800;font-stretch:80%;line-height:1.06;letter-spacing:-.01em;}}
+h2{{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:800;font-stretch:80%;margin:2.2rem 0 .8rem;}}
+h3{{font-size:1.25rem;margin:1.6rem 0 .5rem;}}
+.muted{{color:var(--muted);}}
+.lead{{color:var(--muted);font-size:1.2rem;max-width:62ch;}}
+.btn{{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.3rem;border-radius:10px;font:600 1rem/1 var(--body);text-decoration:none;border:1px solid transparent;transition:transform .15s,background .15s,border-color .15s;}}
+.btn:hover{{transform:translateY(-1px);}}
+.btn-red{{background:var(--red);color:var(--on-red);box-shadow:0 8px 30px -10px var(--red);}}
+.btn-red:hover{{background:var(--red-soft);}}
+.btn-ghost{{border-color:var(--line);color:var(--fg);background:transparent;}}
+.btn-ghost:hover{{border-color:var(--muted);}}
+.nav{{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}}
+.nav .wrap{{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.75rem;}}
+.mark{{display:inline-flex;line-height:0;text-decoration:none;}}
+.mark img{{height:54px;width:auto;mix-blend-mode:lighten;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);}}
+.nav-links{{display:flex;align-items:center;gap:1.4rem;}}
+.nav-links a:not(.btn){{color:var(--muted);text-decoration:none;font-size:.95rem;}}
+.nav-links a:hover:not(.btn){{color:var(--fg);}}
+main{{padding:3rem 0;}}
+.tag{{display:inline-block;font:500 .72rem/1 var(--mono);color:var(--muted);border:1px solid var(--line);padding:.35rem .7rem;border-radius:999px;}}
+.meta{{font:500 .85rem/1 var(--mono);color:var(--muted);margin-top:1rem;}}
+article .body{{margin-top:2rem;}}
+article .body p{{margin:0 0 1.1rem;}}
+article .body ul{{margin:0 0 1.1rem 1.2rem;}}
+article .body li{{margin-bottom:.5rem;}}
+article .body a{{color:var(--red-soft);}}
+article .body strong{{color:#fff;}}
+article .body blockquote{{border-left:3px solid var(--red);padding-left:1rem;margin:0 0 1.1rem;color:var(--muted);font-style:italic;}}
+.grid{{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;margin-top:2rem;}}
+.card{{display:block;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.5rem;text-decoration:none;transition:border-color .15s;}}
+.card:hover{{border-color:var(--red);}}
+.card h3{{margin:.8rem 0 .4rem;}}
+.offer-box{{margin-top:3rem;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.5rem;}}
+.cta-box{{margin-top:1.3rem;border:1px solid var(--red);border-radius:14px;padding:2rem;text-align:center;background:linear-gradient(180deg,rgba(227,23,46,.12),transparent);}}
+footer .wrap{{padding-block:2.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;}}
+footer .mark img{{height:38px;}}
+footer nav{{display:flex;flex-wrap:wrap;gap:1.2rem;}}
+footer a{{text-decoration:none;}}
+footer a:hover{{color:var(--fg);}}
+@media(max-width:720px){{.grid{{grid-template-columns:1fr;}} .nav-links a:not(.btn){{display:none;}}}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="mark" href="/" aria-label="Vulto, início"><img src="/img/vulto-nome.jpg" alt="Vulto" width="708" height="300"></a>
+  <nav class="nav-links" aria-label="Seções">
+    <a href="/#como-funciona">Como funciona</a>
+    <a href="/#precos">Preços</a>
+    <a href="/blog/">Blog</a>
+    <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/">Falar no WhatsApp</a>
+  </nav>
+</div></header>
+<main><div class="wrap narrow">
+"""
+
+FOOT = """</div></main>
+<footer><div class="wrap">
+  <a class="mark" href="/" aria-label="Vulto, voltar ao topo"><img src="/img/vulto-nome.jpg" alt="Vulto" width="708" height="300" loading="lazy"></a>
+  <nav aria-label="Rodapé">
+    <a href="https://instagram.com/vulto.tech">@vulto.tech</a>
+    <a href="/blog/">Blog</a>
+    <a href="/#precos">Preços</a>
+  </nav>
+  <p style="width:100%;margin:0;font-size:.8rem;">© <span id="ano">2026</span> Vulto.tech · Conteúdo próprio</p>
+</div></footer>
+<script>
+  var W='""" + WHATSAPP + """';
+  document.querySelectorAll('[data-wa]').forEach(function(a){a.href='https://wa.me/'+W+'?text='+encodeURIComponent(a.dataset.wa);a.target='_blank';a.rel='noopener';});
+  var y=document.getElementById('ano'); if(y) y.textContent=new Date().getFullYear();
+</script>
+</body></html>
+"""
+
+
+def esc(s):
+    return html.escape(s or "", quote=True)
+
+
+def render_post(p):
+    data_fmt, dt = fmt_date(p["date"])
+    oferta_nome = OFERTAS.get(p.get("oferta", ""), "")
+    canonical = f"{SITE}/blog/{p['slug']}/"
+    schema = (
+        '<script type="application/ld+json">'
+        '{"@context":"https://schema.org","@type":"Article",'
+        f'"headline":{_json(p["title"])},"description":{_json(p["description"])},'
+        f'"datePublished":"{dt.isoformat()}",'
+        '"author":{"@type":"Organization","name":"Vulto"},'
+        '"publisher":{"@type":"Organization","name":"Vulto"}}'
+        "</script>"
+    )
+    head = HEAD.format(title=esc(p["title"]), desc=esc(p["description"]),
+                       canonical=canonical, ogtype="article", SITE=SITE, schema=schema)
+    offer = ""
+    if oferta_nome:
+        offer = f"""
+<div class="offer-box">
+  <p class="eyebrow">Conheça</p>
+  <h3>{esc(oferta_nome)}</h3>
+  <a class="btn btn-ghost" style="margin-top:1rem" data-wa="Oi! Quero saber mais de {esc(oferta_nome)}." href="https://wa.me/">Quero saber mais</a>
+</div>"""
+    body = f"""
+<a href="/blog/" class="muted" style="font-family:var(--mono);font-size:.85rem;text-decoration:none;">← todos os posts</a>
+<article>
+  <p class="eyebrow" style="margin-top:1.2rem;">Conteúdo Vulto</p>
+  <h1>{esc(p['title'])}</h1>
+  <p class="meta">{data_fmt}</p>
+  <div class="body">
+{p['body_html']}
+  </div>
+  {offer}
+  <div class="cta-box">
+    <h2 style="margin:0;">{esc(p['cta'])}</h2>
+    <p class="muted" style="margin:.6rem 0 0;">15 minutos no WhatsApp. Sem compromisso.</p>
+    <a class="btn btn-red" style="margin-top:1.1rem" data-wa="Oi! {esc(p['cta'])}" href="https://wa.me/">Chamar agora</a>
+  </div>
+</article>
+"""
+    return head + body + FOOT
+
+
+def render_index(posts):
+    head = HEAD.format(
+        title="Blog · Vulto",
+        desc="Estratégia de verdade sobre automação, IA, anúncios e vendas. Um post novo todo dia.",
+        canonical=f"{SITE}/blog/", ogtype="website", SITE=SITE, schema="",
+    ).replace('class="wrap narrow"', 'class="wrap"')
+    cards = []
+    for p in posts:
+        data_fmt, _ = fmt_date(p["date"])
+        oferta_nome = OFERTAS.get(p.get("oferta", ""), "Vulto")
+        cards.append(f"""
+    <a class="card" href="/blog/{p['slug']}/">
+      <span class="tag">{esc(oferta_nome)}</span>
+      <h3>{esc(p['title'])}</h3>
+      <p class="muted" style="margin:0;">{esc(p['description'])}</p>
+      <p class="meta">{data_fmt}</p>
+    </a>""")
+    empty = "" if posts else '<p class="muted">Primeiro post sai em breve.</p>'
+    body = f"""
+<p class="eyebrow">Um post novo todo dia</p>
+<h1>Blog da Vulto</h1>
+<p class="lead" style="margin-top:1rem;">Automação, IA, anúncios e vendas — sem enrolação.</p>
+{empty}
+<div class="grid">{''.join(cards)}</div>
+"""
+    return head + body + FOOT
+
+
+def render_rss(posts):
+    items = []
+    for p in posts:
+        _, dt = fmt_date(p["date"])
+        pub = dt.replace(tzinfo=timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
+        items.append(
+            f"<item><title>{esc(p['title'])}</title>"
+            f"<link>{SITE}/blog/{p['slug']}/</link>"
+            f"<guid>{SITE}/blog/{p['slug']}/</guid>"
+            f"<pubDate>{pub}</pubDate>"
+            f"<description>{esc(p['description'])}</description></item>"
+        )
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0"><channel>'
+        "<title>Blog da Vulto</title>"
+        f"<link>{SITE}/blog/</link>"
+        "<description>Automação, IA, anúncios e vendas.</description>"
+        + "".join(items) +
+        "</channel></rss>\n"
+    )
+
+
+def render_sitemap(posts):
+    urls = [f"{SITE}/blog/"] + [f"{SITE}/blog/{p['slug']}/" for p in posts]
+    body = "".join(f"<url><loc>{u}</loc></url>" for u in urls)
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+            + body + "</urlset>\n")
+
+
+def _json(s):
+    import json
+    return json.dumps(s, ensure_ascii=False)
+
+
+def main():
+    files = [f for f in os.listdir(SRC) if f.endswith(".md")] if os.path.isdir(SRC) else []
+    posts = [parse_post(os.path.join(SRC, f)) for f in files]
+    posts = [p for p in posts if not p["draft"]]
+    posts.sort(key=lambda p: p["date"], reverse=True)
+
+    os.makedirs(OUT, exist_ok=True)
+    for p in posts:
+        d = os.path.join(OUT, p["slug"])
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(render_post(p))
+
+    open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(render_index(posts))
+    pub = os.path.join(ROOT, "public")
+    open(os.path.join(pub, "rss.xml"), "w", encoding="utf-8").write(render_rss(posts))
+    open(os.path.join(pub, "blog-sitemap.xml"), "w", encoding="utf-8").write(render_sitemap(posts))
+
+    print(f"blog gerado: {len(posts)} post(s) -> public/blog/")
+
+
+if __name__ == "__main__":
+    main()
