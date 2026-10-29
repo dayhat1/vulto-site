@@ -1,3 +1,10 @@
 node_modules/
 .DS_Store
 Thumbs.db
+
+# motor do blog (segredos e estado local da VPS)
+motor/.env
+motor/estado.json
+motor/saidas/
+motor/.lock
+__pycache__/

@@ -1,0 +1,58 @@
+{
+  "_leia": "Feeds RSS de onde o motor tira a pauta do dia. Feed que falhar é ignorado e aparece no 'motor.py testar'. Adicione/remova à vontade.",
+  "feeds": [
+    "https://olhardigital.com.br/feed/",
+    "https://canaltech.com.br/rss/",
+    "https://www.tecmundo.com.br/rss",
+    "https://startupi.com.br/feed/",
+    "https://itforum.com.br/feed/",
+    "https://www.mobiletime.com.br/feed/",
+    "https://www.ecommercebrasil.com.br/feed/",
+    "https://www.meioemensagem.com.br/feed",
+    "https://exame.com/feed/",
+    "https://www.infomoney.com.br/feed/",
+    "https://www.panrotas.com.br/rss/",
+    "https://www.mercadoeeventos.com.br/feed/",
+    "https://www.cisoadvisor.com.br/feed/",
+    "https://www.tecnoblog.net/feed/"
+  ],
+  "rotacao": {
+    "0": "meta-ads",
+    "1": "salestack",
+    "2": "lobby",
+    "3": "assistente-ia",
+    "4": "shopify",
+    "5": "seguranca",
+    "6": "mvp"
+  },
+  "ofertas": {
+    "meta-ads": {
+      "categoria": "Marketing",
+      "palavras": ["meta", "instagram", "facebook", "anúncio", "anuncios", "anúncios", "tráfego", "trafego", "ads", "publicidade", "algoritmo", "reels", "whatsapp business", "influenciador", "marketing digital", "criativo"]
+    },
+    "salestack": {
+      "categoria": "Vendas",
+      "palavras": ["vendas", "vendedor", "prospecção", "prospeccao", "lead", "leads", "crm", "b2b", "pme", "pequenas empresas", "whatsapp", "atendimento", "conversão", "conversao", "comercial"]
+    },
+    "lobby": {
+      "categoria": "Negócios",
+      "palavras": ["pousada", "pousadas", "hotel", "hotelaria", "hospedagem", "turismo", "airbnb", "booking", "reserva", "reservas", "feriado", "temporada", "viagem", "viagens"]
+    },
+    "assistente-ia": {
+      "categoria": "IA",
+      "palavras": ["inteligência artificial", "inteligencia artificial", " ia ", "ia generativa", "agente", "agentes", "chatbot", "openai", "chatgpt", "gemini", "claude", "copilot", "automação", "automacao", "assistente"]
+    },
+    "shopify": {
+      "categoria": "Mercado",
+      "palavras": ["e-commerce", "ecommerce", "loja virtual", "varejo", "black friday", "pix", "checkout", "marketplace", "shopee", "mercado livre", "shopify", "frete", "consumidor"]
+    },
+    "seguranca": {
+      "categoria": "Segurança",
+      "palavras": ["vazamento", "ataque", "hacker", "golpe", "segurança", "seguranca", "ransomware", "phishing", "lgpd", "dados", "fraude", "vulnerabilidade", "senha"]
+    },
+    "mvp": {
+      "categoria": "Negócios",
+      "palavras": ["startup", "startups", "aplicativo", "app", "saas", "software", "empreendedor", "empreendedorismo", "investimento", "rodada", "produto digital", "no-code", "lowcode", "low-code"]
+    }
+  }
+}
