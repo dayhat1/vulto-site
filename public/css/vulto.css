@@ -1,0 +1,191 @@
+/* =========================================================================
+   VULTO · camada compartilhada (landing + blog)
+   Tokens, base, nav, rodapé, botões e efeitos de movimento.
+   A landing carrega este arquivo ANTES do próprio <style>, então qualquer
+   regra da landing continua mandando. Tudo que anima tem versão parada
+   em prefers-reduced-motion.
+   ========================================================================= */
+
+:root {
+  --bg: #0b090a;
+  --surface: #151113;
+  --surface-2: #1d171a;
+  --line: #2e2529;
+  --fg: #f1eaec;
+  --muted: #a8999e;
+  --red: #e3172e;
+  --red-soft: #ff4a5c;
+  --red-deep: #5c0a14;
+  --on-red: #ffffff;
+  --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: dark;
+}
+
+/* Fonte base 17px: tudo em rem escala junto, layout mantém a proporção. */
+html { font-size: 106.25%; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 1rem/1.6 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--red-soft); outline-offset: 3px; border-radius: 4px; }
+img { max-width: 100%; }
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.eyebrow { font: 500 0.78rem/1.2 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--red-soft); }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+.muted { color: var(--muted); }
+
+/* ---------- Botões ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.3rem; border-radius: 10px; font: 600 1rem/1 var(--body); text-decoration: none; border: 1px solid transparent; transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .3s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn-red { background: var(--red); color: var(--on-red); box-shadow: 0 8px 30px -10px var(--red); }
+.btn-red:hover { background: var(--red-soft); }
+.btn-ghost { border-color: var(--line); color: var(--fg); background: transparent; }
+.btn-ghost:hover { border-color: var(--muted); }
+.btn svg { width: 18px; height: 18px; flex: none; }
+
+/* ---------- Nav ---------- */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.75rem; }
+.mark { display: inline-flex; line-height: 0; text-decoration: none; }
+.mark img { height: 54px; width: auto; mix-blend-mode: lighten; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.nav-links { display: flex; align-items: center; gap: 1.5rem; }
+.nav-links a:not(.btn) { color: var(--muted); text-decoration: none; font-size: 0.95rem; transition: color .2s ease; }
+.nav-links a:not(.btn):hover, .nav-links a[aria-current="page"] { color: var(--fg); }
+.nav .btn { padding: 0.6rem 1rem; font-size: 0.92rem; }
+@media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
+
+/* ---------- Rodapé ---------- */
+footer .wrap { padding-block: 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
+footer .mark img { height: 38px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--fg); }
+.privacy { width: 100%; margin: 0; font-size: 0.8rem; }
+
+/* =========================================================================
+   EFEITOS
+   ========================================================================= */
+
+/* ---------- Grão de filme por cima de tudo ---------- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ---------- Brilho do hero respirando (é o "3D" do celular) ---------- */
+@keyframes v-breathe {
+  0%, 100% { opacity: .75; transform: scale(1) translate3d(0, 0, 0); }
+  50%      { opacity: 1;   transform: scale(1.08) translate3d(-12px, 10px, 0); }
+}
+.hero::before { animation: v-breathe 9s ease-in-out infinite; }
+
+/* Canvas do Three.js (só desktop; o JS cria) */
+.hero-3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; z-index: 0; }
+.hero-3d.ready { opacity: 1; }
+.hero .wrap { z-index: 1; }
+
+/* ---------- Revelar ao rolar ----------
+   Só esconde quando o JS está ativo (classe .js no <html>).
+   Trava de segurança: se o JS falhar, tudo aparece sozinho em 2,5s. */
+@keyframes v-failsafe { to { opacity: 1; transform: none; filter: none; } }
+.js :where(.block-head, .pain, .plan, .combo, .pilot, .steps li, .more li, .faq details, .final-box,
+        .post-card, .lead-story, .related-card, .offer-box, .cta-box, .sources) {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  filter: blur(6px);
+  transition: opacity .8s var(--ease-out), transform .8s var(--ease-out), filter .8s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+  animation: v-failsafe 0s 2.5s forwards;
+}
+.js :where(.block-head, .pain, .plan, .combo, .pilot, .steps li, .more li, .faq details, .final-box,
+        .post-card, .lead-story, .related-card, .offer-box, .cta-box, .sources).is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  animation: none;
+}
+
+/* ---------- Tilt 3D com reflexo de luz ----------
+   O JS marca .is-in quando o card já apareceu; só então o tilt assume o transform. */
+[data-tilt] { position: relative; transform-style: preserve-3d; }
+.js [data-tilt].is-in, html:not(.js) [data-tilt] {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+  transition: transform .6s var(--ease-out), border-color .3s ease, opacity .8s var(--ease-out), filter .8s var(--ease-out);
+  will-change: transform;
+}
+.js [data-tilt].is-in.tilting { transition: transform .1s linear, border-color .3s ease; }
+[data-tilt] > .glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .4s ease;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 74, 92, .16), transparent 45%);
+  z-index: 2;
+}
+[data-tilt].tilting > .glare { opacity: 1; }
+@media (hover: none) {
+  .js [data-tilt].is-in { transition: transform .15s ease, opacity .8s var(--ease-out), filter .8s var(--ease-out); }
+  .js [data-tilt].is-in:active { transform: scale(.98); }
+}
+
+/* ---------- Botão de WhatsApp com brilho pulsando devagar ---------- */
+@keyframes v-pulse {
+  0%, 70%, 100% { box-shadow: 0 8px 30px -10px var(--red); }
+  82%           { box-shadow: 0 8px 46px -6px var(--red-soft), 0 0 0 6px color-mix(in srgb, var(--red) 18%, transparent); }
+}
+.btn-red.pulse { animation: v-pulse 4.2s ease-in-out infinite; }
+
+/* ---------- Cursor personalizado (só mouse de verdade) ---------- */
+.cursor-dot, .cursor-ring { position: fixed; top: 0; left: 0; z-index: 100; pointer-events: none; border-radius: 50%; opacity: 0; transition: opacity .3s ease, width .25s var(--ease-out), height .25s var(--ease-out), margin .25s var(--ease-out), background .25s ease, border-color .25s ease; }
+.cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--red-soft); }
+.cursor-ring { width: 34px; height: 34px; margin: -17px 0 0 -17px; border: 1px solid color-mix(in srgb, var(--red-soft) 70%, transparent); }
+.has-cursor .cursor-dot, .has-cursor .cursor-ring { opacity: 1; }
+.cursor-ring.hover { width: 58px; height: 58px; margin: -29px 0 0 -29px; background: color-mix(in srgb, var(--red) 10%, transparent); border-color: var(--red-soft); }
+.has-cursor body, .has-cursor a, .has-cursor button, .has-cursor summary, .has-cursor [data-filter] { cursor: none; }
+
+/* ---------- Transições entre páginas (View Transitions API) ----------
+   Navegador sem suporte simplesmente navega normal. */
+@view-transition { navigation: auto; }
+.nav .mark { view-transition-name: vulto-brand; }
+@keyframes v-vt-out { to { opacity: 0; transform: translate3d(0, -14px, 0) scale(.985); filter: blur(4px); } }
+@keyframes v-vt-in  { from { opacity: 0; transform: translate3d(0, 18px, 0) scale(1.01); filter: blur(4px); } }
+::view-transition-old(root) { animation: v-vt-out .32s var(--ease-out) both; }
+::view-transition-new(root) { animation: v-vt-in .42s var(--ease-out) both; }
+::view-transition-group(*) { animation-duration: .45s; animation-timing-function: var(--ease-out); }
+
+/* ---------- Menos movimento: tudo parado, tudo visível ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js :where(.block-head, .pain, .plan, .combo, .pilot, .steps li, .more li, .faq details, .final-box,
+          .post-card, .lead-story, .related-card, .offer-box, .cta-box, .sources) { opacity: 1; transform: none; filter: none; }
+  [data-tilt] { transform: none !important; }
+  .hero-3d, .cursor-dot, .cursor-ring { display: none !important; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
+}
+
+/* Selo "exemplo" e cartão de métricas sempre por cima do celular inclinado */
+.demo .example, .demo .stat-card { z-index: 3; }
