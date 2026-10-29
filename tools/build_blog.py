@@ -53,7 +53,7 @@ SRC = os.path.join(ROOT, "content", "blog")
 PUB = os.path.join(ROOT, "public")
 OUT = os.path.join(PUB, "blog")
 DEFAULT_OG = "/img/og.jpg"
-ASSET_V = "3"  # mude para forcar o navegador a baixar CSS/JS novos
+ASSET_V = "4"  # mude para forcar o navegador a baixar CSS/JS novos
 
 OFERTAS = {
     "meta-ads": ("Gestão de Meta Ads", "Anúncio que traz conversa de venda, não curtida. Auditoria grátis da sua conta."),

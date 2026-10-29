@@ -189,3 +189,11 @@ body::after {
 
 /* Selo "exemplo" e cartão de métricas sempre por cima do celular inclinado */
 .demo .example, .demo .stat-card { z-index: 3; }
+
+/* ---------- Status de sistema (estilo terminal) ---------- */
+.sys-status { display: inline-flex; align-items: center; gap: .55rem; margin: 0; font: 400 .85rem/1.4 var(--mono); color: #27d07f; }
+.sys-status .led { width: 8px; height: 8px; border-radius: 50%; background: #27d07f; box-shadow: 0 0 0 0 rgba(39, 208, 127, .6); animation: v-led 2.4s ease-out infinite; flex: none; }
+.sys-status .caret { width: .55em; height: 1.05em; background: #27d07f; margin-left: -.2rem; animation: v-caret 1.05s steps(1) infinite; }
+@keyframes v-led { 0% { box-shadow: 0 0 0 0 rgba(39, 208, 127, .55); } 70%, 100% { box-shadow: 0 0 0 9px rgba(39, 208, 127, 0); } }
+@keyframes v-caret { 50% { opacity: 0; } }
+@media (max-width: 420px) { .sys-status { font-size: .72rem; gap: .45rem; white-space: nowrap; } }
