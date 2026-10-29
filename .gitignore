@@ -7,4 +7,5 @@ motor/.env
 motor/estado.json
 motor/saidas/
 motor/.lock
+motor/.venv/
 __pycache__/
