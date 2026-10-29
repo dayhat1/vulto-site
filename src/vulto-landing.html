@@ -1,0 +1,422 @@
+<title>Vulto.tech</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Página que vende e atendente com IA no WhatsApp pra negócio local. Preço fechado, entrega em dias e medição inclusa.">
+<meta property="og:title" content="Vulto.tech">
+<meta property="og:description" content="Página que vende e atendente com IA no WhatsApp pra negócio local.">
+<meta property="og:image" content="https://vulto.tech/img/og.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0b090a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Landing SaaS clássica: nav fixa, hero dividido (texto + chat de exemplo), dores, preços, passos, FAQ, CTA final. Tema único escuro: preto e vermelho da marca. */
+:root {
+  --bg: #0b090a;
+  --surface: #151113;
+  --surface-2: #1d171a;
+  --line: #2e2529;
+  --fg: #f1eaec;
+  --muted: #a8999e;
+  --red: #e3172e;
+  --red-soft: #ff4a5c;
+  --red-deep: #5c0a14;
+  --on-red: #ffffff;
+  --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 1rem/1.6 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--red-soft); outline-offset: 3px; border-radius: 4px; }
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.eyebrow { font: 500 0.78rem/1.2 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--red-soft); }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; font-stretch: 80%; line-height: 1.05; letter-spacing: -0.01em; }
+.lead { color: var(--muted); font-size: 1.1rem; max-width: 60ch; margin: 0; }
+
+/* Botões */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.3rem; border-radius: 10px; font: 600 1rem/1 var(--body); text-decoration: none; border: 1px solid transparent; transition: transform .15s ease, background .15s ease, border-color .15s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn-red { background: var(--red); color: var(--on-red); box-shadow: 0 8px 30px -10px var(--red); }
+.btn-red:hover { background: var(--red-soft); }
+.btn-ghost { border-color: var(--line); color: var(--fg); background: transparent; }
+.btn-ghost:hover { border-color: var(--muted); }
+.btn svg { width: 18px; height: 18px; flex: none; }
+
+/* Nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.75rem; }
+.mark { display: inline-flex; line-height: 0; text-decoration: none; }
+.mark img { height: 54px; width: auto; mix-blend-mode: lighten; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.nav-links { display: flex; align-items: center; gap: 1.5rem; }
+.nav-links a:not(.btn) { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+.nav-links a:not(.btn):hover { color: var(--fg); }
+.nav .btn { padding: 0.6rem 1rem; font-size: 0.92rem; }
+@media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; }
+.hero::before { content: ""; position: absolute; width: 720px; height: 720px; right: -220px; top: -160px; background: radial-gradient(closest-side, color-mix(in srgb, var(--red) 28%, transparent), transparent 70%); pointer-events: none; }
+.hero .wrap { position: relative; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3rem; align-items: center; padding-block: 4.5rem 4rem; }
+.hero-copy { display: grid; gap: 1.4rem; min-width: 0; }
+.hero h1 { font-size: clamp(2.6rem, 6.4vw, 4.9rem); font-weight: 900; font-stretch: 72%; line-height: 0.95; letter-spacing: -0.015em; text-transform: uppercase; }
+.hero h1 em { font-style: normal; color: var(--red); display: block; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.trust { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin: 0; padding: 0; list-style: none; color: var(--muted); font: 400 0.85rem/1.4 var(--mono); }
+.trust li::before { content: "+ "; color: var(--red); }
+
+/* Mock do chat */
+.demo { position: relative; justify-self: center; width: min(360px, 100%); }
+.phone { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 14px; box-shadow: 0 30px 80px -30px #000, 0 0 0 6px var(--surface-2); }
+.phone-top { display: flex; align-items: center; gap: 10px; padding: 4px 6px 12px; border-bottom: 1px solid var(--line); }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--red-deep); display: grid; place-items: center; font: 600 0.8rem var(--body); color: var(--fg); flex: none; }
+.phone-top b { display: block; font-size: 0.92rem; }
+.phone-top small { color: var(--muted); font-size: 0.75rem; }
+.chat { display: grid; gap: 8px; padding: 14px 4px 6px; }
+.msg { max-width: 82%; padding: 8px 11px; border-radius: 12px; font-size: 0.88rem; line-height: 1.4; }
+.msg time { display: block; text-align: right; font: 400 0.68rem var(--mono); color: var(--muted); margin-top: 2px; }
+.in { background: var(--surface-2); justify-self: start; border-top-left-radius: 4px; }
+.out { background: color-mix(in srgb, var(--red) 22%, var(--surface)); justify-self: end; border-top-right-radius: 4px; }
+.out time { color: color-mix(in srgb, var(--fg) 70%, transparent); }
+.bot-tag { font: 500 0.64rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--red-soft); display: block; margin-bottom: 2px; }
+.demo { margin-bottom: 36px; }
+.stat-card { position: absolute; left: -56px; bottom: -36px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; gap: 4px; min-width: 190px; box-shadow: 0 20px 50px -20px #000; }
+.stat-card .label { font: 400 0.7rem var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.stat-row { display: flex; justify-content: space-between; gap: 12px; font: 500 0.9rem var(--mono); font-variant-numeric: tabular-nums; }
+.stat-row b { color: var(--red-soft); font-weight: 500; }
+.example { position: absolute; top: -12px; right: 12px; font: 500 0.66rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; background: var(--surface-2); border: 1px solid var(--line); color: var(--muted); padding: 3px 8px; border-radius: 999px; }
+@media (max-width: 900px) {
+  .hero .wrap { grid-template-columns: 1fr; padding-block: 3rem; }
+  .stat-card { left: auto; right: 8px; bottom: -36px; min-width: 0; }
+  .demo { margin-bottom: 2.5rem; }
+}
+
+/* Seções */
+section.block .wrap { padding-block: 5rem; display: grid; gap: 2.5rem; }
+.block-head { display: grid; gap: 0.9rem; max-width: 720px; }
+.divider { border-top: 1px solid var(--line); }
+
+/* Dores */
+.pains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.pain { background: var(--bg); padding: 1.6rem; display: grid; gap: 0.6rem; align-content: start; }
+.pain .hour { font: 500 1.6rem/1 var(--mono); color: var(--red); font-variant-numeric: tabular-nums; }
+.pain h3 { font-size: 1.15rem; font-weight: 700; font-stretch: 90%; }
+.pain p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+@media (max-width: 820px) { .pains { grid-template-columns: 1fr; } }
+
+/* Preços */
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 2rem; display: grid; gap: 1.2rem; align-content: start; position: relative; }
+.plan.featured { border-color: var(--red); background: linear-gradient(180deg, color-mix(in srgb, var(--red) 9%, var(--surface)), var(--surface) 55%); }
+.plan .badge { position: absolute; top: -12px; left: 2rem; background: var(--red); color: var(--on-red); font: 500 0.7rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+.plan h3 { font-size: 1.5rem; font-weight: 800; font-stretch: 85%; }
+.plan .for { margin: 0; color: var(--muted); }
+.price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem; font-family: var(--display); }
+.price .cur { font-size: 1.1rem; color: var(--muted); font-weight: 600; }
+.price .val { font-size: 3rem; font-weight: 900; font-stretch: 75%; line-height: 1; font-variant-numeric: tabular-nums; }
+.price .plus { font: 500 0.95rem var(--mono); color: var(--muted); }
+.feats { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.feats li { display: grid; grid-template-columns: 20px 1fr; gap: 0.6rem; align-items: start; }
+.feats li::before { content: ""; width: 14px; height: 14px; margin-top: 5px; border-radius: 3px; background: var(--red); clip-path: polygon(14% 50%, 0 64%, 38% 100%, 100% 22%, 86% 8%, 38% 72%); }
+.meta { font: 400 0.85rem var(--mono); color: var(--muted); }
+.plan .btn { justify-self: start; }
+.combo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.2rem 1.5rem; border: 1px dashed var(--line); border-radius: 14px; }
+.combo p { margin: 0; }
+.combo strong { font-family: var(--display); font-stretch: 85%; font-size: 1.15rem; }
+.pilot { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.25rem; padding: 1.4rem 1.6rem; border-radius: 16px; background: var(--red-deep); }
+.pilot .slots { font: 500 2.4rem/1 var(--mono); color: var(--on-red); font-variant-numeric: tabular-nums; }
+.pilot p { margin: 0; color: color-mix(in srgb, var(--fg) 88%, transparent); }
+.pilot b { color: var(--on-red); }
+.pilot .btn { background: var(--fg); color: var(--bg); }
+@media (max-width: 820px) { .plans { grid-template-columns: 1fr; } .pilot { grid-template-columns: 1fr; } .pilot .btn { justify-self: start; } }
+
+/* Passos */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; gap: 0.5rem; padding-top: 1rem; border-top: 2px solid var(--line); }
+.steps li:first-child { border-top-color: var(--red); }
+.steps li::before { content: "0" counter(s); font: 500 0.85rem var(--mono); color: var(--red-soft); }
+.steps h3 { font-size: 1.1rem; font-weight: 700; font-stretch: 90%; }
+.steps p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+@media (max-width: 900px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .steps { grid-template-columns: 1fr; } }
+
+/* Também fazemos */
+.more { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0; padding: 0; list-style: none; }
+.more li { border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 1rem; color: var(--muted); font-size: 0.95rem; }
+
+/* FAQ */
+.faq { display: grid; gap: 0; border-top: 1px solid var(--line); max-width: 820px; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; padding: 1.2rem 0; display: flex; justify-content: space-between; gap: 1rem; font-weight: 600; font-size: 1.05rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font: 400 1.4rem/1 var(--mono); color: var(--red); transition: transform .2s ease; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq p { margin: 0 0 1.2rem; color: var(--muted); max-width: 65ch; }
+
+/* CTA final */
+.final .wrap { padding-block: 5.5rem; }
+.final-box { position: relative; overflow: hidden; border-radius: 22px; border: 1px solid var(--line); background: var(--surface); padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 1.2rem; justify-items: start; }
+.final-box::after { content: ""; position: absolute; width: 520px; height: 520px; right: -180px; bottom: -260px; background: radial-gradient(closest-side, color-mix(in srgb, var(--red) 35%, transparent), transparent 70%); pointer-events: none; }
+.final-box > * { position: relative; z-index: 1; }
+.final h2 { font-size: clamp(2rem, 5vw, 3.4rem); font-stretch: 72%; text-transform: uppercase; font-weight: 900; max-width: 18ch; }
+
+/* Rodapé */
+footer .wrap { padding-block: 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
+footer .mark img { height: 38px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--fg); }
+.privacy { width: 100%; margin: 0; font-size: 0.8rem; }
+</style>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="mark" href="#topo" aria-label="Vulto, início"><img src="img/vulto-nome.jpg" alt="Vulto" width="708" height="300"></a>
+    <nav class="nav-links" aria-label="Seções">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#precos">Preços</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/">Falar no WhatsApp</a>
+    </nav>
+  </div>
+</header>
+
+<main id="topo">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">Automação e sites pra negócio local</p>
+        <h1>Seu negócio atendendo e vendendo <em>enquanto você dorme.</em></h1>
+        <p class="lead">A Vulto monta a página que traz cliente e a IA que responde no seu WhatsApp. Preço fechado, entrega em poucos dias e você vê quantas pessoas clicaram.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+            Quero meu diagnóstico grátis
+          </a>
+          <a class="btn btn-ghost" href="#precos">Ver preços</a>
+        </div>
+        <ul class="trust">
+          <li>Entrega em 5 a 7 dias</li>
+          <li>Sem fidelidade</li>
+          <li>Medição inclusa</li>
+        </ul>
+      </div>
+
+      <div class="demo" aria-label="Exemplo de atendimento automático no WhatsApp">
+        <span class="example">exemplo</span>
+        <div class="phone">
+          <div class="phone-top">
+            <span class="avatar" aria-hidden="true">BN</span>
+            <div><b>Barbearia Navalha</b><small>responde na hora</small></div>
+          </div>
+          <div class="chat">
+            <div class="msg in">Vocês abrem sábado? Quanto é o corte?<time>02:47</time></div>
+            <div class="msg out"><span class="bot-tag">Atendente IA</span>Abrimos sim, das 9h às 18h. Corte sai R$ 45. Quer que eu reserve um horário?<time>02:47</time></div>
+            <div class="msg in">Quero, 10h<time>02:48</time></div>
+            <div class="msg out"><span class="bot-tag">Atendente IA</span>Reservado: sábado às 10h. Te mando um lembrete na sexta.<time>02:48</time></div>
+          </div>
+        </div>
+        <div class="stat-card" aria-label="Exemplo de medição semanal">
+          <span class="label">Últimos 7 dias</span>
+          <div class="stat-row"><span>Visitas</span><span>312</span></div>
+          <div class="stat-row"><span>Cliques no WhatsApp</span><b>47</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block divider" aria-labelledby="dores-t">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Onde o cliente escapa</p>
+        <h2 id="dores-t">Todo dia tem venda indo embora sem você ver</h2>
+      </div>
+      <div class="pains">
+        <article class="pain">
+          <span class="hour">23:10</span>
+          <h3>Mensagem fora do horário fica sem resposta</h3>
+          <p>O cliente pergunta preço à noite, ninguém responde, e de manhã ele já fechou com o concorrente.</p>
+        </article>
+        <article class="pain">
+          <span class="hour">1 link</span>
+          <h3>A bio leva direto pro WhatsApp, sem explicar nada</h3>
+          <p>Quem chega não vê serviços, preços nem fotos. Você responde as mesmas perguntas o dia inteiro.</p>
+        </article>
+        <article class="pain">
+          <span class="hour">R$ ?</span>
+          <h3>Você paga anúncio sem saber o que voltou</h3>
+          <p>Sem medição, não dá pra saber quantas pessoas viram, clicaram e chamaram por causa do anúncio.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block divider" id="precos" aria-labelledby="precos-t">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Preço fechado</p>
+        <h2 id="precos-t">Duas soluções, sem surpresa na conta</h2>
+        <p class="lead">Você sabe quanto vai pagar e quando vai ficar pronto antes de começar.</p>
+      </div>
+
+      <div class="plans">
+        <article class="plan">
+          <h3>Página que vende</h3>
+          <p class="for">Pra quem não tem site ou tem um que não traz cliente.</p>
+          <div class="price"><span class="cur">R$</span><span class="val">790</span><span class="plus">pagamento único</span></div>
+          <ul class="feats">
+            <li>Página de uma tela com seus serviços, fotos e preços</li>
+            <li>Botão de WhatsApp em destaque, pronto pra anúncio</li>
+            <li>Medição de visitas e de cliques no WhatsApp</li>
+            <li>Pixel da Meta instalado pra quando você anunciar</li>
+            <li>Funciona bem no celular</li>
+          </ul>
+          <span class="meta">Pronta em 5 dias</span>
+          <a class="btn btn-ghost" data-wa="Oi! Quero saber mais da Página que vende." href="https://wa.me/">Quero a página</a>
+        </article>
+
+        <article class="plan featured">
+          <span class="badge">Mais pedido</span>
+          <h3>Atendente no WhatsApp</h3>
+          <p class="for">Pra quem perde cliente por demorar a responder.</p>
+          <div class="price"><span class="cur">R$</span><span class="val">590</span><span class="plus">instalação + R$ 197/mês</span></div>
+          <ul class="feats">
+            <li>IA que responde dúvidas, horário e preço na hora, 24 horas</li>
+            <li>Agenda horário e manda lembrete pro cliente</li>
+            <li>Passa a conversa pra você quando não sabe responder</li>
+            <li>Você define o que ela pode e não pode falar</li>
+            <li>Pela API oficial do WhatsApp</li>
+          </ul>
+          <span class="meta">No ar em 7 dias</span>
+          <a class="btn btn-red" data-wa="Oi! Quero saber mais do Atendente no WhatsApp." href="https://wa.me/">Quero o atendente</a>
+        </article>
+      </div>
+
+      <div class="combo">
+        <p><strong>As duas juntas: R$ 1.190 + R$ 197/mês</strong><br><span class="meta">A página traz o cliente, o atendente responde.</span></p>
+        <a class="btn btn-ghost" data-wa="Oi! Quero o combo da Vulto (página + atendente)." href="https://wa.me/">Quero o combo</a>
+      </div>
+
+      <div class="pilot">
+        <span class="slots">3</span>
+        <p><b>Vagas de piloto.</b> Os 3 primeiros negócios pagam R$ 390 na página e R$ 290 na instalação do atendente, com o 1º mês grátis. Em troca, pedimos um depoimento sobre o resultado.</p>
+        <a class="btn" data-wa="Oi! Quero uma das vagas de piloto da Vulto." href="https://wa.me/">Garantir vaga</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block divider" id="como-funciona" aria-labelledby="passos-t">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Como funciona</p>
+        <h2 id="passos-t">Do primeiro contato ao ar em uma semana</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Diagnóstico grátis</h3><p>Uma conversa de 15 minutos no WhatsApp pra entender onde você está perdendo cliente.</p></li>
+        <li><h3>A gente monta</h3><p>Página e atendente feitos com o seu conteúdo, seus preços e seu jeito de falar.</p></li>
+        <li><h3>Você aprova</h3><p>Você testa antes, pede os ajustes e só então vai pro ar.</p></li>
+        <li><h3>Acompanha os números</h3><p>Toda semana você vê quantas pessoas visitaram, clicaram e chamaram.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block divider" aria-labelledby="mais-t">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Também fazemos</p>
+        <h2 id="mais-t">Precisa de algo maior?</h2>
+        <p class="lead">Pra quem já é cliente ou chega com um projeto pronto pra sair do papel.</p>
+      </div>
+      <ul class="more">
+        <li>Sistemas e SaaS sob medida</li>
+        <li>MVP de aplicativo</li>
+        <li>Automação de prospecção</li>
+        <li>Integração com IA no seu processo</li>
+        <li>Loja virtual</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block divider" id="duvidas" aria-labelledby="faq-t">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Dúvidas</p>
+        <h2 id="faq-t">Perguntas que todo mundo faz</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Preciso entender de tecnologia?</summary>
+          <p>Não. A gente cuida de tudo e te entrega funcionando. Você só aprova o conteúdo e acompanha os números.</p>
+        </details>
+        <details>
+          <summary>E se a IA responder errado?</summary>
+          <p>Você define o que ela pode falar: preços, horários, serviços. Quando a pergunta foge disso, ela passa a conversa pra você em vez de inventar.</p>
+        </details>
+        <details>
+          <summary>Continuo usando o meu número?</summary>
+          <p>Sim. O atendente funciona com o seu número pela API oficial do WhatsApp. No diagnóstico a gente explica o passo a passo da ativação.</p>
+        </details>
+        <details>
+          <summary>Tem fidelidade?</summary>
+          <p>Não. A mensalidade do atendente pode ser cancelada quando você quiser. A página é paga uma vez e é sua.</p>
+        </details>
+        <details>
+          <summary>Vocês garantem que eu vou vender mais?</summary>
+          <p>A gente garante a entrega no prazo e a medição funcionando. Assim você vê com números o que mudou, sem promessa no escuro.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" aria-labelledby="final-t">
+    <div class="wrap">
+      <div class="final-box">
+        <p class="eyebrow">Diagnóstico grátis em 15 minutos</p>
+        <h2 id="final-t">Descubra quantos clientes você perde por semana</h2>
+        <p class="lead">Chama no WhatsApp, conta como funciona o seu negócio e a gente te mostra onde estão os furos. Sem compromisso.</p>
+        <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/">Chamar no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="mark" href="#topo" aria-label="Vulto, voltar ao topo"><img src="img/vulto-nome.jpg" alt="Vulto" width="708" height="300" loading="lazy"></a>
+    <nav aria-label="Rodapé">
+      <a href="https://instagram.com/vulto.tech">@vulto.tech</a>
+      <a href="#precos">Preços</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+    <p class="privacy">© <span id="ano">2026</span> Vulto.tech. Este site mede visitas e cliques pra melhorar o atendimento. Não vendemos seus dados.</p>
+  </div>
+</footer>
+
+<script>
+  // Número do WhatsApp da Vulto (só dígitos, com 55 + DDD). Troque aqui e todos os botões mudam.
+  const WHATSAPP = '5521951001137';
+  document.querySelectorAll('[data-wa]').forEach(a => {
+    a.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(a.dataset.wa);
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+  document.getElementById('ano').textContent = new Date().getFullYear();
+</script>

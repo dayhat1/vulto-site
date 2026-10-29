@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: vulto-site
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: ./public
+    headers:
+      - path: /img/*
+        name: Cache-Control
+        value: public, max-age=604800
+    domains:
+      - vulto.tech
+      - www.vulto.tech
