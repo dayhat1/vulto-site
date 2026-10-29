@@ -42,3 +42,5 @@ O LOBBY é um sistema de pousada pensado para quem tem de cinco a trinta quartos
 E antes de você assinar qualquer coisa, eu monto uma demo com os **seus** quartos, para você ver funcionando com a sua realidade.
 
 Se a sua pousada ainda roda no caderno, o próximo feriado é o teste. Melhor chegar nele com sistema.
+
+![Pousada à beira-mar](https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80 "Foto: Unsplash")

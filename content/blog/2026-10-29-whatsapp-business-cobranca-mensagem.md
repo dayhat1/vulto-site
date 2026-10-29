@@ -44,3 +44,5 @@ Feito assim, você abre menos conversas e fecha mais — exatamente o oposto do 
 Eu começo olhando a sua conta de anúncios e gravando um vídeo mostrando onde o dinheiro está vazando — de graça. Depois estruturo a campanha pra trazer conversa que vira venda, não curtida, e ligo uma primeira resposta automática no WhatsApp pra filtrar o joio antes de te custar.
 
 Com a mensagem agora paga, rodar anúncio no escuro ficou caro demais. A auditoria te mostra o tamanho do vazamento antes de você gastar mais um real — e é por onde a gente começa.
+
+![WhatsApp no celular](https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=1200&q=80 "Foto: Unsplash")

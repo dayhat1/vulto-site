@@ -48,3 +48,5 @@ As duas pontas têm o mesmo remédio: tirar o humano da parte repetitiva e deixa
 Isso é exatamente o que o SaleStack faz: extrai os leads do seu nicho, dispara a primeira abordagem, gera a proposta em segundos e te mostra num painel quem respondeu e quem virou reunião. Eu uso ele na própria Vulto pra achar cliente — então o que te mostro é o que roda pra mim.
 
 Pra você sentir na prática, eu extraio **50 leads do seu nicho de graça**, na hora, e te mostro como seria a primeira abordagem. Daí você decide se quer o sistema correndo por você todo dia.
+
+![Celular com mensagens](https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=1200&q=80 "Foto: Unsplash")

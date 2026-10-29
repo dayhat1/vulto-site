@@ -52,3 +52,5 @@ Não é um robô burro de "digite 1 para vendas". É um assistente treinado no s
 Eu já construí o meu próprio assistente, que roda o meu dia. O que faço pra você é o mesmo motor, treinado no seu negócio e com voz neutra — pronto pra operar, não pra você montar.
 
 E antes de qualquer coisa, eu te mostro funcionando: uma demo ao vivo no seu próprio WhatsApp, pra você ver a diferença de ter um vulto trabalhando enquanto você cuida do resto.
+
+![Chip de inteligência artificial](https://images.unsplash.com/photo-1716436329478-e4261139e1ca?w=1200&q=80 "Foto: Unsplash")

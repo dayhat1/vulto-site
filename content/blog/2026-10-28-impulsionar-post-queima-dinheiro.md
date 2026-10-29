@@ -41,3 +41,5 @@ Quando esses quatro pontos estão no lugar, o mesmo orçamento que trazia curtid
 Eu começo olhando a sua conta atual e gravando um vídeo mostrando onde o dinheiro está vazando — isso é de graça. Depois estruturo a campanha por objetivo, testo os criativos e te mando um relatório semanal com uma única pergunta respondida: quanto custou cada cliente.
 
 Se você vem apertando "impulsionar", a boa notícia é que dá para gastar o mesmo e trazer resultado de verdade. Começa pela auditoria — ela te mostra o tamanho do vazamento antes de você gastar mais um real.
+
+![Dinheiro e anúncios](https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&q=80 "Foto: Unsplash")
