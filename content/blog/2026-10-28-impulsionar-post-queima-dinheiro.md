@@ -4,6 +4,11 @@ description: "O botão de impulsionar foi feito para ser fácil, não para dar l
 date: 2026-10-28
 oferta: "meta-ads"
 cta: "Quero uma auditoria grátis da minha conta de anúncios"
+categoria: "Marketing"
+autor: "Redação Vulto"
+cover: "/img/blog/impulsionar.webp"
+cover_alt: "Botão de impulsionar transformando dinheiro em curtidas, com o carrinho de vendas vazio"
+cover_credito: "Ilustração: Vulto"
 ---
 
 Todo dono de negócio já fez isso: viu um post indo bem, apertou "impulsionar", colocou cinquenta reais e esperou o cliente chegar.
@@ -19,6 +24,8 @@ Quando você impulsiona, você pede uma coisa só: mais gente vendo o post. A Me
 Uma campanha de verdade pede outra coisa: **venda, mensagem ou cadastro**. O sistema da Meta então procura quem costuma fazer aquilo, não quem só curte.
 
 É o mesmo dinheiro atrás de pessoas completamente diferentes.
+
+![Mesmo orçamento, dois destinos: curtida que não vende ou conversa que vira venda](/img/blog/impulsionar-rotas.webp "Ilustração: Vulto")
 
 ## O que separa queimar de investir
 

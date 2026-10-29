@@ -1,0 +1,133 @@
+/* =========================================================================
+   VULTO · blog com cara de portal de tecnologia
+   Depende de /css/vulto.css (tokens, nav, rodapé, efeitos).
+   ========================================================================= */
+
+main.blog { padding: 2.5rem 0 4rem; }
+.narrow { max-width: 720px; }
+
+/* ---------- Barra de progresso de leitura ---------- */
+.read-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60; pointer-events: none; }
+.read-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--red-deep), var(--red), var(--red-soft)); transform-origin: 0 50%; transform: scaleX(0); box-shadow: 0 0 12px var(--red); }
+
+/* ---------- Selo + categoria + data ---------- */
+.kicker { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem; font: 500 .78rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.kicker .cat { color: var(--red-soft); }
+.kicker .sep { width: 4px; height: 4px; border-radius: 50%; background: var(--line); }
+.kicker .brand-tag { color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: .3rem .6rem; letter-spacing: .08em; }
+
+/* ---------- Cabeçalho do artigo ---------- */
+.post-head { display: grid; gap: 1rem; padding-top: 1rem; }
+.post-head h1 { font-size: clamp(2rem, 5.2vw, 3.3rem); font-weight: 800; font-stretch: 78%; line-height: 1.04; letter-spacing: -.012em; }
+.post-head .dek { margin: 0; color: var(--muted); font-size: 1.22rem; line-height: 1.5; max-width: 62ch; }
+.byline { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; color: var(--muted); font-size: .92rem; padding-top: .9rem; border-top: 1px solid var(--line); }
+.byline b { color: var(--fg); font-weight: 600; }
+.byline .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+.back { font: 500 .85rem var(--mono); color: var(--muted); text-decoration: none; }
+.back:hover { color: var(--fg); }
+
+/* ---------- Fotos ---------- */
+figure { margin: 0; }
+.cover { margin: 2rem auto 0; max-width: 1120px; padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+.cover .frame, .post .body figure .frame { position: relative; overflow: hidden; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); }
+.cover img, .post .body figure img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.cover .frame img { transition: transform 1.4s var(--ease-out); }
+figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .3rem 1rem; margin-top: .6rem; font-size: .86rem; line-height: 1.45; color: var(--muted); }
+figcaption .credito { font: 400 .8rem var(--mono); color: color-mix(in srgb, var(--muted) 85%, transparent); }
+figcaption a { text-decoration: none; border-bottom: 1px solid var(--line); }
+figcaption a:hover { color: var(--fg); border-color: var(--muted); }
+
+/* ---------- Corpo ---------- */
+.post .body { margin-top: 2.2rem; font-size: 1.12rem; line-height: 1.78; }
+.post .body > p { margin: 0 0 1.25rem; }
+.post .body > p:first-of-type::first-letter {
+  float: left;
+  font: 900 4.4rem/.82 var(--display);
+  font-stretch: 72%;
+  color: var(--red);
+  margin: .38rem .6rem 0 0;
+}
+.post .body h2 { font-size: clamp(1.45rem, 3.6vw, 1.95rem); font-weight: 800; font-stretch: 82%; line-height: 1.15; margin: 2.6rem 0 .9rem; }
+.post .body h3 { font-size: 1.2rem; margin: 1.8rem 0 .6rem; }
+.post .body ul { margin: 0 0 1.25rem; padding-left: 1.25rem; }
+.post .body li { margin-bottom: .55rem; }
+.post .body li::marker { color: var(--red); }
+.post .body a { color: var(--red-soft); text-underline-offset: 3px; }
+.post .body strong { color: #fff; font-weight: 600; }
+.post .body figure { margin: 2.2rem 0; }
+.post .body blockquote {
+  position: relative;
+  margin: 2.4rem 0;
+  padding: .4rem 0 .4rem 1.6rem;
+  border-left: 3px solid var(--red);
+  font: 700 1.5rem/1.3 var(--display);
+  font-stretch: 85%;
+  color: var(--fg);
+}
+.post .body blockquote::before { content: "“"; position: absolute; left: -.2rem; top: -1.9rem; font: 900 4.5rem/1 var(--display); color: var(--red); opacity: .55; }
+.post .body blockquote cite { display: block; margin-top: .7rem; font: 400 .85rem var(--mono); font-style: normal; color: var(--muted); }
+
+/* ---------- Fontes ---------- */
+.sources { margin-top: 2.6rem; padding: 1.3rem 1.4rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.sources h2 { font: 500 .78rem/1 var(--mono) !important; letter-spacing: .12em; text-transform: uppercase; color: var(--red-soft); margin: 0 0 .9rem !important; }
+.sources ol { margin: 0; padding-left: 1.2rem; display: grid; gap: .5rem; font-size: .95rem; }
+.sources a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line); }
+.sources a:hover { border-color: var(--red-soft); }
+.sources .dom { color: var(--muted); font: 400 .8rem var(--mono); margin-left: .35rem; }
+
+/* ---------- Oferta + CTA ---------- */
+.offer-box { margin-top: 1.4rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); display: grid; gap: .5rem; justify-items: start; }
+.offer-box h3 { font-size: 1.25rem; }
+.offer-box p { margin: 0; color: var(--muted); }
+.offer-box .btn { margin-top: .6rem; }
+.cta-box { position: relative; overflow: hidden; margin-top: 1.4rem; padding: clamp(1.8rem, 5vw, 2.6rem); border: 1px solid var(--red); border-radius: 18px; text-align: center; background: linear-gradient(180deg, color-mix(in srgb, var(--red) 14%, var(--surface)), var(--surface) 70%); }
+.cta-box::after { content: ""; position: absolute; width: 420px; height: 420px; right: -160px; bottom: -240px; background: radial-gradient(closest-side, color-mix(in srgb, var(--red) 35%, transparent), transparent 70%); pointer-events: none; }
+.cta-box > * { position: relative; z-index: 1; }
+.cta-box h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 900; font-stretch: 75%; text-transform: uppercase; line-height: 1.05; }
+.cta-box p { margin: .7rem 0 0; color: var(--muted); }
+.cta-box .btn { margin-top: 1.3rem; }
+
+/* ---------- Leia também ---------- */
+.related { margin-top: 4rem; padding-top: 2.2rem; border-top: 1px solid var(--line); }
+.related > h2 { font: 500 .78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--red-soft); margin-bottom: 1.3rem; }
+.related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; }
+@media (max-width: 860px) { .related-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Cards ---------- */
+.post-card, .related-card { display: grid; align-content: start; gap: .7rem; text-decoration: none; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: .8rem .8rem 1.2rem; transition: border-color .3s ease; }
+.post-card:hover, .related-card:hover { border-color: color-mix(in srgb, var(--red) 70%, var(--line)); }
+.thumb { position: relative; overflow: hidden; border-radius: 10px; aspect-ratio: 16 / 9; background: var(--surface-2); }
+.thumb img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease-out); }
+.post-card:hover .thumb img, .related-card:hover .thumb img, .lead-story:hover .thumb img { transform: scale(1.04); }
+.card-body { display: grid; gap: .55rem; padding: 0 .4rem; }
+.card-body h3 { font-size: 1.22rem; font-weight: 700; font-stretch: 90%; line-height: 1.22; }
+.card-body p { margin: 0; color: var(--muted); font-size: .97rem; }
+.card-meta { font: 400 .8rem var(--mono); color: var(--muted); }
+.chip { justify-self: start; font: 500 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--red-soft); }
+
+/* ---------- Índice: manchete + grade ---------- */
+.blog-head { display: grid; gap: .8rem; margin-bottom: 2rem; }
+.blog-head h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 900; font-stretch: 72%; line-height: .95; text-transform: uppercase; }
+.blog-head p:not(.eyebrow) { margin: 0; color: var(--muted); font-size: 1.15rem; max-width: 60ch; }
+.blog-head .eyebrow { margin: 0; }
+.lead-story { display: grid; grid-template-columns: 1.35fr 1fr; gap: 2rem; align-items: center; text-decoration: none; padding: 1rem; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); transition: border-color .3s ease; }
+.lead-story:hover { border-color: color-mix(in srgb, var(--red) 70%, var(--line)); }
+.lead-story .thumb { border-radius: 12px; }
+.lead-story .card-body { gap: .8rem; padding: .5rem 1rem .5rem 0; }
+.lead-story h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 800; font-stretch: 78%; line-height: 1.05; }
+.lead-story .card-body p { font-size: 1.05rem; }
+@media (max-width: 860px) { .lead-story { grid-template-columns: 1fr; gap: 1rem; padding: .8rem; } .lead-story .card-body { padding: 0 .4rem .6rem; } }
+
+.filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2.4rem 0 1.4rem; }
+.filters button { font: 500 .8rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: .65rem 1rem; cursor: pointer; transition: color .2s, border-color .2s, background .2s; }
+.filters button:hover { color: var(--fg); border-color: var(--muted); }
+.filters button[aria-pressed="true"] { color: var(--on-red); background: var(--red); border-color: var(--red); }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; }
+@media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .read-progress { display: none; }
+  .thumb img, .cover .frame img { transform: none !important; }
+}

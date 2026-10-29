@@ -4,6 +4,11 @@ description: "Um estudo clássico mostra: responder em 5 minutos dá 21x mais ch
 date: 2026-10-29
 oferta: "salestack"
 cta: "Quero 50 leads grátis do meu nicho"
+categoria: "Vendas"
+autor: "Redação Vulto"
+cover: "/img/blog/cinco-minutos.webp"
+cover_alt: "Cronômetro com os primeiros cinco minutos destacados em vermelho"
+cover_credito: "Ilustração: Vulto"
 ---
 
 Chega um pedido de orçamento. Você está ocupado, atende mais tarde. Quando volta, o cliente já fechou com outro. Não foi preço. Foi tempo.
@@ -19,6 +24,8 @@ Um levantamento clássico da área, resumido pela [Rework](https://resources.rew
 - A média de tempo de resposta de empresas B2B é de **42 horas**.
 
 Juntando as três: a janela que decide a venda são os primeiros minutos, quase ninguém responde nela, e quem chega primeiro leva. É uma corrida que a maioria nem sabe que está correndo.
+
+![A janela de 5 minutos contra a média de 42 horas de resposta das empresas B2B](/img/blog/cinco-minutos-comparacao.webp "Ilustração: Vulto, com dados da Rework | https://resources.rework.com/pt/libraries/lead-management/lead-response-time")
 
 ## Por que quase todo mundo perde essa corrida
 

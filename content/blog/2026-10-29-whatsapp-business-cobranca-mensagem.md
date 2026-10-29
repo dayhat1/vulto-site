@@ -4,6 +4,11 @@ description: "Desde 1º de outubro de 2026 o WhatsApp Business cobra por mais ti
 date: 2026-10-29
 oferta: "meta-ads"
 cta: "Quero uma auditoria grátis da minha conta de anúncios"
+categoria: "Mercado"
+autor: "Redação Vulto"
+cover: "/img/blog/whatsapp-cobranca.webp"
+cover_alt: "Celular com conversas de atendimento em que cada mensagem vira uma moeda de custo"
+cover_credito: "Ilustração: Vulto"
 ---
 
 Durante anos a conta foi simples: anúncio baratinho, "impulsionar", e quem chamasse no WhatsApp era conversa de graça. Essa época acabou.
@@ -21,6 +26,8 @@ Pensa na conta antiga: você pagava o clique do anúncio e a conversa era de gra
 Agora você paga o clique **e** paga a conversa. Um anúncio mal direcionado — que traz curioso, criança mexendo no celular, gente de outra cidade — passou a te cobrar duas vezes pelo mesmo desperdício.
 
 Quem aperta "impulsionar" sente isso primeiro, porque o impulsionar entrega pra quem curte fácil, não pra quem compra. Resultado: mais conversa aberta, mais custo, mesma venda.
+
+![Com cada conversa custando, filtrar o lead antes de responder vira economia](/img/blog/whatsapp-filtro.webp "Ilustração: Vulto")
 
 ## O caminho é o contrário: menos conversa, melhor conversa
 
