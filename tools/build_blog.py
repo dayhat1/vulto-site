@@ -503,7 +503,7 @@ def gate_html(p):
 
 
 PRIVACIDADE_CONTATO_WA = "https://wa.me/5521951001137"
-PRIVACIDADE_EMAIL = ""  # e-mail para pedidos de LGPD (preencher)
+PRIVACIDADE_EMAIL = "contato@vulto.tech"  # pedidos de LGPD
 
 
 def render_privacidade():
