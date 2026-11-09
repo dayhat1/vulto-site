@@ -26,6 +26,10 @@ Frontmatter de um post:
     cover_credito: "Foto: Nome / Unsplash"
     cover_link: "https://unsplash.com/photos/..."
     draft: false
+    gate: true                # opcional: so o comeco no site + formulario de lead (texto completo no banco da Vulto)
+    minutos_total: 8          # opcional (gate): minutos de leitura do texto completo
+    reel_capa: "/img/blog/x-reel.webp"   # opcional: capa do reel no topo
+    reel_url: "https://www.instagram.com/reel/..."  # opcional: embed do reel no topo
     ---
 
 Imagem no meio do texto (vira <figure> com legenda e credito):
@@ -53,7 +57,13 @@ SRC = os.path.join(ROOT, "content", "blog")
 PUB = os.path.join(ROOT, "public")
 OUT = os.path.join(PUB, "blog")
 DEFAULT_OG = "/img/og.jpg"
-ASSET_V = "4"  # mude para forcar o navegador a baixar CSS/JS novos
+ASSET_V = "5"  # mude para forcar o navegador a baixar CSS/JS novos
+
+# Gate de lead: post com `gate: true` no frontmatter mostra so o comeco (o .md do repo ja vem cortado
+# pelo motor do blog) + formulario. O texto completo fica so no banco da Vulto (VPS) e e liberado pela API.
+GATE_SUPORTADO = True
+GATE_ENDPOINT = os.environ.get("VULTO_GATE_ENDPOINT", "https://social.200-141-25-4.nip.io/blog/liberar")
+GATE_KEY = os.environ.get("VULTO_GATE_KEY", "")  # nao usado (a API nao pede chave publica)
 
 OFERTAS = {
     "meta-ads": ("Gestão de Meta Ads", "Anúncio que traz conversa de venda, não curtida. Auditoria grátis da sua conta."),
@@ -168,6 +178,9 @@ def parse_post(path):
     meta["draft"] = str(meta.get("draft", "false")).lower() == "true"
     words = len(re.findall(r"\w+", re.sub(r"[#>*\[\]()!]", " ", body_md)))
     meta["minutos"] = max(1, math.ceil(words / 220))
+    if str(meta.get("minutos_total", "")).isdigit():  # post com gate: o .md do repo tem so o comeco
+        meta["minutos"] = int(meta["minutos_total"])
+    meta["gate"] = str(meta.get("gate", "false")).lower() == "true"
     return meta
 
 
@@ -176,6 +189,13 @@ def md_to_html(md):
 
     def inline(text):
         text = html.escape(text, quote=False)
+        codes = []
+
+        def guarda(m):
+            codes.append(m.group(1))
+            return f"\x00{len(codes) - 1}\x00"
+
+        text = re.sub(r"`([^`]+)`", guarda, text)
 
         def link(m):
             label, url = m.group(1), m.group(2)
@@ -187,6 +207,7 @@ def md_to_html(md):
         text = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", link, text)
         text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
         text = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", r"<em>\1</em>", text)
+        text = re.sub(r"\x00(\d+)\x00", lambda m: f"<code>{codes[int(m.group(1))]}</code>", text)
         return text
 
     def flush():
@@ -194,8 +215,20 @@ def md_to_html(md):
             out.append("<ul>" + "".join(f"<li>{inline(i)}</li>" for i in lst) + "</ul>")
             lst.clear()
 
+    code = None  # bloco ``` em andamento
     for line in md.splitlines():
         s = line.strip()
+        if s.startswith("```"):
+            flush()
+            if code is None:
+                code = []
+            else:
+                out.append('<pre><code>' + html.escape("\n".join(code), quote=False) + "</code></pre>")
+                code = None
+            continue
+        if code is not None:
+            code.append(line.rstrip())
+            continue
         if not s:
             flush()
             continue
@@ -222,6 +255,8 @@ def md_to_html(md):
         else:
             flush(); out.append(f"<p>{inline(s)}</p>")
     flush()
+    if code is not None:  # bloco sem fechamento
+        out.append('<pre><code>' + html.escape("\n".join(code), quote=False) + "</code></pre>")
     # fontes unicas, na ordem em que aparecem
     seen, uniq = set(), []
     for label, url in links:
@@ -309,6 +344,7 @@ FOOT = f"""<footer><div class="wrap">
     <a href="/blog/">Blog</a>
     <a href="/rss.xml">RSS</a>
     <a href="/#precos">Preços</a>
+    <a href="/privacidade/">Privacidade</a>
   </nav>
   <p class="privacy">© <span id="ano">2026</span> Vulto.tech · Conteúdo próprio. Imagens com crédito de seus autores.</p>
 </div></footer>
@@ -356,6 +392,9 @@ def render_post(p, posts):
         "mainEntityOfPage": canonical,
         "articleSection": p["categoria"],
     }
+    if p.get("gate"):  # paywall declarado (Google: conteudo com acesso restrito, nao e cloaking)
+        schema_obj["isAccessibleForFree"] = False
+        schema_obj["hasPart"] = {"@type": "WebPageElement", "isAccessibleForFree": False, "cssSelector": ".gate"}
     schema = '<script type="application/ld+json">' + json.dumps(schema_obj, ensure_ascii=False) + "</script>"
     preload = ""
     if p.get("cover"):
@@ -371,8 +410,21 @@ def render_post(p, posts):
             f'<figcaption><span>{esc(p.get("cover_alt", ""))}</span>{credit_html(p.get("cover_credito"), p.get("cover_link"))}</figcaption></figure>'
         )
 
+    reel = ""
+    if p.get("reel_url", "").startswith("https://www.instagram.com/"):
+        u = esc(p["reel_url"])
+        reel = (f'<figure class="reel"><blockquote class="instagram-media" data-instgrm-permalink="{u}" data-instgrm-version="14">'
+                f'<a href="{u}" target="_blank" rel="noopener">Assista ao reel no Instagram</a></blockquote>'
+                '<script async src="https://www.instagram.com/embed.js"></script></figure>')
+    elif p.get("reel_capa"):
+        reel = (f'<figure class="reel reel-capa"><a href="https://www.instagram.com/matioli.ai/" target="_blank" rel="noopener">'
+                f'{img_tag(p["reel_capa"], "Capa do reel sobre " + p["title"], eager=True, sizes="(max-width: 760px) 70vw, 360px")}'
+                '<span class="reel-play">▶ Assista ao reel no @matioli.ai</span></a></figure>')
+    if reel:
+        cover = reel  # o reel toma o lugar da capa no topo (a capa continua no og:image e nos cards)
+
     sources = ""
-    if p["links"]:
+    if p["links"] and not p.get("gate"):  # no post com gate as fontes vem junto com o texto completo
         items = "".join(
             f'<li><a href="{esc(u)}" target="_blank" rel="noopener">{l}</a><span class="dom">{esc(urlparse(u).netloc.replace("www.", ""))}</span></li>'
             for l, u in p["links"]
@@ -410,9 +462,10 @@ def render_post(p, posts):
   </div>
   {cover}
   <div class="wrap narrow">
-    <div class="body">
+    <div class="body"{' data-gate-body' if p.get('gate') else ''}>
 {p['body_html']}
     </div>
+    {gate_html(p) if p.get('gate') else ''}
     {sources}
     {offer}
     <div class="cta-box">
@@ -426,6 +479,64 @@ def render_post(p, posts):
 </main>
 """
     return head(esc(p["title"]) + " · Vulto", esc(p["description"]), canonical, "article", og, schema, preload) + body + FOOT
+
+
+def gate_html(p):
+    return f"""<section class="gate" data-gate data-slug="{esc(p['slug'])}" data-endpoint="{esc(GATE_ENDPOINT)}" data-key="{esc(GATE_KEY)}" aria-labelledby="gate-t">
+      <div class="gate-fade" aria-hidden="true"></div>
+      <div class="gate-card">
+        <p class="eyebrow">Conteúdo completo</p>
+        <h2 id="gate-t">Libere o resto do guia, grátis</h2>
+        <p class="gate-sub">Deixe seu e-mail e WhatsApp e continue lendo agora. É uma vez só: depois você lê todos os posts do blog.</p>
+        <form class="gate-form" novalidate>
+          <label>E-mail<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="voce@email.com" required></label>
+          <label>WhatsApp<input type="tel" name="whatsapp" autocomplete="tel-national" inputmode="tel" placeholder="(21) 99999-9999" required></label>
+          <label class="hp" aria-hidden="true">Seu site<input type="text" name="site" tabindex="-1" autocomplete="off"></label>
+          <label class="check"><input type="checkbox" name="consentimento" required><span>Aceito receber conteúdos e ofertas da Vulto por e-mail e WhatsApp. Posso cancelar quando quiser. <a href="/privacidade/">Política de privacidade</a></span></label>
+          <button class="btn btn-red" type="submit">Liberar o conteúdo</button>
+          <p class="gate-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <noscript><p class="gate-sub">Ative o JavaScript para liberar o conteúdo completo.</p></noscript>
+    </section>
+    <script src="/js/gate.js?v={ASSET_V}" defer></script>"""
+
+
+PRIVACIDADE_CONTATO_WA = "https://wa.me/5521951001137"
+PRIVACIDADE_EMAIL = ""  # e-mail para pedidos de LGPD (preencher)
+
+
+def render_privacidade():
+    email = (f' ou pelo e-mail <a href="mailto:{PRIVACIDADE_EMAIL}">{PRIVACIDADE_EMAIL}</a>' if PRIVACIDADE_EMAIL else "")
+    body = f"""<main class="blog">
+<article class="post legal">
+  <div class="wrap narrow">
+    <header class="post-head">
+      <div class="kicker"><span class="cat">LGPD</span></div>
+      <h1>Política de privacidade</h1>
+      <p class="dek">O que a Vulto faz com os dados que você informa para ler o conteúdo completo do blog.</p>
+    </header>
+    <div class="body">
+<h2>Quem cuida dos seus dados</h2>
+<p>A Vulto (vulto.tech) é a controladora dos dados coletados neste site. Fale com a gente pelo <a href="{PRIVACIDADE_CONTATO_WA}">WhatsApp</a>{email}.</p>
+<h2>Quais dados coletamos</h2>
+<ul><li>E-mail e WhatsApp (e o nome, se você informar).</li><li>Qual post você liberou e de onde veio o link (ex.: Instagram, direct, nome da campanha).</li><li>Data e hora, o tipo de navegador e uma versão embaralhada (hash) do seu IP, usada só para barrar robôs e abuso. Não guardamos o IP em si.</li><li>Seu aceite: se marcou a caixa, quando e com qual texto.</li></ul>
+<h2>Para que usamos</h2>
+<ul><li>Liberar o conteúdo completo do post para você (e os próximos, sem pedir de novo).</li><li>Enviar conteúdos e ofertas da Vulto por e-mail e WhatsApp, só se você aceitou.</li><li>Entender quais assuntos interessam a quem lê, para escolher os próximos conteúdos.</li><li>Criar públicos de anúncio no Facebook/Instagram a partir do e-mail e telefone embaralhados (hash), só de quem aceitou receber ofertas.</li></ul>
+<p>A base legal é o seu consentimento (art. 7º, I, da LGPD). Não vendemos seus dados.</p>
+<h2>Onde ficam e por quanto tempo</h2>
+<p>Os dados ficam num banco de dados em servidor próprio da Vulto, com acesso restrito e sem exposição pública. Guardamos enquanto o seu consentimento valer. Se você cancelar, paramos de enviar mensagens e apagamos os dados quando você pedir.</p>
+<p>No seu navegador fica salvo só um código de acesso (no armazenamento local do site), para você não precisar preencher o formulário de novo. Ele vale 30 dias e você pode apagá-lo limpando os dados do site.</p>
+<h2>Como cancelar ou pedir exclusão</h2>
+<ul><li>E-mail: clique em “descadastrar” no rodapé de qualquer e-mail nosso.</li><li>WhatsApp: responda <strong>SAIR</strong> em qualquer mensagem.</li><li>Para ver, corrigir ou apagar seus dados (art. 18 da LGPD), chame no <a href="{PRIVACIDADE_CONTATO_WA}">WhatsApp</a>{email}. Respondemos em até 15 dias.</li></ul>
+<p class="muted">Atualizada em 9 de novembro de 2026.</p>
+    </div>
+  </div>
+</article>
+</main>
+"""
+    return head("Política de privacidade · Vulto", "Quais dados a Vulto coleta no blog, para que usa e como pedir exclusão.",
+                f"{SITE}/privacidade/", "website", DEFAULT_OG) + body + FOOT
 
 
 def render_index(posts):
@@ -506,7 +617,10 @@ def main():
         f.write(render_rss(posts))
     with open(os.path.join(PUB, "blog-sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(render_sitemap(posts))
-    print(f"blog gerado: {len(posts)} post(s) -> public/blog/")
+    os.makedirs(os.path.join(PUB, "privacidade"), exist_ok=True)
+    with open(os.path.join(PUB, "privacidade", "index.html"), "w", encoding="utf-8") as f:
+        f.write(render_privacidade())
+    print(f"blog gerado: {len(posts)} post(s) -> public/blog/ (+ /privacidade)")
 
 
 if __name__ == "__main__":
