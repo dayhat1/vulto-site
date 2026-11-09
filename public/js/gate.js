@@ -1,5 +1,5 @@
 /* Gate de lead do blog da Vulto.
-   O HTML do post traz só o começo. O resto vem da Edge Function "liberar-post" (Supabase) quando a pessoa
+   O HTML do post traz só o começo. O resto vem da API da Vulto (POST /blog/liberar) quando a pessoa
    deixa e-mail + WhatsApp (ou já tem o código de acesso de 30 dias salvo neste navegador). */
 (function () {
   var box = document.querySelector("[data-gate]");

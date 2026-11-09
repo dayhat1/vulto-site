@@ -26,7 +26,7 @@ Frontmatter de um post:
     cover_credito: "Foto: Nome / Unsplash"
     cover_link: "https://unsplash.com/photos/..."
     draft: false
-    gate: true                # opcional: so o comeco no site + formulario de lead (texto completo no Supabase)
+    gate: true                # opcional: so o comeco no site + formulario de lead (texto completo no banco da Vulto)
     minutos_total: 8          # opcional (gate): minutos de leitura do texto completo
     reel_capa: "/img/blog/x-reel.webp"   # opcional: capa do reel no topo
     reel_url: "https://www.instagram.com/reel/..."  # opcional: embed do reel no topo
@@ -60,10 +60,10 @@ DEFAULT_OG = "/img/og.jpg"
 ASSET_V = "5"  # mude para forcar o navegador a baixar CSS/JS novos
 
 # Gate de lead: post com `gate: true` no frontmatter mostra so o comeco (o .md do repo ja vem cortado
-# pelo motor do blog) + formulario. O texto completo fica so no Supabase e e liberado pela Edge Function.
+# pelo motor do blog) + formulario. O texto completo fica so no banco da Vulto (VPS) e e liberado pela API.
 GATE_SUPORTADO = True
-GATE_ENDPOINT = os.environ.get("VULTO_GATE_ENDPOINT", "https://SEU-PROJETO.supabase.co/functions/v1/liberar-post")
-GATE_KEY = os.environ.get("VULTO_GATE_KEY", "")  # chave publica (anon/publishable) do Supabase
+GATE_ENDPOINT = os.environ.get("VULTO_GATE_ENDPOINT", "https://social.200-141-25-4.nip.io/blog/liberar")
+GATE_KEY = os.environ.get("VULTO_GATE_KEY", "")  # nao usado (a API nao pede chave publica)
 
 OFERTAS = {
     "meta-ads": ("Gestão de Meta Ads", "Anúncio que traz conversa de venda, não curtida. Auditoria grátis da sua conta."),
@@ -525,7 +525,7 @@ def render_privacidade():
 <ul><li>Liberar o conteúdo completo do post para você (e os próximos, sem pedir de novo).</li><li>Enviar conteúdos e ofertas da Vulto por e-mail e WhatsApp, só se você aceitou.</li><li>Entender quais assuntos interessam a quem lê, para escolher os próximos conteúdos.</li><li>Criar públicos de anúncio no Facebook/Instagram a partir do e-mail e telefone embaralhados (hash), só de quem aceitou receber ofertas.</li></ul>
 <p>A base legal é o seu consentimento (art. 7º, I, da LGPD). Não vendemos seus dados.</p>
 <h2>Onde ficam e por quanto tempo</h2>
-<p>Os dados ficam num banco de dados na Supabase (servidores na região de São Paulo), com acesso restrito. Guardamos enquanto o seu consentimento valer. Se você cancelar, paramos de enviar mensagens e apagamos os dados quando você pedir.</p>
+<p>Os dados ficam num banco de dados em servidor próprio da Vulto, com acesso restrito e sem exposição pública. Guardamos enquanto o seu consentimento valer. Se você cancelar, paramos de enviar mensagens e apagamos os dados quando você pedir.</p>
 <p>No seu navegador fica salvo só um código de acesso (no armazenamento local do site), para você não precisar preencher o formulário de novo. Ele vale 30 dias e você pode apagá-lo limpando os dados do site.</p>
 <h2>Como cancelar ou pedir exclusão</h2>
 <ul><li>E-mail: clique em “descadastrar” no rodapé de qualquer e-mail nosso.</li><li>WhatsApp: responda <strong>SAIR</strong> em qualquer mensagem.</li><li>Para ver, corrigir ou apagar seus dados (art. 18 da LGPD), chame no <a href="{PRIVACIDADE_CONTATO_WA}">WhatsApp</a>{email}. Respondemos em até 15 dias.</li></ul>
