@@ -91,6 +91,29 @@
     window.ScrollCraft.mount(d.body);
   }
 
+  /* ---------- Hero 3D: lazy, depois do primeiro paint, com fallback em CSS ----------
+     Sem WebGL, com "menos movimento", economia de dados ou aparelho fraco
+     (deviceMemory <= 4), nada é baixado: o hero fica com o vulto em SVG + gradiente.
+     Se o FPS cair abaixo de 30 por 2s, o 3D sai e o fallback volta. */
+  const hero = $('.hero');
+  const webgl = (() => {
+    try { const c = d.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); }
+    catch (_) { return false; }
+  })();
+  const conn = navigator.connection;
+  const weak = (navigator.deviceMemory && navigator.deviceMemory <= 4) || !!(conn && conn.saveData);
+  if (hero && webgl && !reduce && !weak) {
+    const boot = () => import('/js/hero3d.js?v=1')
+      .then((m) => m.default(hero, {
+        onReady: () => hero.classList.add('has-3d'),
+        onFail: () => hero.classList.remove('has-3d'),
+      }))
+      .catch(() => { /* sem 3D: segue o fallback em CSS */ });
+    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 500));
+    if (d.readyState === 'complete') idle(boot);
+    else addEventListener('load', () => idle(boot), { once: true });
+  }
+
   /* ---------- Blog: posts mais recentes (o motor publica todo dia) ---------- */
   const posts = $('[data-posts]');
   if (posts && 'fetch' in window && 'DOMParser' in window) {
