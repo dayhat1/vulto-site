@@ -1,0 +1,124 @@
+/* Powered by Matioli616
+   =========================================================================
+   VULTO · home v2 (tokens + base)
+   Tema escuro quase preto, 1 cor de destaque (vermelho da marca), 1 gradiente
+   de assinatura. Tudo é token. Carrega DEPOIS de scrollcraft.css, que traz o
+   mecanismo (acts, cues). O engine nunca é editado: aqui só entram tokens,
+   fontes e o CSS das seções.
+   ========================================================================= */
+
+:root {
+  /* ground */
+  --sc-canvas: #0b090a;
+  --sc-surface: #151113;
+  --sc-ink: #f1eaec;
+  --sc-ink-soft: #a8999e;
+
+  /* 1 cor de destaque (fill) e a mesma família em versão legível como texto */
+  --sc-accent: #e3172e;
+  --sc-accent-ink: #ffffff;
+  --accent-text: #ff4a5c;
+  --accent-deep: #5c0a14;
+
+  /* 1 gradiente de assinatura: o vermelho que emerge do escuro */
+  --v-grad: linear-gradient(135deg, #ff4a5c 0%, #e3172e 42%, #5c0a14 100%);
+  --v-grad-soft: radial-gradient(closest-side, color-mix(in srgb, var(--sc-accent) 30%, transparent), transparent 72%);
+
+  /* bordas e superfícies */
+  --v-line: rgba(241, 234, 236, 0.12);
+  --v-line-strong: rgba(241, 234, 236, 0.22);
+  --v-surface-2: #1b1517;
+
+  /* tipo */
+  --sc-font-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --sc-font-text: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --sc-font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --v-h1: clamp(2.7rem, 1.2rem + 7.6vw, 7rem);
+  --v-h2: clamp(2.1rem, 1.2rem + 4.2vw, 4.6rem);
+
+  /* movimento: 1 easing no site inteiro, 0.6 a 1.1s, sem bounce */
+  --v-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --v-dur: 0.8s;
+
+  --sc-gutter: clamp(1.1rem, 4.5vw, 4rem);
+  --sc-maxw: 76rem;
+  --v-nav-h: 4rem;
+  color-scheme: dark;
+}
+
+html { font-size: 106.25%; scroll-padding-top: 5rem; }
+body { background: var(--sc-canvas); }
+.js body { background: var(--sc-canvas); }
+
+/* tipografia de display: grotesca condensada, apertada */
+.v-display, .hero h1, .v-h2 {
+  font-family: var(--sc-font-display);
+  font-weight: 900;
+  font-stretch: 72%;
+  text-transform: uppercase;
+  letter-spacing: -0.018em;
+  line-height: 0.94;
+  text-wrap: balance;
+  margin: 0;
+}
+.v-h2 { font-size: var(--v-h2); }
+.v-eyebrow {
+  font: 500 0.78rem/1.2 var(--sc-font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin: 0;
+}
+.v-lead { color: var(--sc-ink-soft); font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.2rem); max-width: 58ch; margin: 0; text-wrap: pretty; }
+.num, .v-mono { font-family: var(--sc-font-mono); font-variant-numeric: tabular-nums; }
+
+.wrap { width: 100%; max-width: var(--sc-maxw); margin-inline: auto; padding-inline: max(var(--sc-gutter), env(safe-area-inset-left, 0px)); }
+
+/* pular pro conteúdo */
+.skip { position: fixed; left: 1rem; top: -4rem; z-index: 200; background: var(--sc-accent); color: #fff; padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; transition: top 0.2s; }
+.skip:focus { top: 0.8rem; }
+
+/* ---------- Botões ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  padding: 0.9rem 1.35rem; border-radius: 10px; min-height: 2.75rem;
+  font: 600 1rem/1 var(--sc-font-text); text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform var(--v-dur) var(--v-ease), background 0.4s var(--v-ease), border-color 0.4s var(--v-ease), box-shadow 0.4s var(--v-ease);
+}
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn-red { background: var(--sc-accent); color: var(--sc-accent-ink); box-shadow: 0 10px 34px -12px var(--sc-accent); }
+.btn-red:hover { background: var(--accent-text); transform: translateY(-1px); }
+.btn-ghost { border-color: var(--v-line-strong); color: var(--sc-ink); background: transparent; }
+.btn-ghost:hover { border-color: var(--sc-ink-soft); transform: translateY(-1px); }
+.btn-light { background: var(--sc-ink); color: var(--sc-canvas); }
+.btn-light:hover { transform: translateY(-1px); }
+
+/* ---------- Nav fixa com blur ---------- */
+.bar {
+  position: fixed; inset: 0 0 auto 0; z-index: 60;
+  padding-top: env(safe-area-inset-top, 0px);
+  background: color-mix(in srgb, var(--sc-canvas) 62%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom: 1px solid var(--v-line);
+}
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: var(--v-nav-h); }
+.mark { display: inline-flex; line-height: 0; text-decoration: none; }
+.mark img { height: 52px; width: auto; mix-blend-mode: lighten; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.bar-links { display: flex; align-items: center; gap: 1.6rem; }
+.bar-links a:not(.btn) { color: var(--sc-ink-soft); text-decoration: none; font-size: 0.95rem; transition: color 0.4s var(--v-ease); }
+.bar-links a:not(.btn):hover { color: var(--sc-ink); }
+.bar .btn { padding: 0.62rem 1rem; min-height: 2.5rem; font-size: 0.92rem; }
+@media (max-width: 760px) { .bar-links a:not(.btn) { display: none; } }
+
+main { display: block; }
+section[id] { scroll-margin-top: 4.5rem; }
+
+/* ---------- Rodapé ---------- */
+.foot { border-top: 1px solid var(--v-line); color: var(--sc-ink-soft); font-size: 0.88rem; position: relative; z-index: 2; background: var(--sc-canvas); }
+.foot .wrap { padding-block: 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+.foot .mark img { height: 38px; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+.foot a { text-decoration: none; }
+.foot a:hover { color: var(--sc-ink); }
+.foot .privacy { width: 100%; margin: 0; font-size: 0.8rem; }
