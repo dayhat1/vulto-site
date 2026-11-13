@@ -33,7 +33,7 @@
   --sc-font-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   --sc-font-text: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
   --sc-font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
-  --v-h1: clamp(2.7rem, 1.2rem + 7.6vw, 7rem);
+  --v-h1: clamp(2.6rem, min(1rem + 6.4vw, 3rem + 9svh), 6.6rem);
   --v-h2: clamp(2.1rem, 1.2rem + 4.2vw, 4.6rem);
 
   /* movimento: 1 easing no site inteiro, 0.6 a 1.1s, sem bounce */
@@ -271,7 +271,7 @@ section[id] { scroll-margin-top: 4.5rem; }
 
 /* ---------- Processo (pico) ---------- */
 .process { position: relative; border-top: 1px solid var(--v-line); }
-.process-stage { position: relative; display: grid; align-items: center; min-height: 100svh; overflow: clip; background: radial-gradient(60% 70% at 78% 40%, color-mix(in srgb, var(--sc-accent) 9%, transparent), transparent 70%); }
+.process-stage { display: grid; align-items: center; min-height: 100svh; overflow: clip; background: radial-gradient(60% 70% at 78% 40%, color-mix(in srgb, var(--sc-accent) 9%, transparent), transparent 70%); }
 .process-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; padding-block: 5rem 3rem; }
 .process-copy { display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); }
 .steps { list-style: none; margin: 0; padding: 0; display: grid; counter-reset: s; border-left: 1px solid var(--v-line-strong); padding-left: clamp(1rem, 3vw, 2rem); }
@@ -322,9 +322,9 @@ html:not(.js) .step { grid-area: auto; margin-bottom: 1.4rem; }
 
 /* ---------- CTA final ---------- */
 .final { position: relative; border-top: 1px solid var(--v-line); }
-.final-stage { position: relative; isolation: isolate; display: grid; align-items: center; min-height: 100svh; overflow: clip; background: radial-gradient(55% 60% at 50% 42%, color-mix(in srgb, var(--sc-accent) 14%, transparent), transparent 70%); }
-.final-fig { position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; pointer-events: none; opacity: 0.55; }
-.final-fig svg { height: min(105svh, 62rem); width: auto; aspect-ratio: 400 / 560; --sc-p: 1; transform: translate3d(0, calc((1 - var(--fin, 1)) * 6%), 0) scale(calc(0.94 + var(--fin, 1) * 0.06)); }
+.final-stage { isolation: isolate; display: grid; align-items: center; min-height: 100svh; overflow: clip; background: radial-gradient(55% 60% at 50% 42%, color-mix(in srgb, var(--sc-accent) 14%, transparent), transparent 70%); }
+.final-fig { --fin: var(--sc-p, 1); position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; pointer-events: none; opacity: 0.55; }
+.final-fig svg { height: min(105svh, 62rem); width: auto; aspect-ratio: 400 / 560; --sc-p: 1; transform: translate3d(0, calc((1 - var(--fin)) * 40px), 0) scale(calc(0.94 + var(--fin) * 0.06)); }
 .final-box { position: relative; z-index: 2; display: grid; gap: 1.3rem; justify-items: start; padding-block: 6rem; }
 .final-box .v-h2 { max-width: 15ch; }
 
