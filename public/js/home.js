@@ -19,10 +19,20 @@
   const process = $('.process');
   const services = $('.services');
 
+  // scrollcraft.css carrega sem bloquear o primeiro paint; o motion só monta depois dele.
+  const ready = (fn) => {
+    let done = false;
+    const cb = () => { if (!done) { done = true; fn(); } };
+    const l = $('link[href*="scrollcraft.css"]');
+    if (!l || l.media === 'all') return cb();
+    l.addEventListener('load', cb, { once: true });
+    setTimeout(cb, 4000);
+  };
+
   if (reduce || !window.ScrollCraft) {
     // Sem motion: etapas empilhadas, silhueta completa, nada escondido.
     if (process) process.classList.add('is-static');
-  } else {
+  } else ready(() => {
     // Hero (flow): o celular e o vulto de fallback andam em ritmos diferentes.
     set($('.hero'), { 'data-sc-act': 'flow' });
     set($('.hero .demo'), { 'data-sc-parallax': '-0.07' });
@@ -89,7 +99,7 @@
     d.body.append(grain);
 
     window.ScrollCraft.mount(d.body);
-  }
+  });
 
   /* ---------- Hero 3D: lazy, depois do primeiro paint, com fallback em CSS ----------
      Sem WebGL, com "menos movimento", economia de dados ou aparelho fraco
@@ -109,9 +119,16 @@
         onFail: () => hero.classList.remove('has-3d'),
       }))
       .catch(() => { /* sem 3D: segue o fallback em CSS */ });
-    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 500));
-    if (d.readyState === 'complete') idle(boot);
-    else addEventListener('load', () => idle(boot), { once: true });
+    // O 3D só entra na primeira interação (mouse, toque, tecla ou scroll). Quem só olha
+    // fica com o vulto em SVG, que já é o hero completo, e a página não paga o custo do WebGL.
+    const arm = () => {
+      ['pointermove', 'pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'].forEach((ev) => removeEventListener(ev, arm));
+      const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
+      idle(boot);
+    };
+    const wait = () => ['pointermove', 'pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'].forEach((ev) => addEventListener(ev, arm, { passive: true, once: true }));
+    if (d.readyState === 'complete') wait();
+    else addEventListener('load', wait, { once: true });
   }
 
   /* ---------- Blog: posts mais recentes (o motor publica todo dia) ---------- */

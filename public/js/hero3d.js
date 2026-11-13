@@ -48,6 +48,7 @@ const FRAG = /* glsl */ `
   uniform float uScroll;
   uniform vec3 uRed;
   uniform vec3 uRedSoft;
+  uniform float uGain;
   varying vec3 vN;
   varying vec3 vV;
   varying vec3 vP;
@@ -79,7 +80,7 @@ const FRAG = /* glsl */ `
     float eyeX = smoothstep(0.05, 0.0, abs(abs(vP.x) - 0.2) - 0.09);
     col += uRedSoft * eyeY * eyeX * step(0.0, n.z) * 2.2;
     if (!gl_FrontFacing) col *= 0.35;
-    gl_FragColor = vec4(col, 1.0);
+    gl_FragColor = vec4(col * uGain, 1.0);
   }
 `;
 
@@ -122,6 +123,7 @@ export default function initHero3D(hero, opts = {}) {
   const uniforms = {
     uTime: { value: 0 },
     uScroll: { value: 0 },
+    uGain: { value: mobile ? 0.62 : 1 },
     uRed: { value: new THREE.Color('#e3172e') },
     uRedSoft: { value: new THREE.Color('#ff4a5c') },
   };
@@ -160,9 +162,12 @@ export default function initHero3D(hero, opts = {}) {
     camera.updateProjectionMatrix();
     const visH = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
     const visW = visH * camera.aspect;
-    const s = (visH * (mobile ? 0.74 : 0.9)) / 4.3;
-    group.scale.setScalar(s);
-    group.position.set(mobile ? visW * 0.2 : visW * 0.2, mobile ? -visH * 0.02 : -visH * 0.03, 0);
+    // a figura mora na primeira tela (não no hero inteiro, que no celular é altíssimo)
+    const frac = Math.min(1, innerHeight / Math.max(h, 1));
+    const target = visH * frac * (mobile ? 0.78 : 0.9);
+    const topPad = (72 / Math.max(h, 1)) * visH;
+    group.scale.setScalar(target / 4.3);
+    group.position.set(mobile ? visW * 0.24 : visW * 0.2, visH / 2 - topPad - target / 2, 0);
   };
   layout();
   const ro = new ResizeObserver(layout);

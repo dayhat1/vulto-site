@@ -3,11 +3,19 @@
 Landing page da Vulto (página que vende + atendente com IA no WhatsApp).
 
 - `src/vulto-landing.html`: fonte da página. Edite aqui.
-- `bash build.sh`: gera `public/index.html` a partir da fonte.
+- `bash build.sh`: gera `public/index.html` a partir da fonte e embute `public/css/home.css` no HTML (mais rápido no primeiro paint). Mexeu no CSS da home? Rode o build de novo.
 - `public/`: o que vai pro ar (Render, site estático).
 - Número do WhatsApp: linha `const WHATSAPP` no final da fonte.
 
 Deploy: o Render lê o `render.yaml` (site estático publicando `public/`, sem build).
+
+## Home v2 (scroll-craft)
+
+- `public/css/scrollcraft.css` e `public/js/scrollcraft.js`: engine do scroll-craft, copiado sem edição. Não mexa; tema só em `home.css` (tokens e fontes).
+- `public/css/home.css`: tokens e CSS da home. `public/js/home.js`: liga o motion (todo `data-sc-*` é escrito lá) e carrega o 3D só na primeira interação.
+- `public/js/hero3d.js`: figura 3D do hero (shader próprio). Sem WebGL, com menos movimento, aparelho fraco ou FPS < 30, o hero fica com o vulto em SVG.
+- `public/fonts/`: Archivo e IBM Plex hospedadas aqui (subset latin).
+- `scrollcraft/`: BRIEF, contact sheets e ferramentas de verificação (não vai pro ar).
 
 ## Efeitos (3D, transições)
 

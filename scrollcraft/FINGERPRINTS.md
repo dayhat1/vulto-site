@@ -28,6 +28,7 @@ changes only grammar and world will fail it.
 
 | Build | Grammar | Nav treatment | Hero device | Act-sequence shape | Close pattern | Signature move | World | Port |
 |---|---|---|---|---|---|---|---|---|
+| vulto.tech v2 | filmic one-shot (sem scrub de vídeo) | barra fixa com blur, wordmark + 1 CTA | Three.js: figura encapuzada por shader (fallback: o mesmo vulto em SVG) | flow, flow, pan, pin (pico, 5.6vh), pin curto; 16 vh no desktop | pin curto: o vulto inteiro assenta, 1 CTA com magnet | "o vulto se completa": silhueta SVG desenhada por --sc-p, uma parte por etapa | escuro quase preto, vermelho único, gerado em código | /root/jarvis/vulto-site |
 
 *(empty: your first build has nothing to clear, so build whatever the interview
 points at. From the second onwards, this table is the constraint.)*
@@ -41,7 +42,7 @@ reusing: a grammar, a nav treatment, a close pattern, a signature move, an
 act-count-and-length band. The shared columns are what the next build inherits
 as a constraint, so writing them down is the whole point.
 
-Nothing is taken yet.
+- vulto.tech v2 ocupa: a silhueta encapuzada desenhada por --sc-p como assinatura e o hero Three.js com shader de dissolução. Banda de duração: 16 vh, 5 atos.
 
 ---
 
