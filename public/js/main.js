@@ -119,7 +119,7 @@ let stRefresh = () => {};
   if (!ok) return; // mobile, touch, reduced-motion, sem WebGL: o SVG do hero é o hero
 
   const root = document.documentElement;
-  const boot = () => import('/js/scenes.js?v=3')
+  const boot = () => import('/js/scenes.js?v=4')
     .then((m) => m.mountScenes({
       canvas,
       state: heroState,

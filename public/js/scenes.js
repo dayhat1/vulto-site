@@ -104,7 +104,8 @@ void main(){
 
   vec4 mv = modelViewMatrix * vec4(pos, 1.0);
   gl_Position = projectionMatrix * mv;
-  gl_PointSize = (0.0095 + aRand.y * 0.0105) * (0.5 + land * 1.25) * uScale / -mv.z;
+  // teto de tamanho: partículas espalhadas que passam perto da câmera não viram "bolas" gigantes
+  gl_PointSize = min((0.0095 + aRand.y * 0.0105) * (0.5 + land * 1.25) * uScale / max(-mv.z, 0.5), 0.0075 * uScale);
 
   vec3 n = normalize((modelViewMatrix * vec4(p, 0.0)).xyz);
   float rim = pow(1.0 - abs(n.z), 2.0);
@@ -162,7 +163,7 @@ void main(){
   float t = fract(uTime * aPh.y + aPh.x);
   vec4 mv = modelViewMatrix * vec4(bez(t), 1.0);
   gl_Position = projectionMatrix * mv;
-  gl_PointSize = 0.045 * uScale / -mv.z;
+  gl_PointSize = min(0.045 * uScale / max(-mv.z, 0.5), 0.012 * uScale);
   vA = sin(t * 3.14159) * uFade * uIntro;
 }
 `;
@@ -200,7 +201,7 @@ function makeUniforms() {
   };
 }
 
-function planetPoints(U, count, scatterR = 5) {
+function planetPoints(U, count, scatterR = 3) {
   const pos = new Float32Array(count * 3), sc = new Float32Array(count * 3), rd = new Float32Array(count * 4), ac = new Float32Array(count);
   const g = Math.PI * (3 - Math.sqrt(5)), jit = 0.35 / Math.sqrt(count);
   for (let i = 0; i < count; i++) {
@@ -352,7 +353,7 @@ function buildGlobe(cfg) {
 
   const cities = cfg.cities || ALL_CITIES;
   cities.forEach((k, i) => U.uCity.value[i].copy(ll2v(...CITIES[k])));
-  globe.add(planetPoints(U, cfg.points, 5), atmosphere(U), graticule(), occluder());
+  globe.add(planetPoints(U, cfg.points, 3), atmosphere(U), graticule(), occluder());
 
   const nodePos = {}, nodes = [];
   cities.forEach((k) => {
@@ -436,7 +437,7 @@ function buildGlobe(cfg) {
 function buildConstellation() {
   const U = makeUniforms();
   const root = new THREE.Group();
-  const core = planetPoints(U, 3800, 3.5);
+  const core = planetPoints(U, 3800, 2.2);
   core.scale.setScalar(0.55);
   const coreG = new THREE.Group(); coreG.add(core, occluder(0.55 * 0.985), atmosphere(U, 0.62));
   root.add(coreG);
