@@ -12,7 +12,7 @@
      constellation Serviços  núcleo + 7 satélites, um por serviço, ligados ao núcleo
      pipeline     Como func. 3 mini PCs (Diagnóstico → Construção → Operação);
                             a energia avança com o scroll
-     globe-cases  Cases     planeta menor com 5 estações, uma por case
+     globe-cases  Cases     planeta menor com 3 estações, uma por case
      beacon       CTA final todos os arcos convergem para um ponto (o WhatsApp)
 
    Carregado por import() dinâmico (main.js) só em desktop, com WebGL e sem
@@ -795,8 +795,8 @@ function buildRadar() {
 /* ---------- Definição das cenas ---------- */
 const BUILDERS = {
   'globe-hero': () => buildGlobe({ points: 22000, sats: 7, intro: true, mouse: true, pcScale: 0.72, fx: 1.95, fy: 1.95 }),
-  'globe-cases': () => buildGlobe({ points: 7000, sats: 2, intro: true, cities: ['sp', 'ny', 'lon', 'dxb', 'syd'],
-    links: [['sp', 'ny'], ['ny', 'lon'], ['lon', 'dxb'], ['dxb', 'syd'], ['sp', 'lon'], ['syd', 'sp']], pcScale: 1.1, fx: 1.75, fy: 1.75 }),
+  'globe-cases': () => buildGlobe({ points: 7000, sats: 2, intro: true, cities: ['sp', 'ny', 'lon'],
+    links: [['sp', 'ny'], ['ny', 'lon'], ['lon', 'sp']], pcScale: 1.1, fx: 1.75, fy: 1.75 }),
   beacon: () => buildGlobe({ points: 9000, sats: 4, intro: true, beacon: 'sp', alpha: 0.3, pcScale: 0.8, fx: 1.5, fy: 1.5,
     cities: ['sp', 'ny', 'lon', 'lag', 'jnb', 'dxb', 'bom', 'sin', 'tyo', 'syd', 'la', 'mow'],
     links: ['ny', 'lon', 'lag', 'jnb', 'dxb', 'bom', 'sin', 'tyo', 'syd', 'la', 'mow', 'ba'].map((k) => [k, 'sp']).filter(([k]) => k !== 'ba') }),

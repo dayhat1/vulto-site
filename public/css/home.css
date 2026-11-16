@@ -129,7 +129,7 @@ html.scenes .scene-slot { display: block; }
 /* ---------- CASES (tilt 3D) ---------- */
 .cases { display: grid; gap: 20px; grid-template-columns: 1fr; perspective: 1200px; }
 @media (min-width: 700px) { .cases { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1000px) { .cases { grid-template-columns: repeat(6, 1fr); } .case { grid-column: span 2; } .case:nth-child(4) { grid-column: 2 / span 2; } .case:nth-child(5) { grid-column: 4 / span 2; } }
+@media (min-width: 1000px) { .cases { grid-template-columns: repeat(6, 1fr); } .case { grid-column: span 2; } }
 .case { padding: 0; overflow: hidden; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.5s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease); will-change: transform; }
 .case.is-tilting { transition: transform 0.08s linear, border-color 0.35s, box-shadow 0.35s; }
 .case-img { aspect-ratio: 16 / 10; display: grid; place-items: center; position: relative; background: linear-gradient(135deg, var(--c1, #15151a), var(--c2, #0a0a0c)); border-bottom: 1px solid var(--line); overflow: hidden; }
