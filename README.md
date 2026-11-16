@@ -19,7 +19,7 @@ Deploy: o Render lê o `render.yaml` (site estático publicando `public/`, sem b
 
 ## Efeitos (3D, transições)
 
-- `public/css/vulto.css` e `public/js/vulto.js`: camada compartilhada da landing e do blog (tokens, nav, rodapé, revelar ao rolar, tilt, cursor, transições entre páginas). Tudo parado com "menos movimento".
+- `public/css/vulto.css`, `public/css/blog.css` e `public/js/vulto.js`: visual v2 do blog e da /privacidade (mesmos tokens da home). O `build_blog.py` embute os dois CSS em cada página. Mexeu no CSS do blog? Rode `python3 tools/build_blog.py`.
 - `public/js/hero3d.js` + `public/js/vendor/three.module.min.js` (Three.js 0.160, licença MIT): o 3D do hero. Só carrega no computador, depois que a página já apareceu.
 - Mudou CSS/JS? Suba o `?v=` nos links (landing) e o `ASSET_V` em `tools/build_blog.py`.
 
