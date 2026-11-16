@@ -114,7 +114,7 @@ const heroState = { p: 0 }; // progresso do scroll no hero (0..1), escrito pelo 
     && !reduce && webgl && !(conn && conn.saveData);
   if (!ok) return; // mobile, touch, reduced-motion, sem WebGL: o SVG do hero é o hero
 
-  const boot = () => import('/js/hero.js?v=1')
+  const boot = () => import('/js/hero.js?v=2')
     .then((m) => m.mountHero(hero, {
       canvas,
       state: heroState,

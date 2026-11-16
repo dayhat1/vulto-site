@@ -11,7 +11,7 @@ import * as THREE from 'three';
 
 const N = 20000;           // partículas
 const BUST_H = 4.4;        // altura do busto em unidades do mundo
-const ACCENT_SHARE = 0.05; // ~5% das partículas em verde
+const ACCENT_SHARE = 0.05; // ~5% das partículas em vermelho
 
 /* ---------- Silhueta: busto encapuzado desenhado em canvas 2D (viewBox 400x560) ---------- */
 const BODY = 'M200 36C158 36 128 72 128 120C128 152 142 176 160 192C120 204 70 224 48 280C30 326 28 420 20 520L380 520C372 420 370 326 352 280C330 224 280 204 240 192C258 176 272 152 272 120C272 72 242 36 200 36Z';
@@ -87,7 +87,7 @@ uniform float uMouseR;    // raio de influência
 uniform float uScale;     // px por unidade de mundo a 1 de distância
 attribute vec3 aScatter;  // posição inicial espalhada
 attribute vec4 aRand;     // x: atraso, y: tamanho, z/w: aleatórios livres
-attribute float aAcc;     // 1 = partícula verde
+attribute float aAcc;     // 1 = partícula vermelha
 varying float vAlpha;
 varying float vAcc;
 
@@ -142,7 +142,7 @@ void main(){
   float d = length(gl_PointCoord - 0.5);
   if (d > 0.5) discard;
   float a = smoothstep(0.5, 0.0, d);
-  vec3 col = mix(vec3(0.93), vec3(0.714, 1.0, 0.235), vAcc); // branco / #b6ff3c
+  vec3 col = mix(vec3(0.93), vec3(1.0, 0.16, 0.24), vAcc); // branco / vermelho (#e3172e, mais vivo por causa do blend aditivo)
   gl_FragColor = vec4(col, a * a * vAlpha);
 }
 `;

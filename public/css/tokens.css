@@ -1,7 +1,7 @@
 /* Powered by Matioli616
    =========================================================================
    VULTO · tokens (home v3)
-   Toda cor, medida e fonte do site mora aqui. O verde neon (--accent) é
+   Toda cor, medida e fonte do site mora aqui. O vermelho da marca (--accent) é
    usado com moderação: CTAs, destaques e glow de hover/foco.
    ========================================================================= */
 :root {
@@ -13,9 +13,10 @@
   --line-strong: rgba(255, 255, 255, 0.18);
   --text: #f2f2f2;
   --muted: #8a8a93;       /* 5,9:1 sobre --bg e 5,6:1 sobre --surface (AA) */
-  --accent: #b6ff3c;
-  --accent-ink: #050505;  /* texto sobre o accent */
-  --glow: 0 0 0 1px rgba(182, 255, 60, 0.55), 0 0 28px rgba(182, 255, 60, 0.22);
+  --accent: #e3172e;
+  --accent-ink: #ffffff;  /* texto sobre o accent (4,7:1, AA) */
+  --accent-text: #ff4a5c; /* o mesmo vermelho em versão legível como texto sobre fundo escuro (6,2:1) */
+  --glow: 0 0 0 1px rgba(227, 23, 46, 0.55), 0 0 28px rgba(227, 23, 46, 0.22);
 
   /* tipografia */
   --font-head: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
