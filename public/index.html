@@ -1,529 +1,195 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+<!-- Powered by Matioli616 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!-- Powered by Matioli616 -->
-<title>Vulto.tech</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Página que vende, atendente com IA no WhatsApp, loja na Shopify e tráfego pago pra pequena empresa. Preço fechado, entrega em dias e medição inclusa.">
-<meta property="og:title" content="Vulto.tech">
-<meta property="og:description" content="Página que vende, atendente com IA no WhatsApp, loja na Shopify e tráfego pago pra pequena empresa.">
-<meta property="og:image" content="https://vulto.tech/img/og.jpg">
+<title>Vulto: automação, SaaS, tráfego pago e IA para o seu negócio</title>
+<meta name="description" content="A Vulto constrói os sistemas, as automações e as campanhas que trabalham nos bastidores da sua empresa. Automação, SaaS, assistentes de IA, Meta Ads, Shopify, MVPs e auditoria de segurança.">
+<link rel="canonical" href="https://vulto.tech/">
+<meta name="theme-color" content="#050505">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#0b090a">
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta property="og:site_name" content="Vulto">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://vulto.tech/">
+<meta property="og:title" content="Vulto: seu negócio rodando enquanto você não está olhando">
+<meta property="og:description" content="Sistemas, automações e campanhas que trabalham nos bastidores da sua empresa.">
+<meta property="og:image" content="https://vulto.tech/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vulto: seu negócio rodando enquanto você não está olhando">
+<meta name="twitter:description" content="Sistemas, automações e campanhas que trabalham nos bastidores da sua empresa.">
+<meta name="twitter:image" content="https://vulto.tech/img/og.jpg">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <script>document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="/css/scrollcraft.css?v=1" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/css/scrollcraft.css?v=1"></noscript>
-<style>
-/* Powered by Matioli616
-   =========================================================================
-   VULTO · home v2 (tokens + base)
-   Tema escuro quase preto, 1 cor de destaque (vermelho da marca), 1 gradiente
-   de assinatura. Tudo é token. Carrega DEPOIS de scrollcraft.css, que traz o
-   mecanismo (acts, cues). O engine nunca é editado: aqui só entram tokens,
-   fontes e o CSS das seções.
-   ========================================================================= */
 
-:root {
-  /* ground */
-  --sc-canvas: #0b090a;
-  --sc-surface: #151113;
-  --sc-ink: #f1eaec;
-  --sc-ink-soft: #a8999e;
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@700&display=swap">
+<link rel="stylesheet" href="/css/tokens.css?v=1">
+<link rel="stylesheet" href="/css/base.css?v=1">
+<link rel="stylesheet" href="/css/home.css?v=4">
 
-  /* 1 cor de destaque (fill) e a mesma família em versão legível como texto */
-  --sc-accent: #e3172e;
-  --sc-accent-ink: #ffffff;
-  --accent-text: #ff4a5c;
-  --accent-deep: #5c0a14;
+<!-- Three.js e GSAP por CDN, versões fixadas. Só são baixados quando o JS pede (mobile e "menos movimento" não baixam Three). -->
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "gsap":"https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js",
+  "gsap/ScrollTrigger":"https://cdn.jsdelivr.net/npm/gsap@3.12.5/ScrollTrigger.js"
+}}
+</script>
+<script type="module" src="/js/main.js?v=1"></script>
 
-  /* 1 gradiente de assinatura: o vermelho que emerge do escuro */
-  --v-grad: linear-gradient(135deg, #ff4a5c 0%, #e3172e 42%, #5c0a14 100%);
-  --v-grad-soft: radial-gradient(closest-side, color-mix(in srgb, var(--sc-accent) 30%, transparent), transparent 72%);
-
-  /* bordas e superfícies */
-  --v-line: rgba(241, 234, 236, 0.12);
-  --v-line-strong: rgba(241, 234, 236, 0.22);
-  --v-surface-2: #1b1517;
-
-  /* tipo */
-  --sc-font-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  --sc-font-text: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
-  --sc-font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
-  --v-h1: clamp(2.5rem, min(0.8rem + 5.6vw, 2.4rem + 8svh), 5.6rem);
-  --v-h2: clamp(2.1rem, 1.2rem + 4.2vw, 4.6rem);
-
-  /* movimento: 1 easing no site inteiro, 0.6 a 1.1s, sem bounce */
-  --v-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --v-dur: 0.8s;
-
-  --sc-gutter: clamp(1.1rem, 4.5vw, 4rem);
-  --sc-maxw: 76rem;
-  --v-nav-h: 4rem;
-  color-scheme: dark;
-}
-
-html { font-size: 106.25%; scroll-padding-top: 5rem; }
-*, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; background: var(--sc-canvas); color: var(--sc-ink); font: 400 1rem/1.6 var(--sc-font-text); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: clip; }
-img, svg, canvas { display: block; max-width: 100%; }
-a { color: inherit; }
-:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; border-radius: 4px; }
-::selection { background: var(--sc-accent); color: #fff; }
-
-/* tipografia de display: grotesca condensada, apertada */
-.v-display, .hero h1, .v-h2 {
-  font-family: var(--sc-font-display);
-  font-weight: 900;
-  font-stretch: 66%;
-  text-transform: uppercase;
-  letter-spacing: -0.018em;
-  word-spacing: 0.1em;
-  line-height: 0.94;
-  text-wrap: balance;
-  margin: 0;
-}
-.v-h2 { font-size: var(--v-h2); }
-.v-eyebrow {
-  font: 500 0.78rem/1.2 var(--sc-font-mono);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent-text);
-  margin: 0;
-}
-.v-lead { color: var(--sc-ink-soft); font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.2rem); max-width: 58ch; margin: 0; text-wrap: pretty; }
-.num, .v-mono { font-family: var(--sc-font-mono); font-variant-numeric: tabular-nums; }
-
-.wrap { width: 100%; max-width: var(--sc-maxw); margin-inline: auto; padding-inline: max(var(--sc-gutter), env(safe-area-inset-left, 0px)); }
-
-/* pular pro conteúdo */
-.skip { position: fixed; left: 1rem; top: -4rem; z-index: 200; background: var(--sc-accent); color: #fff; padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; transition: top 0.2s; }
-.skip:focus { top: 0.8rem; }
-
-/* ---------- Botões ---------- */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
-  padding: 0.9rem 1.35rem; border-radius: 10px; min-height: 2.75rem;
-  font: 600 1rem/1 var(--sc-font-text); text-decoration: none;
-  border: 1px solid transparent;
-  transition: transform var(--v-dur) var(--v-ease), background 0.4s var(--v-ease), border-color 0.4s var(--v-ease), box-shadow 0.4s var(--v-ease);
-}
-.btn svg { width: 18px; height: 18px; flex: none; }
-.btn-red { background: var(--sc-accent); color: var(--sc-accent-ink); box-shadow: 0 10px 34px -12px var(--sc-accent); }
-.btn-red:hover { background: var(--accent-text); transform: translateY(-1px); }
-.btn-ghost { border-color: var(--v-line-strong); color: var(--sc-ink); background: transparent; }
-.btn-ghost:hover { border-color: var(--sc-ink-soft); transform: translateY(-1px); }
-.btn-light { background: var(--sc-ink); color: var(--sc-canvas); }
-.btn-light:hover { transform: translateY(-1px); }
-
-/* ---------- Nav fixa com blur ---------- */
-.bar {
-  position: fixed; inset: 0 0 auto 0; z-index: 60;
-  padding-top: env(safe-area-inset-top, 0px);
-  background: color-mix(in srgb, var(--sc-canvas) 62%, transparent);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2);
-  border-bottom: 1px solid var(--v-line);
-}
-.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: var(--v-nav-h); }
-.mark { display: inline-flex; line-height: 0; text-decoration: none; }
-.mark img { height: 52px; width: auto; mix-blend-mode: lighten; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
-.bar-links { display: flex; align-items: center; gap: 1.6rem; }
-.bar-links a:not(.btn) { color: var(--sc-ink-soft); text-decoration: none; font-size: 0.95rem; transition: color 0.4s var(--v-ease); }
-.bar-links a:not(.btn):hover { color: var(--sc-ink); }
-.bar .btn { padding: 0.62rem 1rem; min-height: 2.5rem; font-size: 0.92rem; }
-@media (max-width: 760px) { .bar-links a:not(.btn) { display: none; } }
-
-main { display: block; }
-section[id] { scroll-margin-top: 4.5rem; }
-
-/* ---------- Rodapé ---------- */
-.foot { border-top: 1px solid var(--v-line); color: var(--sc-ink-soft); font-size: 0.88rem; position: relative; z-index: 2; background: var(--sc-canvas); }
-.foot .wrap { padding-block: 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
-.foot .mark img { height: 38px; }
-.foot nav { display: flex; flex-wrap: wrap; gap: 1.2rem; }
-.foot a { text-decoration: none; }
-.foot a:hover { color: var(--sc-ink); }
-.foot .privacy { width: 100%; margin: 0; font-size: 0.8rem; }
-
-/* =========================================================================
-   SEÇÕES
-   ========================================================================= */
-.block { position: relative; }
-.block > .wrap { padding-block: clamp(4rem, 9vw, 8rem); display: grid; gap: clamp(1.8rem, 4vw, 3rem); }
-.block-head { display: grid; gap: 0.9rem; max-width: 46rem; }
-.v-h2--sm { font-size: clamp(1.7rem, 1.1rem + 2.6vw, 3rem); }
-.v-h2--xl { font-size: clamp(2.3rem, 1rem + 6vw, 5.6rem); }
-
-/* ---------- O vulto (SVG) ---------- */
-.vf-body { fill-opacity: clamp(0, (var(--sc-p, 1) - 0.5) / 0.26, 1); }
-.vf-void { fill: #050304; stroke: var(--v-line-strong); stroke-width: 1; fill-opacity: clamp(0, (var(--sc-p, 1) - 0.5) / 0.26, 1); stroke-opacity: clamp(0, (var(--sc-p, 1) - 0.5) / 0.26, 1); }
-.vf-hood, .vf-cloak, .vf-fold { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
-.vf-hood  { stroke: url(#vg-rim); stroke-width: 2.2; stroke-dashoffset: calc(1 - clamp(0, (var(--sc-p, 1) - 0.02) / 0.24, 1)); }
-.vf-cloak { stroke: url(#vg-rim); stroke-width: 2; stroke-dashoffset: calc(1 - clamp(0, (var(--sc-p, 1) - 0.26) / 0.28, 1)); }
-.vf-fold  { stroke: rgba(241, 234, 236, 0.22); stroke-width: 1; stroke-dashoffset: calc(1 - clamp(0, (var(--sc-p, 1) - 0.42) / 0.2, 1)); }
-.vf-eye   { fill: none; stroke: #ff4a5c; stroke-width: 2.6; stroke-linecap: round; opacity: clamp(0, (var(--sc-p, 1) - 0.7) / 0.1, 1); }
-.vf-halo  { opacity: clamp(0, (var(--sc-p, 1) - 0.76) / 0.2, 1); }
-
-/* ---------- Hero ---------- */
-.hero { position: relative; isolation: isolate; overflow: clip; min-height: 100svh; display: grid; align-items: center; padding-top: calc(var(--v-nav-h) + env(safe-area-inset-top, 0px)); }
-.hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.hero-haze { position: absolute; width: min(60rem, 120vw); aspect-ratio: 1; right: -18%; top: -22%; background: var(--v-grad-soft); opacity: 0.85; }
-.hero-vulto { position: absolute; right: 2%; top: calc(var(--v-nav-h) + 1.5rem); height: min(86svh, 52rem); width: auto; aspect-ratio: 400 / 560; opacity: 0.9; transition: opacity 1.4s var(--v-ease); }
-.hero-vulto { --sc-p: 1; }
-.hero-3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 1.4s var(--v-ease); }
-.hero-3d.ready { opacity: 1; }
-.hero.has-3d .hero-vulto { opacity: 0; }
-.hero .wrap { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; padding-block: clamp(2.2rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem); }
-.hero-copy { display: grid; gap: 1.5rem; min-width: 0; }
-.hero h1 { font-size: var(--v-h1); }
-.hero h1 em { font-style: normal; color: var(--accent-text); }
-.hero h1 .ln { display: block; }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.trust { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin: 0; padding: 0; list-style: none; color: var(--sc-ink-soft); font: 400 0.85rem/1.4 var(--sc-font-mono); }
-.trust li::before { content: "+ "; color: var(--accent-text); }
-.sys-status { display: inline-flex; align-items: center; gap: 0.55rem; margin: 0; font: 400 0.85rem/1.4 var(--sc-font-mono); color: #27d07f; }
-.sys-status .led { width: 8px; height: 8px; border-radius: 50%; background: #27d07f; box-shadow: 0 0 0 0 rgba(39, 208, 127, 0.6); animation: v-led 2.4s ease-out infinite; flex: none; }
-.sys-status .caret { width: 0.55em; height: 1.05em; background: #27d07f; margin-left: -0.2rem; animation: v-caret 1.05s steps(1) infinite; }
-@keyframes v-led { 0% { box-shadow: 0 0 0 0 rgba(39, 208, 127, 0.55); } 70%, 100% { box-shadow: 0 0 0 9px rgba(39, 208, 127, 0); } }
-@keyframes v-caret { 50% { opacity: 0; } }
-@media (max-width: 420px) { .sys-status { font-size: 0.72rem; gap: 0.45rem; white-space: nowrap; } }
-
-/* entrada do h1 por linha (CSS puro; o engine cuida do resto da página) */
-.js .hero h1 .ln { overflow: hidden; padding-block: 0.2em 0.12em; margin-block: -0.2em -0.12em; }
-.js .hero h1 .ln > span { display: block; transform: translate3d(0, 108%, 0); animation: v-line 0.9s var(--v-ease) 0.1s forwards; }
-.js .hero h1 .ln + .ln > span { animation-delay: 0.22s; }
-@keyframes v-line { to { transform: none; } }
-
-/* celular de exemplo (plano de frente) */
-.demo { position: relative; justify-self: center; width: min(360px, 100%); margin-bottom: 36px; }
-.phone { background: var(--sc-surface); border: 1px solid var(--v-line-strong); border-radius: 26px; padding: 14px; box-shadow: 0 40px 90px -30px #000, 0 0 0 6px var(--v-surface-2); }
-.phone-top { display: flex; align-items: center; gap: 10px; padding: 4px 6px 12px; border-bottom: 1px solid var(--v-line); }
-.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent-deep); display: grid; place-items: center; font: 600 0.8rem var(--sc-font-text); color: var(--sc-ink); flex: none; }
-.phone-top b { display: block; font-size: 0.92rem; }
-.phone-top small { color: var(--sc-ink-soft); font-size: 0.75rem; }
-.chat { display: grid; gap: 8px; padding: 14px 4px 6px; }
-.msg { max-width: 84%; padding: 8px 11px; border-radius: 12px; font-size: 0.88rem; line-height: 1.4; }
-.msg time { display: block; text-align: right; font: 400 0.68rem var(--sc-font-mono); color: var(--sc-ink-soft); margin-top: 2px; }
-.msg.in { background: var(--v-surface-2); justify-self: start; border-top-left-radius: 4px; }
-.msg.out { background: color-mix(in srgb, var(--sc-accent) 22%, var(--sc-surface)); justify-self: end; border-top-right-radius: 4px; }
-.msg.out time { color: color-mix(in srgb, var(--sc-ink) 72%, transparent); }
-.bot-tag { font: 500 0.64rem var(--sc-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); display: block; margin-bottom: 2px; }
-.stat-card { position: absolute; left: -56px; bottom: -36px; background: var(--sc-canvas); border: 1px solid var(--v-line-strong); border-radius: 14px; padding: 12px 14px; display: grid; gap: 4px; min-width: 190px; box-shadow: 0 20px 50px -20px #000; z-index: 3; }
-.stat-card .label { font: 400 0.7rem var(--sc-font-mono); color: var(--sc-ink-soft); text-transform: uppercase; letter-spacing: 0.08em; }
-.stat-row { display: flex; justify-content: space-between; gap: 12px; font: 500 0.9rem var(--sc-font-mono); font-variant-numeric: tabular-nums; }
-.stat-row b { color: var(--accent-text); font-weight: 500; }
-.example { position: absolute; top: -12px; right: 12px; z-index: 3; font: 500 0.66rem var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; background: var(--v-surface-2); border: 1px solid var(--v-line-strong); color: var(--sc-ink-soft); padding: 3px 9px; border-radius: 999px; }
-@media (max-width: 900px) {
-  .hero .wrap { grid-template-columns: 1fr; }
-  .hero-vulto { right: -10%; height: 62svh; opacity: 0.55; }
-  .hero-3d.ready { opacity: 0.85; }
-  .stat-card { left: auto; right: 8px; min-width: 0; }
-  .demo { margin-bottom: 2.5rem; }
-}
-
-/* ---------- Prova ---------- */
-.proof { border-block: 1px solid var(--v-line); position: relative; z-index: 2; background: var(--sc-canvas); }
-.proof-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
-.proof-list li { display: grid; gap: 0.5rem; align-content: start; padding: clamp(1.4rem, 3vw, 2.2rem) clamp(0.8rem, 2vw, 1.6rem); border-left: 1px solid var(--v-line); }
-.proof-list li:first-child { border-left: 0; padding-left: 0; }
-.proof-n { font-size: clamp(2.2rem, 1.2rem + 3vw, 3.6rem); font-weight: 500; line-height: 1; color: var(--sc-ink); display: inline-flex; align-items: baseline; gap: 0.18em; }
-.proof-n small { font-size: 0.34em; color: var(--accent-text); letter-spacing: 0.06em; text-transform: uppercase; }
-.proof-l { color: var(--sc-ink-soft); font-size: 0.92rem; line-height: 1.4; max-width: 22ch; }
-@media (max-width: 900px) {
-  .proof-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .proof-list li { border-left: 0; border-top: 1px solid var(--v-line); padding-left: 0; }
-  .proof-list li:nth-child(-n + 2) { border-top: 0; }
-  .proof-list li:nth-child(even) { padding-left: 1rem; border-left: 1px solid var(--v-line); }
-  .proof-list li:last-child { grid-column: 1 / -1; border-left: 0; padding-left: 0; }
-}
-
-/* ---------- Dores ---------- */
-.pains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--v-line); border-radius: 16px; overflow: hidden; }
-.pain { padding: clamp(1.3rem, 2.4vw, 2rem); display: grid; gap: 0.7rem; align-content: start; border-left: 1px solid var(--v-line); background: color-mix(in srgb, var(--sc-surface) 40%, transparent); }
-.pain:first-child { border-left: 0; }
-.pain .hour { font-size: 1.7rem; line-height: 1; color: var(--accent-text); }
-.pain h3 { font: 700 1.15rem/1.2 var(--sc-font-display); font-stretch: 90%; margin: 0; }
-.pain p { margin: 0; color: var(--sc-ink-soft); font-size: 0.95rem; }
-@media (max-width: 820px) { .pains { grid-template-columns: 1fr; } .pain { border-left: 0; border-top: 1px solid var(--v-line); } .pain:first-child { border-top: 0; } }
-
-/* ---------- Serviços ---------- */
-.services { position: relative; border-top: 1px solid var(--v-line); }
-.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; max-width: var(--sc-maxw); margin-inline: auto; padding: clamp(4rem, 9vw, 8rem) var(--sc-gutter) clamp(2.5rem, 5vw, 4rem); }
-.plans-lead { grid-column: 1 / -1; margin-bottom: 1rem; }
-.plan { background: var(--sc-surface); border: 1px solid var(--v-line); border-radius: 18px; padding: clamp(1.4rem, 2.4vw, 2rem); display: grid; gap: 1.1rem; align-content: start; position: relative; transition: border-color 0.6s var(--v-ease); }
-.plan:hover { border-color: var(--v-line-strong); }
-.plan.featured { border-color: color-mix(in srgb, var(--sc-accent) 70%, transparent); background: linear-gradient(180deg, color-mix(in srgb, var(--sc-accent) 10%, var(--sc-surface)), var(--sc-surface) 58%); }
-.plan .badge { position: absolute; top: -12px; left: 1.6rem; background: var(--sc-accent); color: var(--sc-accent-ink); font: 500 0.7rem var(--sc-font-mono); letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
-.plan h3 { font: 800 1.5rem/1.1 var(--sc-font-display); font-stretch: 85%; margin: 0; }
-.plan .for { margin: 0; color: var(--sc-ink-soft); }
-.price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem; font-family: var(--sc-font-display); }
-.price .cur { font-size: 1.1rem; color: var(--sc-ink-soft); font-weight: 600; }
-.price .val { font: 500 clamp(2.4rem, 2rem + 1.4vw, 3rem)/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
-.price .plus { font: 500 0.9rem var(--sc-font-mono); color: var(--sc-ink-soft); }
-.feats { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
-.feats li { display: grid; grid-template-columns: 20px 1fr; gap: 0.6rem; align-items: start; font-size: 0.97rem; }
-.feats li::before { content: ""; width: 14px; height: 14px; margin-top: 5px; border-radius: 3px; background: var(--sc-accent); clip-path: polygon(14% 50%, 0 64%, 38% 100%, 100% 22%, 86% 8%, 38% 72%); }
-.meta { font: 400 0.85rem/1.5 var(--sc-font-mono); color: var(--sc-ink-soft); }
-.plan .btn { justify-self: start; }
-
-/* pan (desktop com altura): o JS troca data-sc-act por "pan" e marca .is-pan */
-.services.is-pan .services-stage { height: 100svh; display: flex; align-items: center; overflow: clip; }
-.services.is-pan .plans { display: flex; align-items: center; gap: 1.25rem; max-width: none; margin: 0; padding: 4.5rem var(--sc-gutter) 1.5rem; height: 100%; width: max-content; }
-.services.is-pan .plans-lead { flex: 0 0 min(28rem, 34vw); margin: 0 clamp(1rem, 4vw, 4rem) 0 0; }
-.services.is-pan .plan { flex: 0 0 min(23rem, 26vw); max-height: calc(100svh - 7.5rem); align-self: center; }
-@media (max-width: 760px) { .plans { grid-template-columns: 1fr; } }
-
-/* ---------- Combo, piloto e "Também fazemos" ---------- */
-.extras > .wrap { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
-.combo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.2rem 1.5rem; border: 1px dashed var(--v-line-strong); border-radius: 14px; }
-.combo p { margin: 0; }
-.combo strong { font: 700 1.15rem var(--sc-font-display); font-stretch: 85%; }
-.pilot { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.25rem; padding: 1.4rem 1.6rem; border-radius: 16px; background: linear-gradient(120deg, var(--accent-deep), color-mix(in srgb, var(--accent-deep) 55%, var(--sc-canvas))); border: 1px solid color-mix(in srgb, var(--sc-accent) 30%, transparent); }
-.pilot .slots { font-size: 2.6rem; line-height: 1; color: #fff; }
-.pilot p { margin: 0; color: color-mix(in srgb, var(--sc-ink) 90%, transparent); }
-.pilot b { color: #fff; }
-.more-box { display: grid; gap: 1.4rem; padding-top: clamp(2.5rem, 6vw, 5rem); }
-.more { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0; padding: 0; list-style: none; }
-.more li { border: 1px solid var(--v-line-strong); border-radius: 999px; padding: 0.5rem 1rem; color: var(--sc-ink-soft); font-size: 0.95rem; }
-@media (max-width: 820px) { .pilot { grid-template-columns: 1fr; } .pilot .btn { justify-self: start; } }
-
-/* ---------- Processo (pico) ---------- */
-.process { position: relative; border-top: 1px solid var(--v-line); }
-.process-stage { display: grid; align-items: center; min-height: 100svh; overflow: clip; background: radial-gradient(60% 70% at 78% 40%, color-mix(in srgb, var(--sc-accent) 9%, transparent), transparent 70%); }
-.process-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; padding-block: 5rem 3rem; }
-.process-copy { display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); }
-.steps { list-style: none; margin: 0; padding: 0; display: grid; counter-reset: s; border-left: 1px solid var(--v-line-strong); padding-left: clamp(1rem, 3vw, 2rem); }
-.step { counter-increment: s; display: grid; gap: 0.55rem; align-content: start; grid-area: 1 / 1; }
-.step::before { content: "0" counter(s); font: 500 0.85rem var(--sc-font-mono); color: var(--accent-text); letter-spacing: 0.1em; }
-.step h3 { font: 800 clamp(1.5rem, 1.1rem + 1.6vw, 2.4rem)/1.05 var(--sc-font-display); font-stretch: 78%; text-transform: uppercase; margin: 0; letter-spacing: -0.01em; }
-.step p { margin: 0; color: var(--sc-ink-soft); max-width: 40ch; font-size: clamp(1rem, 0.95rem + 0.25vw, 1.15rem); }
-.process-fig { position: relative; display: grid; place-items: center; }
-.vulto-fig { width: min(100%, 30rem); height: auto; max-height: 78svh; aspect-ratio: 400 / 560; overflow: visible; }
-/* sem motion (ou sem JS): as 4 etapas empilhadas e o vulto completo */
-.process.is-static .steps { gap: 1.6rem; }
-.process.is-static .step { grid-area: auto; }
-.process.is-static .process-stage { min-height: 0; }
-.process.is-static .process-grid { padding-block: clamp(4rem, 9vw, 7rem); }
-@media (max-width: 860px) {
-  .process-grid { grid-template-columns: 1fr; gap: 1rem; padding-block: 4.6rem 1.5rem; align-content: center; }
-  .process-fig { order: -1; }
-  .vulto-fig { max-height: 30svh; width: auto; }
-  .process-copy { gap: 1rem; }
-  .process .v-h2 { font-size: clamp(1.7rem, 1rem + 4.4vw, 2.4rem); }
-  .process.is-static .vulto-fig { max-height: 44svh; }
-}
-html:not(.js) .step { grid-area: auto; margin-bottom: 1.4rem; }
-
-/* máscara de linha do engine: sem cortar acento de capitular (Ó, Ê, Ç) */
-.v-h2 .sc-split--line, .step h3 .sc-split--line { padding-top: 0.22em; margin-top: -0.22em; }
-
-/* ---------- Blog ---------- */
-.posts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
-.post { display: grid; grid-template-rows: auto 1fr; background: var(--sc-surface); border: 1px solid var(--v-line); border-radius: 16px; overflow: hidden; text-decoration: none; transition: border-color 0.6s var(--v-ease), transform 0.8s var(--v-ease); }
-.post:hover { border-color: var(--v-line-strong); transform: translateY(-3px); }
-.post .thumb { aspect-ratio: 16 / 9; overflow: hidden; background: var(--v-surface-2); }
-.post .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--v-ease); }
-.post:hover .thumb img { transform: scale(1.04); }
-.post-body { display: grid; gap: 0.6rem; align-content: start; padding: 1.2rem 1.3rem 1.4rem; }
-.chip { justify-self: start; font: 500 0.68rem var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-text); border: 1px solid color-mix(in srgb, var(--sc-accent) 45%, transparent); border-radius: 999px; padding: 2px 9px; }
-.post h3 { font: 700 1.12rem/1.22 var(--sc-font-display); font-stretch: 92%; margin: 0; text-wrap: balance; }
-.post p { margin: 0; color: var(--sc-ink-soft); font-size: 0.92rem; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.post-meta { font: 400 0.78rem var(--sc-font-mono); color: var(--sc-ink-soft); }
-.posts-all { justify-self: start; }
-@media (max-width: 900px) { .posts { grid-template-columns: 1fr; } }
-
-/* ---------- Dúvidas ---------- */
-.faq { border-top: 1px solid var(--v-line); max-width: 52rem; }
-.faq details { border-bottom: 1px solid var(--v-line); }
-.faq summary { cursor: pointer; list-style: none; padding: 1.2rem 0; display: flex; justify-content: space-between; gap: 1rem; font-weight: 600; font-size: 1.05rem; }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; font: 400 1.4rem/1 var(--sc-font-mono); color: var(--accent-text); transition: transform 0.6s var(--v-ease); }
-.faq details[open] summary::after { transform: rotate(45deg); }
-.faq p { margin: 0 0 1.2rem; color: var(--sc-ink-soft); max-width: 65ch; }
-
-/* ---------- CTA final ---------- */
-.final { position: relative; border-top: 1px solid var(--v-line); }
-.final-stage { isolation: isolate; display: grid; align-items: center; min-height: 100svh; overflow: clip; background: radial-gradient(55% 60% at 50% 42%, color-mix(in srgb, var(--sc-accent) 14%, transparent), transparent 70%); }
-.final-fig { --fin: var(--sc-p, 1); position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; pointer-events: none; opacity: 0.55; }
-.final-fig svg { height: min(105svh, 62rem); width: auto; aspect-ratio: 400 / 560; --sc-p: 1; transform: translate3d(0, calc((1 - var(--fin)) * 40px), 0) scale(calc(0.94 + var(--fin) * 0.06)); }
-.final-box { position: relative; z-index: 2; display: grid; gap: 1.3rem; justify-items: start; padding-block: 6rem; }
-.final-box .v-h2 { max-width: 15ch; }
-@media (max-width: 860px) {
-  .final-stage { align-items: end; }
-  .final-fig { place-items: start center; padding-top: calc(var(--v-nav-h) + 0.5rem); opacity: 0.5; }
-  .final-fig svg { height: 46svh; }
-  .final-box { padding-block: 2rem 4rem; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
-  .js .hero h1 .ln > span { transform: none; }
-}
-
-</style>
-<style>
-html { background: #0b090a; }
-@font-face { font-family: 'Archivo'; font-style: normal; font-weight: 400 900; font-stretch: 62% 125%; font-display: swap; src: url('/fonts/archivo-400-900.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/ibm-plex-mono-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/ibm-plex-mono-500.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 400; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 500; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-500.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 600; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-600.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Vulto","url":"https://vulto.tech/","logo":"https://vulto.tech/favicon.png","description":"Estúdio de serviços digitais: automação, SaaS sob medida, assistentes de IA, gestão de Meta Ads, lojas Shopify, MVPs e auditoria de segurança.","sameAs":["https://instagram.com/vulto.tech"]}
+</script>
 </head>
 <body>
-<a class="skip" href="#topo">Ir para o conteúdo</a>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
-<!-- O vulto: uma silhueta em SVG usada no hero (fallback), no Processo e no CTA final.
-     O traço é desenhado por --sc-p no Processo (assinatura da página). -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="vg-rim" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ff4a5c"/><stop offset=".45" stop-color="#e3172e"/><stop offset="1" stop-color="#5c0a14"/>
-    </linearGradient>
-    <radialGradient id="vg-fill" cx=".5" cy=".26" r=".8">
-      <stop offset="0" stop-color="#2b0b12"/><stop offset=".55" stop-color="#150b0e"/><stop offset="1" stop-color="#0b090a" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="vg-glow" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="#e3172e" stop-opacity=".42"/><stop offset=".6" stop-color="#e3172e" stop-opacity=".1"/><stop offset="1" stop-color="#e3172e" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="vg-fade" x1="0" y1="0" x2="0" y2="1">
-      <stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#000"/>
-    </linearGradient>
-    <mask id="vg-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="560">
-      <rect width="400" height="560" fill="url(#vg-fade)"/>
-    </mask>
-    <symbol id="vulto" viewBox="0 0 400 560">
-      <circle class="vf-halo" cx="200" cy="124" r="190" fill="url(#vg-glow)"/>
-      <g mask="url(#vg-mask)">
-        <path class="vf-body" fill="url(#vg-fill)" d="M200 36C158 36 128 72 128 120C128 152 142 176 160 192C120 204 70 224 48 280C30 326 28 420 20 520L380 520C372 420 370 326 352 280C330 224 280 204 240 192C258 176 272 152 272 120C272 72 242 36 200 36Z"/>
-        <path class="vf-void" d="M200 78C174 78 156 100 156 128C156 152 172 172 200 176C228 172 244 152 244 128C244 100 226 78 200 78Z"/>
-        <path class="vf-hood" pathLength="1" d="M160 192C142 176 128 152 128 120C128 72 158 36 200 36C242 36 272 72 272 120C272 152 258 176 240 192"/>
-        <path class="vf-cloak" pathLength="1" d="M160 192C120 204 70 224 48 280C30 326 28 420 20 520"/>
-        <path class="vf-cloak" pathLength="1" d="M240 192C280 204 330 224 352 280C370 326 372 420 380 520"/>
-        <path class="vf-fold" pathLength="1" d="M200 196C197 300 190 420 176 520"/>
-        <path class="vf-fold" pathLength="1" d="M200 196C203 300 210 420 224 520"/>
-        <path class="vf-eye" d="M177 130h13"/>
-        <path class="vf-eye" d="M210 130h13"/>
-      </g>
-    </symbol>
-  </defs>
-</svg>
-
-<header class="bar">
-  <div class="wrap">
-    <a class="mark" href="#topo" aria-label="Vulto, início"><img src="img/vulto-nome-sm.jpg" alt="Vulto" width="708" height="300"></a>
-    <nav class="bar-links" aria-label="Seções">
-      <a href="#como-funciona">Como funciona</a>
-      <a href="#precos">Preços</a>
-      <a href="/blog/">Blog</a>
-      <a href="#duvidas">Dúvidas</a>
-      <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/">Falar no WhatsApp</a>
-    </nav>
+<header class="nav">
+  <div class="container">
+    <a class="logo" href="/" aria-label="Vulto, início">VULTO</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><span></span></button>
+    <ul class="nav-links" id="menu">
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#cases">Cases</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a class="btn btn-primary btn-sm" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Falar no WhatsApp</a></li>
+    </ul>
   </div>
 </header>
 
-<main id="topo">
-  <section class="hero" aria-labelledby="hero-t">
-    <div class="hero-bg" aria-hidden="true">
-      <div class="hero-haze"></div>
-      <svg class="hero-vulto" viewBox="0 0 400 560" focusable="false"><use href="#vulto"/></svg>
+<main id="conteudo">
+
+  <!-- 4.2 HERO -->
+  <section class="hero" id="topo" aria-labelledby="hero-t">
+    <div class="hero-fig" aria-hidden="true">
+      <!-- Fallback: silhueta em SVG (mobile, reduced-motion, sem WebGL). O canvas 3D entra por cima quando carrega. -->
+      <svg class="hero-sil" viewBox="0 0 400 560" focusable="false">
+        <defs>
+          <linearGradient id="sil-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".92"/><stop offset=".55" stop-color="#9a9aa2" stop-opacity=".5"/><stop offset="1" stop-color="#050505" stop-opacity="0"/></linearGradient>
+          <linearGradient id="sil-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b6ff3c"/><stop offset="1" stop-color="#b6ff3c" stop-opacity="0"/></linearGradient>
+          <radialGradient id="sil-glow" cx=".5" cy=".3" r=".6"><stop offset="0" stop-color="#b6ff3c" stop-opacity=".18"/><stop offset="1" stop-color="#b6ff3c" stop-opacity="0"/></radialGradient>
+        </defs>
+        <circle cx="200" cy="170" r="210" fill="url(#sil-glow)"/>
+        <path fill="url(#sil-fill)" fill-rule="evenodd" fill-opacity=".85" d="M200 36C158 36 128 72 128 120C128 152 142 176 160 192C120 204 70 224 48 280C30 326 28 420 20 520L380 520C372 420 370 326 352 280C330 224 280 204 240 192C258 176 272 152 272 120C272 72 242 36 200 36ZM200 78C174 78 156 100 156 128C156 152 172 172 200 176C228 172 244 152 244 128C244 100 226 78 200 78Z"/>
+        <path fill="none" stroke="url(#sil-rim)" stroke-width="1.5" d="M160 192C142 176 128 152 128 120C128 72 158 36 200 36C242 36 272 72 272 120C272 152 258 176 240 192"/>
+      </svg>
+      <canvas class="hero-canvas" id="hero-canvas"></canvas>
     </div>
-    <div class="wrap">
+    <div class="container">
       <div class="hero-copy">
-        <p class="v-eyebrow">Automação e sites pra negócio local</p>
-        <h1 id="hero-t"><span class="ln"><span>Seu negócio atendendo e vendendo</span></span> <em class="ln"><span>enquanto você dorme.</span></em></h1>
-        <p class="v-lead">A Vulto monta a página que traz cliente, a IA que responde no seu WhatsApp, a sua loja na Shopify e os anúncios que levam gente até elas. Preço fechado, entrega em poucos dias e você vê quantas pessoas clicaram.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
-            Quero meu diagnóstico grátis
-          </a>
-          <a class="btn btn-ghost" href="#precos">Ver preços</a>
-        </div>
-        <ul class="trust">
-          <li>Entrega em 5 a 7 dias</li>
-          <li>Sem fidelidade</li>
-          <li>Medição inclusa</li>
-        </ul>
-        <p class="sys-status" role="group" aria-label="Sistema online, respondendo em segundos"><span class="led" aria-hidden="true"></span><span aria-hidden="true">&gt; sistema online · respondendo em segundos</span><span class="caret" aria-hidden="true"></span></p>
-      </div>
-
-      <div class="demo" role="group" aria-label="Exemplo de atendimento automático no WhatsApp">
-        <span class="example">exemplo</span>
-        <div class="phone">
-          <div class="phone-top">
-            <span class="avatar" aria-hidden="true">BN</span>
-            <div><b>Barbearia Navalha</b><small>responde na hora</small></div>
-          </div>
-          <div class="chat">
-            <div class="msg in">Vocês abrem sábado? Quanto é o corte?<time>02:47</time></div>
-            <div class="msg out"><span class="bot-tag">Atendente IA</span>Abrimos sim, das 9h às 18h. Corte sai R$ 45. Quer que eu reserve um horário?<time>02:47</time></div>
-            <div class="msg in">Quero, 10h<time>02:48</time></div>
-            <div class="msg out"><span class="bot-tag">Atendente IA</span>Reservado: sábado às 10h. Te mando um lembrete na sexta.<time>02:48</time></div>
-          </div>
-        </div>
-        <div class="stat-card" role="group" aria-label="Exemplo de medição semanal">
-          <span class="label">Últimos 7 dias</span>
-          <div class="stat-row"><span>Visitas</span><span>312</span></div>
-          <div class="stat-row"><span>Cliques no WhatsApp</span><b>47</b></div>
+        <p class="tag tag--accent" style="--i:0">Automação · SaaS · Tráfego · IA</p>
+        <h1 id="hero-t" style="--i:1">Seu negócio rodando enquanto você não está olhando.</h1>
+        <p class="lead" style="--i:2">A Vulto constrói os sistemas, as automações e as campanhas que trabalham nos bastidores da sua empresa.</p>
+        <div class="hero-ctas" style="--i:3">
+          <a class="btn btn-primary btn-lg" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Falar no WhatsApp</a>
+          <a class="btn btn-ghost btn-lg" href="#servicos">Ver serviços</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="proof" aria-label="Em números">
-    <div class="wrap">
-      <ul class="proof-list">
-        <li><span class="proof-n num"><span data-count>24</span><small>h</small></span><span class="proof-l">Atendimento 24 horas, na hora</span></li>
-        <li><span class="proof-n num">5<small>a</small>7<small>dias</small></span><span class="proof-l">Entrega em 5 a 7 dias</span></li>
-        <li><span class="proof-n num"><span data-count>4</span></span><span class="proof-l">Soluções, com preço fechado</span></li>
-        <li><span class="proof-n num"><span data-count>3</span></span><span class="proof-l">Vagas de piloto</span></li>
-        <li><span class="proof-n num"><small>R$</small><span data-count>15</span></span><span class="proof-l">Verba de anúncio por dia, a partir de</span></li>
-      </ul>
+  <!-- 4.3 FAIXA DE PROVA (sem números) -->
+  <div class="marquee" role="region" aria-label="Tipos de entrega">
+    <div class="marquee-track">
+      <ul class="marquee-set"><li>Automação de WhatsApp</li><li>Lojas Shopify</li><li>SaaS sob medida</li><li>Meta Ads</li><li>Assistentes de IA</li><li>MVPs</li><li>Pentest</li></ul>
+      <ul class="marquee-set" aria-hidden="true"><li>Automação de WhatsApp</li><li>Lojas Shopify</li><li>SaaS sob medida</li><li>Meta Ads</li><li>Assistentes de IA</li><li>MVPs</li><li>Pentest</li></ul>
+    </div>
+  </div>
+
+  <!-- 4.4 SERVIÇOS -->
+  <section class="section" id="servicos" aria-labelledby="servicos-t">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Serviços</p>
+        <h2 id="servicos-t">Sete jeitos de tirar peso das suas costas.</h2>
+        <p class="lead">Cada serviço resolve uma dor real da operação. Você escolhe por onde começar.</p>
+      </div>
+      <div class="grid-services">
+        <article class="card svc" data-reveal>
+          <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8M20 4v4h-4M20 12a8 8 0 0 1-13.7 5.6L4 16M4 20v-4h4"/></svg></span>
+          <h3>Automação</h3>
+          <p class="dor">Você repete as mesmas tarefas todo dia.</p>
+          <p>Colocamos elas para rodar sozinhas: cobrança, aviso, cadastro, planilha.</p>
+        </article>
+        <article class="card svc" data-reveal>
+          <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18M8 14h4"/></svg></span>
+          <h3>SaaS sob medida</h3>
+          <p class="dor">Sistema de prateleira não cabe na sua operação.</p>
+          <p>Construímos o sistema que a sua operação precisa, do zero ao ar.</p>
+        </article>
+        <article class="card svc" data-reveal>
+          <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 5h16v11H9l-5 4z"/><path d="M9 10.5h.01M12 10.5h.01M15 10.5h.01"/></svg></span>
+          <h3>Assistente de IA</h3>
+          <p class="dor">Cliente pergunta de madrugada e ninguém responde.</p>
+          <p>Um assistente no Telegram ou no WhatsApp que conhece o seu negócio e responde na hora.</p>
+        </article>
+        <article class="card svc" data-reveal>
+          <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 21h18M6 17v-5M11 17V7M16 17v-8"/></svg></span>
+          <h3>Gestão de Meta Ads</h3>
+          <p class="dor">Você paga anúncio e não sabe o que voltou.</p>
+          <p>Campanhas no Instagram e no Facebook com foco em venda, e um relatório simples toda semana.</p>
+        </article>
+        <article class="card svc" data-reveal>
+          <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span>
+          <h3>Lojas Shopify</h3>
+          <p class="dor">Loja bonita que não vende é só vitrine.</p>
+          <p>Loja pronta para converter: Pix, cartão, frete e carrinho funcionando.</p>
+        </article>
+        <article class="card svc" data-reveal>
+          <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 11l18-8-8 18-2-8z"/></svg></span>
+          <h3>MVPs</h3>
+          <p class="dor">Ideia na gaveta não vira dinheiro.</p>
+          <p>Sua ideia validada em semanas, com produto de verdade no ar.</p>
+        </article>
+        <article class="card svc" data-reveal>
+          <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <h3>Auditoria de segurança</h3>
+          <p class="dor">Uma brecha derruba o negócio, e você só descobre depois.</p>
+          <p>Achamos as brechas antes de alguém achar, e dizemos como fechar cada uma.</p>
+        </article>
+      </div>
+      <div class="section-cta" data-reveal>
+        <a class="btn btn-primary" data-wa="Oi! Quero conversar sobre os serviços da Vulto." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Contar o que eu preciso</a>
+        <span>Resposta direta, sem formulário.</span>
+      </div>
     </div>
   </section>
 
-  <section class="block pains-sec" aria-labelledby="dores-t">
-    <div class="wrap">
-      <div class="block-head">
-        <p class="v-eyebrow">Onde o cliente escapa</p>
-        <h2 id="dores-t" class="v-h2">Todo dia tem venda indo embora sem você ver</h2>
+  <!-- 4.5 COMO FUNCIONA (pinada no desktop) -->
+  <section class="process" id="como-funciona" aria-labelledby="passos-t">
+    <div class="container process-stage">
+      <div class="section-head" style="margin:0">
+        <p class="eyebrow">Como funciona</p>
+        <h2 id="passos-t">Do primeiro papo ao sistema rodando.</h2>
+        <p class="lead">Três passos. Sem reunião que vira e-mail.</p>
+        <a class="btn btn-primary" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Começar pelo diagnóstico</a>
       </div>
-      <div class="pains">
-        <article class="pain">
-          <span class="hour num">23:10</span>
-          <h3>Mensagem fora do horário fica sem resposta</h3>
-          <p>O cliente pergunta preço à noite, ninguém responde, e de manhã ele já fechou com o concorrente.</p>
-        </article>
-        <article class="pain">
-          <span class="hour num">1 link</span>
-          <h3>A bio leva direto pro WhatsApp, sem explicar nada</h3>
-          <p>Quem chega não vê serviços, preços nem fotos. Você responde as mesmas perguntas o dia inteiro.</p>
-        </article>
-        <article class="pain">
-          <span class="hour num">R$ ?</span>
-          <h3>Você paga anúncio sem saber o que voltou</h3>
-          <p>Sem medição, não dá pra saber quantas pessoas viram, clicaram e chamaram por causa do anúncio. Com o nosso tráfego pago, você recebe esse número toda semana.</p>
-        </article>
+      <div class="steps">
+        <div class="steps-line" aria-hidden="true"><i></i></div>
+        <ol>
+          <li class="step"><small>01</small><h3>Diagnóstico</h3><p>Uma conversa de 15 minutos no WhatsApp. A gente entende onde o seu negócio perde tempo e venda.</p></li>
+          <li class="step"><small>02</small><h3>Construção</h3><p>Montamos o sistema, a automação ou a campanha com o seu conteúdo e o seu jeito de falar. Você testa antes de ir ao ar.</p></li>
+          <li class="step"><small>03</small><h3>Operação</h3><p>No ar, a gente acompanha. Você vê os números toda semana e a gente ajusta o que precisar.</p></li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <section class="services" id="precos" aria-labelledby="precos-t">
-    <div class="services-stage">
+  <!-- PREÇOS: conteúdo que já existia no site, preservado -->
+  <section class="section" id="precos" aria-labelledby="precos-t" style="padding-top:0">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Preço fechado</p>
+        <h2 id="precos-t">Quatro soluções, sem surpresa na conta</h2>
+        <p class="lead">Você sabe quanto vai pagar e quando vai ficar pronto antes de começar.</p>
+      </div>
       <div class="plans">
-        <div class="plans-lead block-head">
-          <p class="v-eyebrow">Preço fechado</p>
-          <h2 id="precos-t" class="v-h2">Quatro soluções, sem surpresa na conta</h2>
-          <p class="v-lead">Você sabe quanto vai pagar e quando vai ficar pronto antes de começar.</p>
-        </div>
-
-        <article class="plan">
+        <article class="card plan" data-reveal>
           <h3>Página que vende</h3>
           <p class="for">Pra quem não tem site ou tem um que não traz cliente.</p>
           <div class="price"><span class="cur">R$</span><span class="val">790</span><span class="plus">pagamento único</span></div>
@@ -535,10 +201,9 @@ html { background: #0b090a; }
             <li>Funciona bem no celular</li>
           </ul>
           <span class="meta">Pronta em 5 dias</span>
-          <a class="btn btn-ghost" data-wa="Oi! Quero saber mais da Página que vende." href="https://wa.me/">Quero a página</a>
+          <a class="btn btn-ghost" data-wa="Oi! Quero saber mais da Página que vende." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Quero a página</a>
         </article>
-
-        <article class="plan featured">
+        <article class="card plan featured" data-reveal>
           <span class="badge">Mais pedido</span>
           <h3>Atendente no WhatsApp</h3>
           <p class="for">Pra quem perde cliente por demorar a responder.</p>
@@ -551,10 +216,9 @@ html { background: #0b090a; }
             <li>Pela API oficial do WhatsApp</li>
           </ul>
           <span class="meta">No ar em 7 dias</span>
-          <a class="btn btn-red" data-wa="Oi! Quero saber mais do Atendente no WhatsApp." href="https://wa.me/">Quero o atendente</a>
+          <a class="btn btn-primary" data-wa="Oi! Quero saber mais do Atendente no WhatsApp." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Quero o atendente</a>
         </article>
-
-        <article class="plan">
+        <article class="card plan" data-reveal>
           <h3>Loja na Shopify</h3>
           <p class="for">Pra quem quer vender online e receber por Pix e cartão sem depender de marketplace.</p>
           <div class="price"><span class="cur">R$</span><span class="val">1.490</span><span class="plus">pagamento único</span></div>
@@ -566,10 +230,9 @@ html { background: #0b090a; }
             <li>Treinamento pra você cadastrar produto e ver pedido sozinho</li>
           </ul>
           <span class="meta">No ar em 10 dias · plano da Shopify pago direto a ela</span>
-          <a class="btn btn-ghost" data-wa="Oi! Quero saber mais da Loja na Shopify." href="https://wa.me/">Quero a loja</a>
+          <a class="btn btn-ghost" data-wa="Oi! Quero saber mais da Loja na Shopify." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Quero a loja</a>
         </article>
-
-        <article class="plan">
+        <article class="card plan" data-reveal>
           <h3>Tráfego pago</h3>
           <p class="for">Pra pequena empresa que quer anunciar no Instagram, Facebook e Google sem jogar dinheiro fora.</p>
           <div class="price"><span class="cur">R$</span><span class="val">690</span><span class="plus">por mês · verba de anúncio à parte</span></div>
@@ -581,172 +244,145 @@ html { background: #0b090a; }
             <li>Você define a verba, a partir de R$ 15 por dia</li>
           </ul>
           <span class="meta">Primeira campanha no ar em 5 dias · sem fidelidade</span>
-          <a class="btn btn-ghost" data-wa="Oi! Quero saber mais do serviço de Tráfego pago." href="https://wa.me/">Quero anunciar</a>
+          <a class="btn btn-ghost" data-wa="Oi! Quero saber mais do serviço de Tráfego pago." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Quero anunciar</a>
         </article>
       </div>
-    </div>
-  </section>
-
-  <section class="block extras" aria-label="Combo, piloto e outros serviços">
-    <div class="wrap">
-      <div class="combo">
-        <p><strong>Página + atendente: R$ 1.190 + R$ 197/mês</strong><br><span class="meta">A página traz o cliente, o atendente responde. Junte o tráfego pago e a gente cuida do caminho inteiro, do anúncio à conversa.</span></p>
-        <a class="btn btn-ghost" data-wa="Oi! Quero montar um combo com a Vulto." href="https://wa.me/">Montar meu combo</a>
-      </div>
-
-      <div class="pilot">
-        <span class="slots num">3</span>
-        <p><b>Vagas de piloto.</b> Os 3 primeiros negócios pagam R$ 390 na página e R$ 290 na instalação do atendente, com o 1º mês grátis. Em troca, pedimos um depoimento sobre o resultado.</p>
-        <a class="btn btn-light" data-wa="Oi! Quero uma das vagas de piloto da Vulto." href="https://wa.me/">Garantir vaga</a>
-      </div>
-
-      <div class="more-box" aria-labelledby="mais-t">
-        <div class="block-head">
-          <p class="v-eyebrow">Também fazemos</p>
-          <h2 id="mais-t" class="v-h2 v-h2--sm">Precisa de algo maior?</h2>
-          <p class="v-lead">Pra quem já é cliente ou chega com um projeto pronto pra sair do papel.</p>
+      <div class="extras">
+        <div class="card extra" data-reveal>
+          <p><strong>Página + atendente: R$ 1.190 + R$ 197/mês</strong><br><span class="meta">A página traz o cliente, o atendente responde. Junte o tráfego pago e a gente cuida do caminho inteiro, do anúncio à conversa.</span></p>
+          <a class="btn btn-ghost" data-wa="Oi! Quero montar um combo com a Vulto." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Montar meu combo</a>
         </div>
+        <div class="card extra pilot" data-reveal>
+          <p><b>3 vagas de piloto.</b> Os 3 primeiros negócios pagam R$ 390 na página e R$ 290 na instalação do atendente, com o 1º mês grátis. Em troca, pedimos um depoimento sobre o resultado.</p>
+          <a class="btn btn-ghost" data-wa="Oi! Quero uma das vagas de piloto da Vulto." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Garantir vaga</a>
+        </div>
+      </div>
+      <div class="card more-box" data-reveal>
+        <h3>Também fazemos</h3>
         <ul class="more">
-          <li>Sistemas e SaaS sob medida</li>
-          <li>MVP de aplicativo</li>
-          <li>Automação de prospecção</li>
-          <li>Integração com IA no seu processo</li>
-          <li>Migração de loja pra Shopify</li>
-          <li>Gestão de redes sociais</li>
+          <li class="tag">Sistemas e SaaS sob medida</li>
+          <li class="tag">MVP de aplicativo</li>
+          <li class="tag">Automação de prospecção</li>
+          <li class="tag">Integração com IA no seu processo</li>
+          <li class="tag">Migração de loja pra Shopify</li>
+          <li class="tag">Gestão de redes sociais</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <section class="process" id="como-funciona" aria-labelledby="passos-t">
-    <div class="process-stage">
-      <div class="wrap process-grid">
-        <div class="process-copy">
-          <div class="block-head">
-            <p class="v-eyebrow">Como funciona</p>
-            <h2 id="passos-t" class="v-h2">Do primeiro contato ao ar em uma semana</h2>
-          </div>
-          <ol class="steps">
-            <li class="step"><h3>Diagnóstico grátis</h3><p>Uma conversa de 15 minutos no WhatsApp pra entender onde você está perdendo cliente.</p></li>
-            <li class="step"><h3>A gente monta</h3><p>Página e atendente feitos com o seu conteúdo, seus preços e seu jeito de falar.</p></li>
-            <li class="step"><h3>Você aprova</h3><p>Você testa antes, pede os ajustes e só então vai pro ar.</p></li>
-            <li class="step"><h3>Acompanha os números</h3><p>Toda semana você vê quantas pessoas visitaram, clicaram e chamaram.</p></li>
-          </ol>
-        </div>
-        <div class="process-fig" aria-hidden="true">
-          <svg class="vulto-fig" viewBox="0 0 400 560" focusable="false"><use href="#vulto"/></svg>
-        </div>
+  <!-- 4.6 CASES -->
+  <section class="section" id="cases" aria-labelledby="cases-t" style="padding-top:0">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Cases</p>
+        <h2 id="cases-t">Projetos que a Vulto colocou no ar.</h2>
+        <p class="lead">Marcas e produtos de verdade. O seu pode ser o próximo.</p>
+      </div>
+      <div class="cases">
+        <article class="card case" data-reveal data-tilt>
+          <!-- [PREENCHER: print do case PsyGang. Troque este bloco .case-img por <img src="/img/cases/psygang.webp" alt="..."> quando tiver o print] -->
+          <div class="case-img" style="--c1:#1d2b0a;--c2:#0a0a0c" role="img" aria-label="Imagem do case PsyGang (em breve)"><span>PsyGang</span></div>
+          <div class="case-body"><span class="tag">Streetwear · Shopify</span><h3>PsyGang</h3><p>Marca de streetwear com identidade própria, com a loja montada na Shopify.</p></div>
+        </article>
+        <article class="card case" data-reveal data-tilt>
+          <!-- [PREENCHER: print do case CriptoPassivo. Troque este bloco .case-img por <img src="/img/cases/criptopassivo.webp" alt="..."> quando tiver o print] -->
+          <div class="case-img" style="--c1:#0f2a2a;--c2:#0a0a0c" role="img" aria-label="Imagem do case CriptoPassivo (em breve)"><span>CriptoPassivo</span></div>
+          <div class="case-body"><span class="tag">SaaS · Educação</span><h3>CriptoPassivo</h3><p>Plataforma de educação sobre cripto, construída como SaaS.</p></div>
+        </article>
+        <article class="card case" data-reveal data-tilt>
+          <!-- [PREENCHER: print do case Aion. Troque este bloco .case-img por <img src="/img/cases/aion.webp" alt="..."> quando tiver o print] -->
+          <div class="case-img" style="--c1:#241b33;--c2:#0a0a0c" role="img" aria-label="Imagem do case Aion (em breve)"><span>Aion</span></div>
+          <div class="case-body"><span class="tag">SaaS</span><h3>Aion</h3><p>SaaS feito pela Vulto. [PREENCHER: o que o Aion faz, em uma frase]</p></div>
+        </article>
+        <article class="card case" data-reveal data-tilt>
+          <!-- [PREENCHER: print do case LOBBY. Troque este bloco .case-img por <img src="/img/cases/lobby.webp" alt="..."> quando tiver o print] -->
+          <div class="case-img" style="--c1:#2b2210;--c2:#0a0a0c" role="img" aria-label="Imagem do case LOBBY (em breve)"><span>LOBBY</span></div>
+          <div class="case-body"><span class="tag">PMS para pousadas</span><h3>LOBBY</h3><p>Reservas, governança e fiscal numa tela só, feito para pousadas pequenas.</p></div>
+        </article>
+        <article class="card case" data-reveal data-tilt>
+          <!-- [PREENCHER: print do case SaleStack. Troque este bloco .case-img por <img src="/img/cases/salestack.webp" alt="..."> quando tiver o print] -->
+          <div class="case-img" style="--c1:#2a1414;--c2:#0a0a0c" role="img" aria-label="Imagem do case SaleStack (em breve)"><span>SaleStack</span></div>
+          <div class="case-body"><span class="tag">Automação de prospecção</span><h3>SaleStack</h3><p>Acha clientes do seu nicho e manda a primeira mensagem por você.</p></div>
+        </article>
+      </div>
+      <div class="section-cta" data-reveal>
+        <a class="btn btn-primary" data-wa="Oi! Vi os cases da Vulto e quero algo parecido." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Quero um projeto assim</a>
       </div>
     </div>
   </section>
 
-  <section class="block blog" id="blog" aria-labelledby="blog-t">
-    <div class="wrap">
-      <div class="block-head">
-        <p class="v-eyebrow">Um post novo todo dia</p>
-        <h2 id="blog-t" class="v-h2">Blog da Vulto</h2>
-        <p class="v-lead">Tecnologia, IA, anúncios e vendas explicados para quem toca um negócio. Sem enrolação.</p>
+  <!-- 4.7 BLOG (fallback estático; main.js atualiza com /blog/posts.json) -->
+  <section class="section" id="blog" aria-labelledby="blog-t" style="padding-top:0">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Blog</p>
+        <h2 id="blog-t">Blog da Vulto</h2>
+        <p class="lead">Tecnologia, IA, anúncios e vendas explicados para quem toca um negócio. Sem enrolação.</p>
       </div>
       <div class="posts" data-posts>
-        <a class="post" href="/blog/2026-11-11-protestos-em-paris-deixam-hoteis-com-quase-13-mil-diarias/">
+        <a class="card post" href="/blog/2026-11-11-protestos-em-paris-deixam-hoteis-com-quase-13-mil-diarias/" data-reveal>
           <div class="thumb"><img src="/img/blog/protestos-em-paris-deixam-hoteis-com-quase-13-mil-diarias-800.webp" alt="Arte da Vulto com o título do post: Protestos em Paris deixam hotéis com quase 13 mil diárias canceladas" width="800" height="450" loading="lazy" decoding="async"></div>
-          <div class="post-body"><span class="chip">Negócios</span><h3>Protestos em Paris deixam hotéis com quase 13 mil diárias canceladas</h3><p>Protestos em Paris derrubam reservas dos hotéis. A lição para pousada pequena: sem controle de reservas e de preço, um susto vira prejuízo.</p><span class="post-meta">11 nov 2026 · 4 min de leitura</span></div>
+          <div class="post-body"><span class="tag">Negócios</span><h3>Protestos em Paris deixam hotéis com quase 13 mil diárias canceladas</h3><p>Protestos em Paris derrubam reservas dos hotéis. A lição para pousada pequena: sem controle de reservas e de preço, um susto vira prejuízo.</p><span class="post-meta">11 nov 2026 · 4 min de leitura</span></div>
         </a>
-        <a class="post" href="/blog/2026-11-11-ia-no-negocio-digital-do-atendimento-a-venda-etapa-por-etapa/">
+        <a class="card post" href="/blog/2026-11-11-ia-no-negocio-digital-do-atendimento-a-venda-etapa-por-etapa/" data-reveal>
           <div class="thumb"><img src="/img/blog/ia-no-negocio-digital-do-atendimento-a-venda-etapa-por-etapa-800.webp" alt="Arte da Vulto com o título do post: IA no negócio digital: do atendimento à venda, etapa por etapa" width="800" height="450" loading="lazy" decoding="async"></div>
-          <div class="post-body"><span class="chip">IA</span><h3>IA no negócio digital: do atendimento à venda, etapa por etapa</h3><p>Veja onde a IA entra em cada etapa do negócio digital: atendimento no WhatsApp, página que vende, tráfego pago e medição, com links oficiais.</p><span class="post-meta">11 nov 2026 · 6 min de leitura</span></div>
+          <div class="post-body"><span class="tag">IA</span><h3>IA no negócio digital: do atendimento à venda, etapa por etapa</h3><p>Veja onde a IA entra em cada etapa do negócio digital: atendimento no WhatsApp, página que vende, tráfego pago e medição, com links oficiais.</p><span class="post-meta">11 nov 2026 · 6 min de leitura</span></div>
         </a>
-        <a class="post" href="/blog/2026-11-09-repositorios-do-github-para-editar-video-com-o-claude-code-o/">
+        <a class="card post" href="/blog/2026-11-09-repositorios-do-github-para-editar-video-com-o-claude-code-o/" data-reveal>
           <div class="thumb"><img src="/img/blog/repositorios-do-github-para-editar-video-com-o-claude-code-o-800.webp" alt="Arte da Vulto com o título do post: Repositórios do GitHub para editar vídeo com o Claude Code: o top 5" width="800" height="450" loading="lazy" decoding="async"></div>
-          <div class="post-body"><span class="chip">IA</span><h3>Repositórios do GitHub para editar vídeo com o Claude Code: o top 5</h3><p>Cinco repositórios do GitHub para editar vídeo com o Claude Code, com comando de instalação, prós, contras e estrelas conferidas em 09/11/2026.</p><span class="post-meta">9 nov 2026 · 7 min de leitura</span></div>
+          <div class="post-body"><span class="tag">IA</span><h3>Repositórios do GitHub para editar vídeo com o Claude Code: o top 5</h3><p>Cinco repositórios do GitHub para editar vídeo com o Claude Code, com comando de instalação, prós, contras e estrelas conferidas em 09/11/2026.</p><span class="post-meta">9 nov 2026 · 7 min de leitura</span></div>
         </a>
       </div>
-      <a class="btn btn-ghost posts-all" href="/blog/">Ver todos os posts</a>
+      <a class="btn btn-ghost posts-all" href="/blog/">Ver todos</a>
     </div>
   </section>
 
-  <section class="block faq-sec" id="duvidas" aria-labelledby="faq-t">
-    <div class="wrap">
-      <div class="block-head">
-        <p class="v-eyebrow">Dúvidas</p>
-        <h2 id="faq-t" class="v-h2">Perguntas que todo mundo faz</h2>
+  <!-- Dúvidas: conteúdo que já existia, preservado -->
+  <section class="section" id="duvidas" aria-labelledby="faq-t" style="padding-top:0">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Dúvidas</p>
+        <h2 id="faq-t">Perguntas que todo mundo faz</h2>
       </div>
       <div class="faq">
-        <details>
-          <summary>Preciso entender de tecnologia?</summary>
-          <p>Não. A gente cuida de tudo e te entrega funcionando. Você só aprova o conteúdo e acompanha os números.</p>
-        </details>
-        <details>
-          <summary>E se a IA responder errado?</summary>
-          <p>Você define o que ela pode falar: preços, horários, serviços. Quando a pergunta foge disso, ela passa a conversa pra você em vez de inventar.</p>
-        </details>
-        <details>
-          <summary>Continuo usando o meu número?</summary>
-          <p>Sim. O atendente funciona com o seu número pela API oficial do WhatsApp. No diagnóstico a gente explica o passo a passo da ativação.</p>
-        </details>
-        <details>
-          <summary>Tem fidelidade?</summary>
-          <p>Não. A mensalidade do atendente pode ser cancelada quando você quiser. A página é paga uma vez e é sua.</p>
-        </details>
-        <details>
-          <summary>A loja na Shopify tem mensalidade?</summary>
-          <p>Tem a da própria Shopify, que você paga direto pra ela e escolhe o plano. A montagem da Vulto é paga uma vez só, e a loja fica no seu nome.</p>
-        </details>
-        <details>
-          <summary>A verba dos anúncios está inclusa no tráfego pago?</summary>
-          <p>Não. Os R$ 690 por mês são a gestão: montar, acompanhar e ajustar as campanhas. A verba vai direto do seu cartão pro Meta e pro Google, e você decide quanto gastar.</p>
-        </details>
-        <details>
-          <summary>Vocês garantem que eu vou vender mais?</summary>
-          <p>A gente garante a entrega no prazo e a medição funcionando. Assim você vê com números o que mudou, sem promessa no escuro.</p>
-        </details>
+        <details><summary>Preciso entender de tecnologia?</summary><p>Não. A gente cuida de tudo e te entrega funcionando. Você só aprova o conteúdo e acompanha os números.</p></details>
+        <details><summary>E se a IA responder errado?</summary><p>Você define o que ela pode falar: preços, horários, serviços. Quando a pergunta foge disso, ela passa a conversa pra você em vez de inventar.</p></details>
+        <details><summary>Continuo usando o meu número?</summary><p>Sim. O atendente funciona com o seu número pela API oficial do WhatsApp. No diagnóstico a gente explica o passo a passo da ativação.</p></details>
+        <details><summary>Tem fidelidade?</summary><p>Não. A mensalidade do atendente pode ser cancelada quando você quiser. A página é paga uma vez e é sua.</p></details>
+        <details><summary>A loja na Shopify tem mensalidade?</summary><p>Tem a da própria Shopify, que você paga direto pra ela e escolhe o plano. A montagem da Vulto é paga uma vez só, e a loja fica no seu nome.</p></details>
+        <details><summary>A verba dos anúncios está inclusa no tráfego pago?</summary><p>Não. Os R$ 690 por mês são a gestão: montar, acompanhar e ajustar as campanhas. A verba vai direto do seu cartão pro Meta e pro Google, e você decide quanto gastar.</p></details>
+        <details><summary>Vocês garantem que eu vou vender mais?</summary><p>A gente garante a entrega no prazo e a medição funcionando. Assim você vê com números o que mudou, sem promessa no escuro.</p></details>
       </div>
     </div>
   </section>
 
-  <section class="final" aria-labelledby="final-t">
-    <div class="final-stage">
-      <div class="final-fig" aria-hidden="true"><svg viewBox="0 0 400 560" focusable="false"><use href="#vulto"/></svg></div>
-      <div class="wrap final-box">
-        <p class="v-eyebrow">Diagnóstico grátis em 15 minutos</p>
-        <h2 id="final-t" class="v-h2 v-h2--xl">Descubra quantos clientes você perde por semana</h2>
-        <p class="v-lead">Chama no WhatsApp, conta como funciona o seu negócio e a gente te mostra onde estão os furos. Sem compromisso.</p>
-        <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/">Chamar no WhatsApp</a>
-      </div>
+  <!-- 4.8 CTA FINAL -->
+  <section class="section final" aria-labelledby="final-t">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Diagnóstico grátis em 15 minutos</p>
+      <h2 id="final-t" data-reveal>Vamos tirar isso do papel?</h2>
+      <p class="lead" data-reveal>Chama no WhatsApp, conta como funciona o seu negócio e a gente te mostra por onde começar. Sem compromisso.</p>
+      <div data-reveal><a class="btn btn-primary btn-lg" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/" ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Falar no WhatsApp</a></div>
     </div>
   </section>
 </main>
 
-<footer class="foot">
-  <div class="wrap">
-    <a class="mark" href="#topo" aria-label="Vulto, voltar ao topo"><img src="img/vulto-nome-sm.jpg" alt="Vulto" width="708" height="300" loading="lazy"></a>
+<!-- 4.9 RODAPÉ -->
+<footer class="footer">
+  <div class="container footer-grid">
+    <a class="logo" href="/" aria-label="Vulto, início">VULTO</a>
     <nav aria-label="Rodapé">
-      <a href="https://instagram.com/vulto.tech">@vulto.tech</a>
-      <a href="/blog/">Blog</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#cases">Cases</a>
       <a href="#precos">Preços</a>
+      <a href="/blog/">Blog</a>
       <a href="#duvidas">Dúvidas</a>
+      <a href="/privacidade/">Privacidade</a>
+      <a href="https://instagram.com/vulto.tech" rel="noopener" target="_blank">@vulto.tech</a>
     </nav>
-    <p class="privacy">© <span id="ano">2026</span> Vulto.tech. Este site mede visitas e cliques pra melhorar o atendimento. Não vendemos seus dados.</p>
+    <small>© <span id="ano">2026</span> Vulto.tech. Este site mede visitas e cliques pra melhorar o atendimento. Não vendemos seus dados.</small>
   </div>
 </footer>
-
-<script>
-  // Número do WhatsApp da Vulto (só dígitos, com 55 + DDD). Troque aqui e todos os botões mudam.
-  const WHATSAPP = '5521951001137';
-  document.querySelectorAll('[data-wa]').forEach(a => {
-    a.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(a.dataset.wa);
-    a.target = '_blank';
-    a.rel = 'noopener';
-  });
-  document.getElementById('ano').textContent = new Date().getFullYear();
-</script>
-<script>
-  // Motion depois do primeiro paint: o HTML e o CSS já mostram a página inteira; o scroll-craft entra em seguida.
-  addEventListener('load', function () {
-    ['/js/scrollcraft.js?v=1', '/js/home.js?v=1'].forEach(function (src) {
-      var e = document.createElement('script'); e.src = src; e.async = false; document.body.appendChild(e);
-    });
-  });
-</script>
 </body>
 </html>
