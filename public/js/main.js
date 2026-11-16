@@ -99,10 +99,14 @@ if (ano) ano.textContent = new Date().getFullYear();
 })();
 
 /* ---------- Hero 3D (import dinâmico, só quando o fallback não se aplica) ---------- */
-const heroState = { p: 0 }; // progresso do scroll no hero (0..1), escrito pelo ScrollTrigger
+// Estado compartilhado com scenes.js, escrito pelo ScrollTrigger:
+//   p    = progresso do scroll no hero (0..1): o planeta se desfaz em fumaça
+//   proc = progresso da seção "Como funciona" (0..1); -1 = sem ScrollTrigger (a cena anima sozinha)
+const heroState = { p: 0, proc: -1 };
+let stRefresh = () => {};
 (() => {
   const hero = $('.hero');
-  const canvas = $('#hero-canvas');
+  const canvas = $('#scenes-canvas');
   if (!hero || !canvas) return;
   const webgl = (() => {
     try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); }
@@ -114,13 +118,14 @@ const heroState = { p: 0 }; // progresso do scroll no hero (0..1), escrito pelo 
     && !reduce && webgl && !(conn && conn.saveData);
   if (!ok) return; // mobile, touch, reduced-motion, sem WebGL: o SVG do hero é o hero
 
-  const boot = () => import('/js/hero.js?v=2')
-    .then((m) => m.mountHero(hero, {
+  const root = document.documentElement;
+  const boot = () => import('/js/scenes.js?v=3')
+    .then((m) => m.mountScenes({
       canvas,
       state: heroState,
       watchdog: !/[?&]fps=off/.test(location.search),
-      onReady: () => hero.classList.add('has-3d'),
-      onFail: () => hero.classList.remove('has-3d'),
+      onReady: () => { root.classList.add('scenes'); hero.classList.add('has-3d'); setTimeout(stRefresh, 120); },
+      onFail: () => { root.classList.remove('scenes'); hero.classList.remove('has-3d'); setTimeout(stRefresh, 120); },
     }))
     .catch(() => { /* sem 3D: segue o fallback */ });
   // Depois do primeiro paint: o H1 já renderizou antes do canvas.
@@ -136,13 +141,14 @@ async function motion() {
     ({ ScrollTrigger } = await import('gsap/ScrollTrigger'));
   } catch (_) { return; } // CDN fora do ar: página segue estática e legível
   gsap.registerPlugin(ScrollTrigger);
+  stRefresh = () => ScrollTrigger.refresh(); // os slots 3D mudam o layout: recalcula os pins
 
   const mm = gsap.matchMedia();
   mm.add({ ok: '(prefers-reduced-motion: no-preference)', wide: '(min-width: 768px)' }, (ctx) => {
     const { ok, wide } = ctx.conditions;
     if (!ok) return; // reduced-motion: nada é escondido, nada anima
 
-    /* Hero: ao sair, a silhueta se desfaz em fumaça (hero.js lê heroState.p) e o texto sobe */
+    /* Hero: ao sair, a silhueta se desfaz em fumaça (scenes.js lê heroState.p) e o texto sobe */
     const heroTrig = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 };
     gsap.to(heroState, { p: 1, ease: 'none', scrollTrigger: heroTrig });
     gsap.to('.hero-copy', { y: -70, opacity: 0, ease: 'none', scrollTrigger: { ...heroTrig, end: '70% top' } });
@@ -169,7 +175,9 @@ async function motion() {
     if (steps && dots.length) {
       steps.classList.add('is-live');
       const prog = { p: 0 };
+      heroState.proc = 0;
       const paint = () => {
+        heroState.proc = prog.p; // a cena "pipeline" acende os mini PCs conforme este valor
         steps.style.setProperty('--p', prog.p.toFixed(4));
         dots.forEach((s, i) => s.classList.toggle('is-on', prog.p >= (i / dots.length) * 0.92));
       };
@@ -183,7 +191,7 @@ async function motion() {
     }
 
     // quando esta matchMedia é desfeita (ex.: usuário liga reduced-motion), volta ao estado estático
-    return () => { if (steps) { steps.classList.remove('is-live'); steps.style.removeProperty('--p'); dots.forEach((s) => s.classList.remove('is-on')); } };
+    return () => { heroState.proc = -1; if (steps) { steps.classList.remove('is-live'); steps.style.removeProperty('--p'); dots.forEach((s) => s.classList.remove('is-on')); } };
   });
 
   // layout muda depois das fontes e das imagens: recalcula as posições

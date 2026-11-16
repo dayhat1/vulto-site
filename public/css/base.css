@@ -13,7 +13,8 @@ html { font-size: 17px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%;
 
 body {
   margin: 0;
-  background: var(--bg);
+  /* sem fundo no body: o fundo vem do <html>, senão o body cobriria o canvas 3D (z-index: -1) */
+  background: transparent;
   color: var(--text);
   font-family: var(--font-body);
   font-weight: 400;
