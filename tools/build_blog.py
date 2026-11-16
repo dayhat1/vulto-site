@@ -57,7 +57,20 @@ SRC = os.path.join(ROOT, "content", "blog")
 PUB = os.path.join(ROOT, "public")
 OUT = os.path.join(PUB, "blog")
 DEFAULT_OG = "/img/og.jpg"
-ASSET_V = "5"  # mude para forcar o navegador a baixar CSS/JS novos
+ASSET_V = "6"
+
+
+def _css_inline():
+    """CSS do blog embutido em cada pagina (vulto.css + blog.css, sem comentarios): tira o bloqueio de render por rede."""
+    import re as _re
+    partes = []
+    for nome in ("vulto.css", "blog.css"):
+        with open(os.path.join(PUB, "css", nome), encoding="utf-8") as fh:
+            partes.append(_re.sub(r"/\*.*?\*/", "", fh.read(), flags=_re.S))
+    return _re.sub(r"\n{2,}", "\n", "\n".join(partes)).strip()
+
+
+CSS_INLINE = _css_inline()  # mude para forcar o navegador a baixar CSS/JS novos
 
 # Gate de lead: post com `gate: true` no frontmatter mostra so o comeco (o .md do repo ja vem cortado
 # pelo motor do blog) + formulario. O texto completo fica so no banco da Vulto (VPS) e e liberado pela API.
@@ -316,21 +329,20 @@ def head(title, desc, canonical, ogtype, og, schema="", preload=""):
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
-{preload}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<script>document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="/css/vulto.css?v={ASSET_V}">
-<link rel="stylesheet" href="/css/blog.css?v={ASSET_V}">
+{preload}<script>document.documentElement.classList.add('js')</script>
+<style>
+{CSS_INLINE}
+</style>
 {schema}
 </head>
 <body>
 <header class="nav"><div class="wrap">
-  <a class="mark" href="/" aria-label="Vulto, início"><img src="/img/vulto-nome.jpg" alt="Vulto" width="708" height="300"></a>
+  <a class="mark" href="/" aria-label="Vulto, início"><img src="/img/vulto-nome-sm.jpg" alt="Vulto" width="708" height="300"></a>
   <nav class="nav-links" aria-label="Seções">
     <a href="/#como-funciona">Como funciona</a>
     <a href="/#precos">Preços</a>
     <a href="/blog/" aria-current="page">Blog</a>
+    <a href="/#duvidas">Dúvidas</a>
     <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/5521951001137">Falar no WhatsApp</a>
   </nav>
 </div></header>
@@ -338,7 +350,7 @@ def head(title, desc, canonical, ogtype, og, schema="", preload=""):
 
 
 FOOT = f"""<footer><div class="wrap">
-  <a class="mark" href="/" aria-label="Vulto, início"><img src="/img/vulto-nome.jpg" alt="Vulto" width="708" height="300" loading="lazy"></a>
+  <a class="mark" href="/" aria-label="Vulto, início"><img src="/img/vulto-nome-sm.jpg" alt="Vulto" width="708" height="300" loading="lazy"></a>
   <nav aria-label="Rodapé">
     <a href="https://instagram.com/vulto.tech">@vulto.tech</a>
     <a href="/blog/">Blog</a>

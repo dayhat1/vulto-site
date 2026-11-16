@@ -1,3 +1,11 @@
+/* Fontes locais (subset latin, OFL): Archivo e IBM Plex. */
+@font-face { font-family: 'Archivo'; font-style: normal; font-weight: 400 900; font-stretch: 62% 125%; font-display: swap; src: url('/fonts/archivo-400-900.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/ibm-plex-mono-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/ibm-plex-mono-500.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 400; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 500; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-500.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 600; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-600.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
 /* =========================================================================
    VULTO · camada compartilhada (landing + blog)
    Tokens, base, nav, rodapé, botões e efeitos de movimento.
@@ -9,8 +17,11 @@
 :root {
   --bg: #0b090a;
   --surface: #151113;
-  --surface-2: #1d171a;
-  --line: #2e2529;
+  --surface-2: #1b1517;
+  --line: rgba(241, 234, 236, 0.12);
+  --line-strong: rgba(241, 234, 236, 0.22);
+  --accent-text: #ff4a5c;
+  --v-grad: linear-gradient(135deg, #ff4a5c 0%, #e3172e 42%, #5c0a14 100%);
   --fg: #f1eaec;
   --muted: #a8999e;
   --red: #e3172e;
@@ -20,7 +31,7 @@
   --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   --body: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
-  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
   color-scheme: dark;
 }
 
@@ -39,6 +50,8 @@ body {
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--red-soft); outline-offset: 3px; border-radius: 4px; }
 img { max-width: 100%; }
+html { scroll-padding-top: 5rem; }
+::selection { background: var(--red); color: #fff; }
 
 .wrap {
   max-width: 1120px;
@@ -60,8 +73,9 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 .btn svg { width: 18px; height: 18px; flex: none; }
 
 /* ---------- Nav ---------- */
-.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
-.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.75rem; }
+.nav { position: fixed; inset: 0 0 auto 0; z-index: 60; padding-top: env(safe-area-inset-top, 0px); background: color-mix(in srgb, var(--bg) 62%, transparent); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid var(--line); }
+body { padding-top: calc(4rem + env(safe-area-inset-top, 0px)); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 4rem; padding-block: 0; }
 .mark { display: inline-flex; line-height: 0; text-decoration: none; }
 .mark img { height: 54px; width: auto; mix-blend-mode: lighten; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
 .nav-links { display: flex; align-items: center; gap: 1.5rem; }
@@ -197,3 +211,6 @@ body::after {
 @keyframes v-led { 0% { box-shadow: 0 0 0 0 rgba(39, 208, 127, .55); } 70%, 100% { box-shadow: 0 0 0 9px rgba(39, 208, 127, 0); } }
 @keyframes v-caret { 50% { opacity: 0; } }
 @media (max-width: 420px) { .sys-status { font-size: .72rem; gap: .45rem; white-space: nowrap; } }
+
+/* nav alinhada com a da home (mesma largura e gutter) */
+.nav .wrap { max-width: 76rem; padding-inline: max(clamp(1.1rem, 4.5vw, 4rem), env(safe-area-inset-left, 0px)); }

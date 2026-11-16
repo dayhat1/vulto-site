@@ -1,7 +1,9 @@
-/* =========================================================================
-   VULTO · comportamento compartilhado (landing + blog)
-   Sem dependências. O Three.js só é baixado no desktop, depois que a
-   página já pintou, e nunca com "menos movimento" ou economia de dados.
+/* Powered by Matioli616
+   =========================================================================
+   VULTO · comportamento do blog e da privacidade
+   Sem dependências. A home tem o próprio motor (scroll-craft, em home.js);
+   aqui ficam só os botões de WhatsApp, o ano, o revelar ao rolar, a barra de
+   leitura e o filtro do blog. Tudo parado com "menos movimento".
    ========================================================================= */
 (() => {
   'use strict';
@@ -12,13 +14,9 @@
   const d = document;
   const root = d.documentElement;
   root.classList.add('js');
-
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const desktop = matchMedia('(min-width: 900px)').matches;
-  const saveData = !!(navigator.connection && navigator.connection.saveData);
 
-  /* ---------- WhatsApp ---------- */
+  /* ---------- WhatsApp e ano ---------- */
   d.querySelectorAll('[data-wa]').forEach((a) => {
     a.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(a.dataset.wa);
     a.target = '_blank';
@@ -28,14 +26,12 @@
   if (ano) ano.textContent = new Date().getFullYear();
 
   /* ---------- Revelar ao rolar ---------- */
-  const REVEAL = '.block-head, .pain, .plan, .combo, .pilot, .steps li, .more li, .faq details, .final-box,' +
-                 ' .post-card, .lead-story, .related-card, .offer-box, .cta-box, .sources';
+  const REVEAL = '.post-card, .related-card, .offer-box, .cta-box, .sources';  // a manchete já está na primeira tela: não esconde
   const targets = Array.from(d.querySelectorAll(REVEAL));
-  // Escalonar irmãos: cada um entra 70ms depois do anterior (máx. 6 passos).
   targets.forEach((el) => {
     const sibs = Array.from(el.parentElement ? el.parentElement.children : []).filter((c) => c.matches(REVEAL));
     const i = Math.min(sibs.indexOf(el), 6);
-    if (i > 0) el.style.setProperty('--d', i * 70 + 'ms');
+    if (i > 0) el.style.setProperty('--d', i * 80 + 'ms');
   });
   const show = (el) => el.classList.add('is-in');
   if (reduce || !('IntersectionObserver' in window)) {
@@ -47,93 +43,6 @@
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
     targets.forEach((el) => io.observe(el));
-  }
-
-  /* ---------- Tilt 3D + reflexo ---------- */
-  const TILT = '.plan, .phone, .post-card, .lead-story, .related-card';
-  d.querySelectorAll(TILT).forEach((el) => {
-    el.setAttribute('data-tilt', '');
-    if (!el.matches(REVEAL)) el.classList.add('is-in');
-    if (reduce || !finePointer) return;
-    const glare = d.createElement('span');
-    glare.className = 'glare';
-    glare.setAttribute('aria-hidden', 'true');
-    el.appendChild(glare);
-    const MAX = el.classList.contains('phone') ? 9 : 6;
-    let raf = 0;
-    el.addEventListener('pointermove', (ev) => {
-      const r = el.getBoundingClientRect();
-      const px = (ev.clientX - r.left) / r.width;
-      const py = (ev.clientY - r.top) / r.height;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        el.classList.add('tilting');
-        el.style.setProperty('--ry', ((px - 0.5) * 2 * MAX).toFixed(2) + 'deg');
-        el.style.setProperty('--rx', ((0.5 - py) * 2 * MAX).toFixed(2) + 'deg');
-        el.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
-        el.style.setProperty('--my', (py * 100).toFixed(1) + '%');
-      });
-    });
-    el.addEventListener('pointerleave', () => {
-      cancelAnimationFrame(raf);
-      el.classList.remove('tilting');
-      el.style.setProperty('--rx', '0deg');
-      el.style.setProperty('--ry', '0deg');
-    });
-  });
-
-  /* ---------- Contadores (0 → valor quando entra na tela) ---------- */
-  const COUNT = '.price .val, .stat-row > span:last-child, .stat-row > b';
-  const counters = Array.from(d.querySelectorAll(COUNT)).filter((el) => /^\d+$/.test(el.textContent.trim()));
-  if (!reduce && counters.length && 'IntersectionObserver' in window) {
-    const run = (el) => {
-      const end = parseInt(el.textContent.trim(), 10);
-      const dur = 1100;
-      const t0 = performance.now();
-      el.style.minWidth = el.offsetWidth + 'px'; // sem pulo de layout enquanto conta
-      const step = (t) => {
-        const k = Math.min((t - t0) / dur, 1);
-        el.textContent = String(Math.round(end * (1 - Math.pow(1 - k, 3))));
-        if (k < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    };
-    const co = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) { run(e.target); co.unobserve(e.target); } });
-    }, { threshold: 0.6 });
-    counters.forEach((el) => co.observe(el));
-  }
-
-  /* ---------- Brilho pulsando nos botões principais ---------- */
-  d.querySelectorAll('.hero .btn-red, .final .btn-red, .cta-box .btn-red').forEach((b) => b.classList.add('pulse'));
-
-  /* ---------- Cursor personalizado ---------- */
-  if (finePointer && !reduce) {
-    const dot = d.createElement('div');
-    const ring = d.createElement('div');
-    dot.className = 'cursor-dot';
-    ring.className = 'cursor-ring';
-    dot.setAttribute('aria-hidden', 'true');
-    ring.setAttribute('aria-hidden', 'true');
-    d.body.append(dot, ring);
-    let mx = -100, my = -100, rx = -100, ry = -100, started = false;
-    addEventListener('pointermove', (e) => {
-      if (e.pointerType !== 'mouse') return;
-      mx = e.clientX; my = e.clientY;
-      if (!started) { started = true; rx = mx; ry = my; root.classList.add('has-cursor'); loop(); }
-      dot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
-    }, { passive: true });
-    d.addEventListener('pointerleave', () => root.classList.remove('has-cursor'));
-    d.addEventListener('pointerenter', () => { if (started) root.classList.add('has-cursor'); });
-    const loop = () => {
-      rx += (mx - rx) * 0.18;
-      ry += (my - ry) * 0.18;
-      ring.style.transform = `translate3d(${rx.toFixed(1)}px, ${ry.toFixed(1)}px, 0)`;
-      requestAnimationFrame(loop);
-    };
-    d.addEventListener('pointerover', (e) => {
-      ring.classList.toggle('hover', !!e.target.closest('a, button, summary, [data-filter], [data-tilt]'));
-    });
   }
 
   /* ---------- Barra de progresso de leitura (posts) ---------- */
@@ -162,18 +71,5 @@
       filters.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
       cards.forEach((c) => { c.hidden = !(cat === 'todas' || c.dataset.cat === cat); });
     }));
-  }
-
-  /* ---------- Hero 3D (só desktop, depois do primeiro paint) ---------- */
-  const hero = d.querySelector('.hero');
-  const webgl = (() => {
-    try { const c = d.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); }
-    catch (_) { return false; }
-  })();
-  if (hero && desktop && finePointer && !reduce && !saveData && webgl) {
-    const boot = () => import('/js/hero3d.js').then((m) => m.default(hero)).catch(() => { /* sem 3D, segue o brilho em CSS */ });
-    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 400));
-    if (d.readyState === 'complete') idle(boot);
-    else addEventListener('load', () => idle(boot), { once: true });
   }
 })();
