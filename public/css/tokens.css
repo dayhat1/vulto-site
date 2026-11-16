@@ -1,0 +1,37 @@
+/* Powered by Matioli616
+   =========================================================================
+   VULTO · tokens (home v3)
+   Toda cor, medida e fonte do site mora aqui. O verde neon (--accent) é
+   usado com moderação: CTAs, destaques e glow de hover/foco.
+   ========================================================================= */
+:root {
+  /* cores */
+  --bg: #050505;
+  --surface: #0e0e10;
+  --surface-2: #151518;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --text: #f2f2f2;
+  --muted: #8a8a93;       /* 5,9:1 sobre --bg e 5,6:1 sobre --surface (AA) */
+  --accent: #b6ff3c;
+  --accent-ink: #050505;  /* texto sobre o accent */
+  --glow: 0 0 0 1px rgba(182, 255, 60, 0.55), 0 0 28px rgba(182, 255, 60, 0.22);
+
+  /* tipografia */
+  --font-head: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fs-h1: clamp(2.6rem, 7vw, 6rem);
+  --fs-h2: clamp(2rem, 4.6vw, 3.6rem);
+  --fs-h3: 1.25rem;
+  --lh: 1.6;
+
+  /* layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --section-gap: clamp(80px, 12vw, 160px);
+  --radius: 14px;
+  --nav-h: 68px;
+
+  /* movimento: um easing só no site inteiro */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
