@@ -548,6 +548,250 @@ function buildPipeline() {
   };
 }
 
+/* =========================================================================
+   Cenas temáticas do blog: cada post usa a que combina com o assunto.
+   Todas movidas por JS simples (poucos pontos/linhas), sem shader próprio.
+   ========================================================================= */
+const dots = (n, color, size, opacity = 1, vertexColors = false) => {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+  if (vertexColors) g.setAttribute('color', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+  const p = new THREE.Points(g, new THREE.PointsMaterial({ color, size, map: dotTex(), transparent: true, opacity, depthWrite: false, blending: add, vertexColors }));
+  p.frustumCulled = false;
+  return p;
+};
+const segs = (arr, color, opacity) => {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(arr, 3));
+  return new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false }));
+};
+const circle = (r, n = 96) => { const v = []; for (let i = 0; i < n; i++) { const a = (i / n) * TAU, b = ((i + 1) / n) * TAU; v.push(Math.cos(a) * r, Math.sin(a) * r, 0, Math.cos(b) * r, Math.sin(b) * r, 0); } return v; };
+const setP = (pts, i, x, y, z) => pts.geometry.attributes.position.setXYZ(i, x, y, z);
+const flush = (...pts) => pts.forEach((p) => { p.geometry.attributes.position.needsUpdate = true; if (p.geometry.attributes.color) p.geometry.attributes.color.needsUpdate = true; });
+const done = (root) => ({ dispose: () => disposeTree(root) });
+
+/* IA: rede neural. Pulsos atravessam as 4 camadas até a saída em vermelho. */
+function buildNeural() {
+  const root = new THREE.Group();
+  const L = [4, 6, 6, 3], xs = [-2.1, -0.7, 0.7, 2.1], layers = [];
+  L.forEach((n, li) => layers.push(Array.from({ length: n }, (_, i) => new THREE.Vector3(xs[li], (i - (n - 1) / 2) * 0.4 + rnd(-0.05, 0.05), rnd(-0.3, 0.3)))));
+  const ev = [];
+  for (let li = 0; li < 3; li++) for (const a of layers[li]) for (const b of layers[li + 1]) ev.push(a.x, a.y, a.z, b.x, b.y, b.z);
+  root.add(segs(ev, 0xffffff, 0.11));
+  const nodes = dots(L[0] + L[1] + L[2], 0xf2f2f2, 0.14), out = dots(L[3], 0xff3a4a, 0.24), pk = dots(44, 0xffd5da, 0.15);
+  [...layers[0], ...layers[1], ...layers[2]].forEach((v, i) => setP(nodes, i, v.x, v.y, v.z));
+  layers[3].forEach((v, i) => setP(out, i, v.x, v.y, v.z));
+  flush(nodes, out); root.add(nodes, out, pk);
+  const chains = Array.from({ length: 44 }, () => ({ c: layers.map((l) => l[(Math.random() * l.length) | 0]), ph: rnd(), sp: rnd(0.12, 0.24) }));
+  return {
+    root, fov: 34, fx: 2.5, fy: 1.2, ...done(root),
+    update(t) {
+      chains.forEach((p, i) => {
+        const k = ((t * p.sp + p.ph) % 1) * 3, s = Math.min(2, Math.floor(k)), f = k - s, a = p.c[s], b = p.c[s + 1];
+        setP(pk, i, a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f, a.z + (b.z - a.z) * f);
+      });
+      flush(pk);
+      root.rotation.y = Math.sin(t * 0.3) * 0.18;
+      out.material.opacity = 0.7 + 0.3 * Math.sin(t * 2.2);
+    },
+  };
+}
+
+/* Atendimento / WhatsApp: mensagens chegam de vários clientes, a IA responde a cada um. */
+function buildRelay() {
+  const root = new THREE.Group();
+  const N = 6, ys = Array.from({ length: N }, (_, i) => (i - (N - 1) / 2) * 0.34);
+  const L = ys.map((y) => new THREE.Vector3(-2.1, y, 0)), R = ys.map((y) => new THREE.Vector3(2.1, y, 0)), bot = new THREE.Vector3(0, 0, 0);
+  const v = []; L.forEach((a) => v.push(a.x, a.y, 0, 0, 0, 0)); R.forEach((a) => v.push(0, 0, 0, a.x, a.y, 0));
+  root.add(segs(v, 0xffffff, 0.12));
+  const people = dots(N * 2, 0xcfcfd6, 0.12, 0.9);
+  [...L, ...R].forEach((p, i) => setP(people, i, p.x, p.y, p.z)); flush(people);
+  const pc = miniPC(5); root.add(pc.g, people);
+  const msgs = dots(N, 0xffffff, 0.14), reps = dots(N, 0xff3a4a, 0.16); root.add(msgs, reps);
+  return {
+    root, fov: 34, fx: 2.5, fy: 1.1, ...done(root),
+    update(t) {
+      for (let i = 0; i < N; i++) {
+        const k = (t * 0.32 + i / N) % 1;
+        if (k < 0.5) { const f = k * 2; setP(msgs, i, L[i].x * (1 - f), L[i].y * (1 - f), 0); setP(reps, i, 0, -99, 0); }
+        else { const f = (k - 0.5) * 2; setP(reps, i, R[i].x * f, R[i].y * f, 0); setP(msgs, i, 0, -99, 0); }
+      }
+      flush(msgs, reps);
+      const k = (t * 0.6) % 1;
+      pc.ring.scale.setScalar(1 + k * 1.8); pc.ring.material.opacity = (1 - k) * 0.7;
+      pc.led.material.color.setHex(Math.sin(t * 6) > 0 ? 0xff3a4a : 0x7a1220);
+      pc.g.rotation.y = Math.sin(t * 0.5) * 0.3;
+    },
+  };
+}
+
+/* Anúncios / tráfego: um funil. Muita gente entra no topo, poucos saem vermelhos (venda). */
+function buildFunnel() {
+  const root = new THREE.Group(); root.rotation.x = 0.14;
+  const top = 1.25, bot = -1.1, rTop = 1.55, rBot = 0.2, rAt = (y) => rBot + (rTop - rBot) * ((y - bot) / (top - bot));
+  const v = [];
+  for (let k = 0; k <= 7; k++) { const y = bot + ((top - bot) * k) / 7, r = rAt(y); for (let i = 0; i < 64; i++) { const a = (i / 64) * TAU, b = ((i + 1) / 64) * TAU; v.push(Math.cos(a) * r, y, Math.sin(a) * r, Math.cos(b) * r, y, Math.sin(b) * r); } }
+  for (let i = 0; i < 16; i++) { const a = (i / 16) * TAU; v.push(Math.cos(a) * rTop, top, Math.sin(a) * rTop, Math.cos(a) * rBot, bot, Math.sin(a) * rBot); }
+  root.add(segs(v, 0xffffff, 0.15));
+  const N = 760, pts = dots(N, 0xffffff, 0.075, 1, true); root.add(pts);
+  const st = Array.from({ length: N }, () => ({ y: rnd(bot - 0.9, top), a: rnd(0, TAU), r: rnd(0.15, 1), sp: rnd(0.35, 0.6), sale: Math.random() < 0.12 }));
+  const ring = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(Array.from({ length: 64 }, (_, i) => new THREE.Vector3(Math.cos((i / 64) * TAU) * 0.3, 0, Math.sin((i / 64) * TAU) * 0.3))), new THREE.LineBasicMaterial({ color: RED, transparent: true, opacity: 0.8, blending: add }));
+  ring.position.y = bot - 0.5; root.add(ring);
+  const col = pts.geometry.attributes.color;
+  return {
+    root, fov: 34, fx: 1.9, fy: 1.9, ...done(root),
+    update(t, dt) {
+      st.forEach((p, i) => {
+        const h = clamp01((p.y - bot) / (top - bot));
+        p.y -= p.sp * dt * (1 + (1 - h) * 1.6); p.a += dt * (0.5 + (1 - h) * 2.4);
+        if (p.y < bot - 1.0) { p.y = top + rnd(0, 0.3); p.sale = Math.random() < 0.12; }
+        // só quem é "venda" sai pela ponta; os outros se perdem na lateral (saem do funil)
+        const inside = p.y > bot, r = inside ? rAt(p.y) * p.r : rBot * p.r * 0.5;
+        const drift = !inside && !p.sale ? (bot - p.y) * 1.2 : 0;
+        setP(pts, i, Math.cos(p.a) * (r + drift), p.y, Math.sin(p.a) * (r + drift));
+        const red = p.sale && p.y < bot + 0.7 ? 1 : p.sale ? 0.45 : 0;
+        const dim = !inside && !p.sale ? 0.12 : 0.85;
+        col.setXYZ(i, dim, dim * (1 - red * 0.82), dim * (1 - red * 0.78));
+      });
+      flush(pts);
+      const k = (t * 0.7) % 1; ring.scale.setScalar(1 + k * 2.2); ring.material.opacity = (1 - k) * 0.8;
+      root.rotation.y = t * 0.12;
+    },
+  };
+}
+
+/* Segurança: escudo em malha, anel de varredura e ameaças que batem e se desfazem. */
+function buildShield() {
+  const root = new THREE.Group();
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1, 1)), new THREE.LineBasicMaterial({ color: RED, transparent: true, opacity: 0.5, blending: add }));
+  root.add(edges);
+  const core = dots(520, 0xe8e8ee, 0.04, 0.8); const c = new THREE.Vector3();
+  for (let i = 0; i < 520; i++) { c.set(rnd(-1, 1), rnd(-1, 1), rnd(-1, 1)).normalize().multiplyScalar(0.5); setP(core, i, c.x, c.y, c.z); }
+  flush(core); root.add(core);
+  const scan = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(Array.from({ length: 90 }, (_, i) => new THREE.Vector3(Math.cos((i / 90) * TAU), 0, Math.sin((i / 90) * TAU)))), new THREE.LineBasicMaterial({ color: 0xff6a78, transparent: true, opacity: 0.9, blending: add }));
+  root.add(scan);
+  const N = 40, threats = dots(N, 0xff2f40, 0.1), st = Array.from({ length: N }, () => ({ d: new THREE.Vector3(rnd(-1, 1), rnd(-0.6, 0.6), rnd(-1, 1)).normalize(), r: rnd(1.4, 3.6), sp: rnd(0.5, 1.1) }));
+  root.add(threats);
+  let flash = 0;
+  return {
+    root, fov: 34, fx: 1.95, fy: 1.55, ...done(root),
+    update(t, dt) {
+      st.forEach((p, i) => {
+        p.r -= p.sp * dt;
+        if (p.r < 1.1) { flash = 1; p.d.set(rnd(-1, 1), rnd(-0.6, 0.6), rnd(-1, 1)).normalize(); p.r = rnd(2.8, 3.8); }
+        setP(threats, i, p.d.x * p.r, p.d.y * p.r, p.d.z * p.r);
+      });
+      flush(threats);
+      flash = Math.max(0, flash - dt * 2.5);
+      edges.material.opacity = 0.42 + flash * 0.5;
+      const y = Math.sin(t * 0.9) * 0.92, rr = Math.sqrt(Math.max(0.02, 1 - y * y)) * 1.12;
+      scan.position.y = y; scan.scale.set(rr, 1, rr);
+      root.rotation.y = t * 0.2; root.rotation.x = 0.25;
+    },
+  };
+}
+
+/* Loja / e-commerce: pedidos viajam numa esteira até o carrinho, enquanto visitantes chegam. */
+function buildConveyor() {
+  const root = new THREE.Group();
+  const curve = new THREE.CatmullRomCurve3([new THREE.Vector3(-2.4, -0.3, 0), new THREE.Vector3(-0.9, 0.05, 0.35), new THREE.Vector3(0.6, -0.2, 0), new THREE.Vector3(1.5, -0.3, 0)]);
+  root.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(60)), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.16 })));
+  const bg = new THREE.BoxGeometry(0.24, 0.24, 0.24), eg = new THREE.EdgesGeometry(bg);
+  const boxes = Array.from({ length: 7 }, (_, i) => {
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(bg, new THREE.MeshBasicMaterial({ color: 0x17171b })), new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: 0xf2f2f2 })));
+    root.add(g); return { g, ph: i / 7 };
+  });
+  const cart = new THREE.Group();
+  const cb = new THREE.EdgesGeometry(new THREE.BoxGeometry(0.8, 0.42, 0.55));
+  cart.add(new THREE.LineSegments(cb, new THREE.LineBasicMaterial({ color: RED, transparent: true, opacity: 0.9, blending: add })));
+  for (const sx of [-0.28, 0.28]) { const w = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(Array.from({ length: 24 }, (_, i) => new THREE.Vector3(Math.cos((i / 24) * TAU) * 0.09, -0.3 + Math.sin((i / 24) * TAU) * 0.09, 0.3))), new THREE.LineBasicMaterial({ color: 0xf2f2f2, transparent: true, opacity: 0.7 })); w.position.x = sx; cart.add(w); }
+  cart.position.set(2.0, -0.15, 0); root.add(cart);
+  const vis = dots(80, 0xffffff, 0.06, 0.8), vs = Array.from({ length: 80 }, () => ({ ph: rnd(), sp: rnd(0.12, 0.22), o: new THREE.Vector3(rnd(-0.18, 0.18), rnd(0.1, 0.55), rnd(-0.2, 0.2)) }));
+  root.add(vis);
+  const ring = new THREE.Mesh(new THREE.RingGeometry(0.5, 0.56, 40), new THREE.MeshBasicMaterial({ color: RED, transparent: true, opacity: 0.8, side: THREE.DoubleSide, blending: add, depthWrite: false }));
+  ring.position.copy(cart.position); root.add(ring);
+  const p = new THREE.Vector3();
+  return {
+    root, fov: 34, fx: 2.7, fy: 1.1, ...done(root),
+    update(t) {
+      boxes.forEach((b) => {
+        const k = (t * 0.085 + b.ph) % 1;
+        curve.getPoint(Math.min(1, k * 1.04), p); b.g.position.copy(p); b.g.position.y += 0.12;
+        b.g.rotation.y = k * 3; b.g.scale.setScalar(Math.max(0.0001, 1 - smooth(0.82, 1.0, k)));
+        b.g.children[1].material.color.setHex(k > 0.65 ? 0xff4a5c : 0xf2f2f2);
+      });
+      vs.forEach((v, i) => { const k = (t * v.sp + v.ph) % 1; curve.getPoint(Math.min(1, k), p); setP(vis, i, p.x + v.o.x, p.y + v.o.y * (1 - k), p.z + v.o.z); });
+      flush(vis);
+      const k = (t * 0.6) % 1; ring.scale.setScalar(1 + k * 1.2); ring.material.opacity = (1 - k) * 0.7; ring.rotation.x = -Math.PI / 2;
+      root.rotation.y = Math.sin(t * 0.3) * 0.2; root.rotation.x = 0.18;
+    },
+  };
+}
+
+/* Pousada / reservas: prédio com janelas que acendem a cada reserva que chega pelos canais. */
+function buildBuilding() {
+  const root = new THREE.Group();
+  root.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(2.2, 1.8, 0.8)), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.55 })));
+  const COLS = 5, ROWS = 4, W = COLS * ROWS, win = dots(W, 0xffffff, 0.2, 1, true); root.add(win);
+  const wp = []; for (let j = 0; j < ROWS; j++) for (let i = 0; i < COLS; i++) wp.push(new THREE.Vector3(-0.88 + i * 0.44, -0.62 + j * 0.44, 0.42));
+  wp.forEach((v, i) => setP(win, i, v.x, v.y, v.z)); flush(win);
+  const lit = new Float32Array(W).fill(-99); [3, 8, 12, 17].forEach((i) => { lit[i] = -2; });
+  const roof = new THREE.Vector3(0, 0.95, 0), srcs = [new THREE.Vector3(-2.2, 0.25, 0), new THREE.Vector3(2.2, 0.25, 0)];
+  const pcs = srcs.map((s) => { const m = miniPC(3); m.g.position.copy(s); root.add(m.g); return m; });
+  const curves = srcs.map((s) => new THREE.QuadraticBezierCurve3(s.clone(), new THREE.Vector3(s.x * 0.5, 1.9, 0), roof.clone()));
+  curves.forEach((c) => root.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(c.getPoints(40)), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.14 }))));
+  const pk = dots(3, 0xffd5da, 0.16); root.add(pk);
+  const jobs = []; let next = 0.6; const col = win.geometry.attributes.color, p = new THREE.Vector3();
+  return {
+    root, fov: 34, fx: 2.7, fy: 1.45, ...done(root),
+    update(t) {
+      if (t > next) { next = t + rnd(1.1, 1.7); if (jobs.length < 3) jobs.push({ side: (Math.random() * 2) | 0, t0: t }); }
+      for (let k = 0; k < 3; k++) {
+        const j = jobs[k];
+        if (!j) { setP(pk, k, 0, -99, 0); continue; }
+        const f = (t - j.t0) / 1.3;
+        if (f >= 1) { const free = lit.map((v, i) => (t - v > 8 ? i : -1)).filter((i) => i >= 0); if (free.length) lit[free[(Math.random() * free.length) | 0]] = t; jobs.splice(k, 1); k--; continue; }
+        curves[j.side].getPoint(f, p); setP(pk, k, p.x, p.y, p.z);
+      }
+      for (let i = 0; i < W; i++) { const on = t - lit[i] < 8 ? 1 : 0.1; col.setXYZ(i, on, on * (on > 0.5 ? 0.3 : 1), on * (on > 0.5 ? 0.35 : 1)); }
+      flush(pk, win);
+      pcs.forEach((m, i) => { const k = (t * 0.4 + i * 0.5) % 1; m.ring.scale.setScalar(1 + k * 1.6); m.ring.material.opacity = (1 - k) * 0.6; });
+      root.rotation.y = Math.sin(t * 0.3) * 0.22;
+    },
+  };
+}
+
+/* Prospecção: radar varre o mercado; cada lead encontrado recebe a primeira mensagem. */
+function buildRadar() {
+  const root = new THREE.Group(), disc = new THREE.Group(); disc.rotation.x = -1.05; root.add(disc);
+  [0.5, 1, 1.5].forEach((r) => disc.add(segs(circle(r), 0xffffff, 0.2)));
+  disc.add(segs([-1.5, 0, 0, 1.5, 0, 0, 0, -1.5, 0, 0, 1.5, 0], 0xffffff, 0.12));
+  const sweep = new THREE.Mesh(new THREE.CircleGeometry(1.5, 28, 0, 0.55), new THREE.MeshBasicMaterial({ color: RED, transparent: true, opacity: 0.2, side: THREE.DoubleSide, blending: add, depthWrite: false }));
+  disc.add(sweep);
+  const N = 26, leads = Array.from({ length: N }, () => { const a = rnd(0, TAU), r = rnd(0.18, 1.42); return { a, p: new THREE.Vector3(Math.cos(a) * r, Math.sin(a) * r, 0), found: -99 }; });
+  const pts = dots(N, 0xffffff, 0.09, 1, true); disc.add(pts);
+  const links = segs(new Array(N * 6).fill(0), RED, 0.8); links.material.blending = add; disc.add(links);
+  const msg = dots(N, 0xffd5da, 0.12); disc.add(msg);
+  const col = pts.geometry.attributes.color, lp = links.geometry.attributes.position;
+  return {
+    root, fov: 34, fx: 1.8, fy: 1.45, ...done(root),
+    update(t) {
+      const a = t * 1.1; sweep.rotation.z = a;
+      leads.forEach((l, i) => {
+        const diff = (((a + 0.55 - l.a) % TAU) + TAU) % TAU;
+        if (diff < 0.14 && t - l.found > 10) l.found = t;
+        const age = t - l.found, on = age < 9;
+        setP(pts, i, l.p.x, l.p.y, 0); col.setXYZ(i, on ? 1 : 0.3, on ? 0.2 : 0.3, on ? 0.28 : 0.34);
+        lp.setXYZ(i * 2, 0, 0, 0); lp.setXYZ(i * 2 + 1, on ? l.p.x * Math.min(1, age * 1.6) : 0, on ? l.p.y * Math.min(1, age * 1.6) : 0, 0);
+        const f = age * 0.7; setP(msg, i, on && f < 1 ? l.p.x * f : 0, on && f < 1 ? l.p.y * f : 0, on && f < 1 ? 0 : -99);
+      });
+      flush(pts, msg); lp.needsUpdate = true;
+      root.rotation.z = Math.sin(t * 0.2) * 0.15;
+    },
+  };
+}
+
 /* ---------- Definição das cenas ---------- */
 const BUILDERS = {
   'globe-hero': () => buildGlobe({ points: 22000, sats: 7, intro: true, mouse: true, pcScale: 0.72, fx: 1.95, fy: 1.95 }),
@@ -558,6 +802,10 @@ const BUILDERS = {
     links: ['ny', 'lon', 'lag', 'jnb', 'dxb', 'bom', 'sin', 'tyo', 'syd', 'la', 'mow', 'ba'].map((k) => [k, 'sp']).filter(([k]) => k !== 'ba') }),
   constellation: buildConstellation,
   pipeline: buildPipeline,
+  // cenas dos posts do blog (uma por assunto)
+  'globe-news': () => buildGlobe({ points: 14000, sats: 3, intro: true, fx: 2.2, fy: 1.5 }),
+  neural: buildNeural, relay: buildRelay, funnel: buildFunnel, shield: buildShield,
+  conveyor: buildConveyor, building: buildBuilding, radar: buildRadar,
 };
 
 /* ---------- Montagem ---------- */
