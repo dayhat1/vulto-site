@@ -13,6 +13,7 @@ Deploy: o Render lê o `render.yaml` (site estático publicando `public/`, sem b
 - `public/css/tokens.css` (cores, fontes, medidas), `base.css` (reset, botões, tag, card, nav, rodapé) e `home.css` (seções).
 - `public/js/main.js`: nav, WhatsApp, tilt dos cases, posts do blog (lê `/blog/posts.json`) e animações GSAP/ScrollTrigger.
 - `public/js/scenes.js`: as cenas 3D. UM canvas fixo (`#scenes-canvas`) desenha todos os slots `[data-scene]` do HTML (viewport + scissor): `globe-hero` (planeta de partículas, mini PCs nos países, arcos de energia, satélites), `constellation` (serviços), `pipeline` (como funciona, acende com o scroll), `globe-cases` e `beacon` (CTA). Só carrega em desktop (>= 768px, ponteiro fino), com WebGL e sem reduced-motion; no resto o hero usa o planeta em SVG com CSS.
+- Blog e /privacidade também usam o `scenes.js` (boot em `public/js/vulto.js`). Cada post ganha uma cena no topo escolhida por `cena_for()` em `tools/build_blog.py` (override com `cena: "funnel"` no frontmatter; valores: neural, relay, funnel, shield, conveyor, building, radar, pipeline, globe-news) e a cena `beacon` acima da caixa de CTA.
 - Para criar uma cena nova: adicione um builder em `BUILDERS` e um `<div class="scene-slot ..." data-scene="nome">` na seção.
 - Three.js 0.160.0 e GSAP 3.12.5 vêm da CDN (jsDelivr) pelo import map do `index.html`, com versão fixada.
 - `?fps=off` na URL desliga o vigia de fps do 3D (útil para testar em máquina sem GPU).

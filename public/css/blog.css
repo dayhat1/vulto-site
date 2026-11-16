@@ -18,7 +18,7 @@ main.blog { padding: 2.5rem 0 4rem; }
 
 /* ---------- Cabeçalho do artigo ---------- */
 .post-head { display: grid; gap: 1rem; padding-top: 1rem; }
-.post-head h1 { font-size: clamp(2rem, 5.2vw, 3.3rem); font-weight: 800; font-stretch: 78%; line-height: 1.04; letter-spacing: -.012em; }
+.post-head h1 { font-size: clamp(2rem, 5.2vw, 3.3rem); font-weight: 700; line-height: 1.04; letter-spacing: -.012em; }
 .post-head .dek { margin: 0; color: var(--muted); font-size: 1.22rem; line-height: 1.5; max-width: 62ch; }
 .byline { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; color: var(--muted); font-size: .92rem; padding-top: .9rem; border-top: 1px solid var(--line); }
 .byline b { color: var(--fg); font-weight: 600; }
@@ -43,11 +43,10 @@ figcaption a:hover { color: var(--fg); border-color: var(--muted); }
 .post .body > p:first-of-type::first-letter {
   float: left;
   font: 900 4.4rem/.82 var(--display);
-  font-stretch: 72%;
   color: var(--red);
   margin: .38rem .6rem 0 0;
 }
-.post .body h2 { font-size: clamp(1.45rem, 3.6vw, 1.95rem); font-weight: 800; font-stretch: 82%; line-height: 1.15; margin: 2.6rem 0 .9rem; }
+.post .body h2 { font-size: clamp(1.45rem, 3.6vw, 1.95rem); font-weight: 700; line-height: 1.15; margin: 2.6rem 0 .9rem; }
 .post .body h3 { font-size: 1.2rem; margin: 1.8rem 0 .6rem; }
 .post .body ul { margin: 0 0 1.25rem; padding-left: 1.25rem; }
 .post .body li { margin-bottom: .55rem; }
@@ -61,7 +60,6 @@ figcaption a:hover { color: var(--fg); border-color: var(--muted); }
   padding: .4rem 0 .4rem 1.6rem;
   border-left: 3px solid var(--red);
   font: 700 1.5rem/1.3 var(--display);
-  font-stretch: 85%;
   color: var(--fg);
 }
 .post .body blockquote::before { content: "“"; position: absolute; left: -.2rem; top: -1.9rem; font: 900 4.5rem/1 var(--display); color: var(--red); opacity: .55; }
@@ -83,7 +81,7 @@ figcaption a:hover { color: var(--fg); border-color: var(--muted); }
 .cta-box { position: relative; overflow: hidden; margin-top: 1.4rem; padding: clamp(1.8rem, 5vw, 2.6rem); border: 1px solid var(--red); border-radius: 18px; text-align: center; background: linear-gradient(180deg, color-mix(in srgb, var(--red) 14%, var(--surface)), var(--surface) 70%); }
 .cta-box::after { content: ""; position: absolute; width: 420px; height: 420px; right: -160px; bottom: -240px; background: radial-gradient(closest-side, color-mix(in srgb, var(--red) 35%, transparent), transparent 70%); pointer-events: none; }
 .cta-box > * { position: relative; z-index: 1; }
-.cta-box h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 900; font-stretch: 75%; text-transform: uppercase; line-height: 1.05; }
+.cta-box h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 700; line-height: 1.08; }
 .cta-box p { margin: .7rem 0 0; color: var(--muted); }
 .cta-box .btn { margin-top: 1.3rem; }
 
@@ -100,21 +98,21 @@ figcaption a:hover { color: var(--fg); border-color: var(--muted); }
 .thumb img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease-out); }
 .post-card:hover .thumb img, .related-card:hover .thumb img, .lead-story:hover .thumb img { transform: scale(1.04); }
 .card-body { display: grid; gap: .55rem; padding: 0 .4rem; }
-.card-body h3 { font-size: 1.22rem; font-weight: 700; font-stretch: 90%; line-height: 1.22; }
+.card-body h3 { font-size: 1.22rem; font-weight: 700; line-height: 1.22; }
 .card-body p { margin: 0; color: var(--muted); font-size: .97rem; }
 .card-meta { font: 400 .8rem var(--mono); color: var(--muted); }
 .chip { justify-self: start; font: 500 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--red-soft); }
 
 /* ---------- Índice: manchete + grade ---------- */
 .blog-head { display: grid; gap: .8rem; margin-bottom: 2rem; }
-.blog-head h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 900; font-stretch: 72%; line-height: .95; text-transform: uppercase; }
+.blog-head h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; line-height: .98; }
 .blog-head p:not(.eyebrow) { margin: 0; color: var(--muted); font-size: 1.15rem; max-width: 60ch; }
 .blog-head .eyebrow { margin: 0; }
 .lead-story { display: grid; grid-template-columns: 1.35fr 1fr; gap: 2rem; align-items: center; text-decoration: none; padding: 1rem; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); transition: border-color .3s ease; }
 .lead-story:hover { border-color: color-mix(in srgb, var(--red) 70%, var(--line)); }
 .lead-story .thumb { border-radius: 12px; }
 .lead-story .card-body { gap: .8rem; padding: .5rem 1rem .5rem 0; }
-.lead-story h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 800; font-stretch: 78%; line-height: 1.05; }
+.lead-story h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 700; line-height: 1.05; }
 .lead-story .card-body p { font-size: 1.05rem; }
 @media (max-width: 860px) { .lead-story { grid-template-columns: 1fr; gap: 1rem; padding: .8rem; } .lead-story .card-body { padding: 0 .4rem .6rem; } }
 
@@ -176,27 +174,22 @@ figcaption a:hover { color: var(--fg); border-color: var(--muted); }
    ========================================================================= */
 main.blog { padding-top: clamp(1.6rem, 4vw, 3rem); }
 
-/* o vulto: silhueta em traço, só como presença (decorativa) */
+/* brilho vermelho atrás do cabeçalho do blog */
 .blog-head, .cta-box { position: relative; isolation: isolate; }
 .blog-head::before {
   content: ""; position: absolute; z-index: -1; right: -2rem; top: -3rem;
   width: min(34rem, 80vw); aspect-ratio: 1; pointer-events: none;
   background: radial-gradient(closest-side, color-mix(in srgb, var(--red) 24%, transparent), transparent 72%);
 }
-.blog-head::after, .cta-box::before {
-  content: ""; position: absolute; z-index: -1; pointer-events: none; aspect-ratio: 400 / 560;
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 560'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23ff4a5c'/><stop offset='.45' stop-color='%23e3172e'/><stop offset='1' stop-color='%235c0a14'/></linearGradient><linearGradient id='f' x1='0' y1='0' x2='0' y2='1'><stop offset='.45' stop-color='white'/><stop offset='1' stop-color='black'/></linearGradient><mask id='m'><rect width='400' height='560' fill='url(%23f)'/></mask></defs><g mask='url(%23m)' fill='none' stroke='url(%23g)' stroke-width='2.2' stroke-linecap='round'><path d='M160 192C142 176 128 152 128 120C128 72 158 36 200 36C242 36 272 72 272 120C272 152 258 176 240 192'/><path d='M160 192C120 204 70 224 48 280C30 326 28 420 20 520'/><path d='M240 192C280 204 330 224 352 280C370 326 372 420 380 520'/><path d='M177 130h13M210 130h13' stroke='%23ff4a5c' stroke-width='2.6'/></g></svg>") center / contain no-repeat;
-}
-.blog-head::after { right: 1rem; top: -2.6rem; height: min(24rem, 62vw); opacity: .55; }
-.cta-box::before { right: 1.5rem; bottom: -3rem; height: 17rem; opacity: .38; }
-@media (max-width: 640px) { .blog-head::after { right: -1.5rem; opacity: .35; } .cta-box::before { opacity: .22; } }
+/* (o busto decorativo saiu: agora o 'vulto' do blog é o planeta 3D dos slots, ver /js/scenes.js) */
 
 /* títulos: grandes, apertados */
-.blog-head h1 { font-size: clamp(2.6rem, 1rem + 6.6vw, 5.4rem); font-stretch: 66%; letter-spacing: -.018em; word-spacing: .1em; max-width: 12ch; }
-.post-head h1 { font-size: clamp(2.1rem, 1rem + 4.6vw, 3.9rem); font-weight: 900; font-stretch: 66%; letter-spacing: -.016em; word-spacing: .08em; line-height: 1; text-wrap: balance; }
-.post .body h2 { font-weight: 900; font-stretch: 70%; letter-spacing: -.01em; word-spacing: .06em; }
-.lead-story h2 { font-weight: 900; font-stretch: 70%; letter-spacing: -.012em; }
-.cta-box h2 { font-stretch: 66%; letter-spacing: -.014em; }
+.blog-head h1 { font-size: clamp(2.4rem, 1rem + 5vw, 4.4rem); letter-spacing: -.018em; word-spacing: .1em; max-width: 12ch; }
+/* Space Grotesk é mais larga que a Archivo condensada: título menor */
+.post-head h1 { font-size: clamp(1.9rem, 1rem + 3.2vw, 3rem); font-weight: 700; letter-spacing: -.016em; word-spacing: .08em; line-height: 1; text-wrap: balance; }
+.post .body h2 { font-weight: 700; letter-spacing: -.01em; word-spacing: .06em; }
+.lead-story h2 { font-weight: 700; letter-spacing: -.012em; }
+.cta-box h2 { letter-spacing: -.014em; }
 
 /* cards: mesma linguagem dos posts da home */
 .post-card, .related-card, .lead-story { border-radius: 16px; border: 1px solid var(--line); background: var(--surface); transition: border-color .6s var(--ease-out), transform .8s var(--ease-out); }

@@ -1,10 +1,6 @@
-/* Fontes locais (subset latin, OFL): Archivo e IBM Plex. */
-@font-face { font-family: 'Archivo'; font-style: normal; font-weight: 400 900; font-stretch: 62% 125%; font-display: swap; src: url('/fonts/archivo-400-900.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+/* Fonte local (subset latin, OFL): IBM Plex Mono, só nos rótulos. Space Grotesk e Inter vêm do Google Fonts (ver head() em tools/build_blog.py). */
 @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/ibm-plex-mono-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/ibm-plex-mono-500.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 400; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 500; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-500.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 600; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-600.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 /* =========================================================================
    VULTO · camada compartilhada (landing + blog)
@@ -15,9 +11,9 @@
    ========================================================================= */
 
 :root {
-  --bg: #0b090a;
-  --surface: #151113;
-  --surface-2: #1b1517;
+  --bg: #050505;
+  --surface: #0e0e10;
+  --surface-2: #151518;
   --line: rgba(241, 234, 236, 0.12);
   --line-strong: rgba(241, 234, 236, 0.22);
   --accent-text: #ff4a5c;
@@ -28,21 +24,21 @@
   --red-soft: #ff4a5c;
   --red-deep: #5c0a14;
   --on-red: #ffffff;
-  --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  --body: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   color-scheme: dark;
 }
 
 /* Fonte base 17px: tudo em rem escala junto, layout mantém a proporção. */
-html { font-size: 106.25%; }
+html { font-size: 106.25%; background: var(--bg); }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background: var(--bg);
+  background: transparent; /* o fundo vem do <html>: senão o body cobriria o canvas 3D (z-index: -1) */
   color: var(--fg);
   font: 400 1rem/1.6 var(--body);
   -webkit-font-smoothing: antialiased;
@@ -64,7 +60,7 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 .muted { color: var(--muted); }
 
 /* ---------- Botões ---------- */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.3rem; border-radius: 10px; font: 600 1rem/1 var(--body); text-decoration: none; border: 1px solid transparent; transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .3s ease; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.4rem; border-radius: 999px; font: 600 1rem/1 var(--body); text-decoration: none; border: 1px solid transparent; transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .3s ease; }
 .btn:hover { transform: translateY(-1px); }
 .btn-red { background: var(--red); color: var(--on-red); box-shadow: 0 8px 30px -10px var(--red); }
 .btn-red:hover { background: var(--red-soft); }
@@ -76,6 +72,7 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 .nav { position: fixed; inset: 0 0 auto 0; z-index: 60; padding-top: env(safe-area-inset-top, 0px); background: color-mix(in srgb, var(--bg) 62%, transparent); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid var(--line); }
 body { padding-top: calc(4rem + env(safe-area-inset-top, 0px)); }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 4rem; padding-block: 0; }
+.logo { font: 700 1.25rem/1 var(--display); letter-spacing: 0.2em; text-decoration: none; color: var(--fg); }
 .mark { display: inline-flex; line-height: 0; text-decoration: none; }
 .mark img { height: 54px; width: auto; mix-blend-mode: lighten; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
 .nav-links { display: flex; align-items: center; gap: 1.5rem; }
@@ -83,6 +80,15 @@ body { padding-top: calc(4rem + env(safe-area-inset-top, 0px)); }
 .nav-links a:not(.btn):hover, .nav-links a[aria-current="page"] { color: var(--fg); }
 .nav .btn { padding: 0.6rem 1rem; font-size: 0.92rem; }
 @media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
+
+/* ---------- Cenas 3D (um canvas fixo atrás do conteúdo; ver /js/scenes.js) ---------- */
+.scenes-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.scene-slot { display: none; pointer-events: none; }
+html.scenes .scene-slot { display: block; }
+.scene-slot--band { position: relative; width: 100%; height: 260px; margin: 0.6rem 0 0.2rem; }
+.scene-slot--cta { position: relative; width: 100%; height: 200px; margin: 1.6rem 0 -0.4rem; }
+.scene-slot--side { position: absolute; right: 0; top: -1rem; width: min(42%, 460px); height: 300px; }
+.blog-head { position: relative; }
 
 /* ---------- Rodapé ---------- */
 footer .wrap { padding-block: 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
@@ -214,3 +220,5 @@ body::after {
 
 /* nav alinhada com a da home (mesma largura e gutter) */
 .nav .wrap { max-width: 76rem; padding-inline: max(clamp(1.1rem, 4.5vw, 4rem), env(safe-area-inset-left, 0px)); }
+
+@media (max-width: 900px) { html.scenes .scene-slot--side { display: none; } }

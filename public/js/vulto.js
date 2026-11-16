@@ -72,4 +72,26 @@
       cards.forEach((c) => { c.hidden = !(cat === 'todas' || c.dataset.cat === cat); });
     }));
   }
+
+  /* ---------- Cenas 3D (/js/scenes.js) ----------
+     Só no desktop (>= 768px, ponteiro fino), com WebGL e sem "menos movimento". Um canvas fixo
+     desenha as cenas dos slots [data-scene]; sem 3D o slot nem entra no layout (html.scenes). */
+  const canvas = d.getElementById('scenes-canvas');
+  if (canvas && d.querySelector('[data-scene]') && !reduce && innerWidth >= 768 && !matchMedia('(pointer: coarse)').matches) {
+    const gl = (() => { try { const c = d.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (_) { return false; } })();
+    const conn = navigator.connection;
+    if (gl && !(conn && conn.saveData)) {
+      const v = (d.currentScript && d.currentScript.src.split('?v=')[1]) || '1';
+      const boot = () => import('/js/scenes.js?v=' + v)
+        .then((m) => m.mountScenes({
+          canvas, state: { p: 0, proc: -1 },
+          watchdog: !/[?&]fps=off/.test(location.search),
+          onReady: () => root.classList.add('scenes'),
+          onFail: () => root.classList.remove('scenes'),
+        }))
+        .catch(() => { /* sem 3D: a página segue normal */ });
+      const go = () => (window.requestIdleCallback || ((f) => setTimeout(f, 150)))(boot);
+      if (d.readyState === 'complete') go(); else addEventListener('load', go, { once: true });
+    }
+  }
 })();
