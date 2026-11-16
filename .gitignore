@@ -9,3 +9,7 @@ motor/saidas/
 motor/.lock
 motor/.venv/
 __pycache__/
+
+# segredos (Powered by Matioli616)
+*.env
+.env
