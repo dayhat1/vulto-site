@@ -607,6 +607,22 @@ def render_sitemap(posts):
             + body + "</urlset>\n")
 
 
+def render_posts_json(posts):
+    """Indice leve dos posts (a home le este arquivo; o motor regenera junto com o blog)."""
+    import json as _json
+    itens = [{
+        "slug": p["slug"],
+        "title": p["title"],
+        "summary": p["description"],
+        "date": parse_date(p["date"]).date().isoformat(),
+        "tag": p["categoria"],
+        "readingTime": p["minutos"],
+        "cover": small_variant(p.get("cover")) or p.get("cover") or "",
+        "coverAlt": p.get("cover_alt", ""),
+    } for p in posts]
+    return _json.dumps(itens, ensure_ascii=False, indent=1) + "\n"
+
+
 def main():
     files = sorted(f for f in os.listdir(SRC) if f.endswith(".md")) if os.path.isdir(SRC) else []
     posts = [parse_post(os.path.join(SRC, f)) for f in files]
@@ -625,6 +641,8 @@ def main():
 
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as f:
         f.write(render_index(posts))
+    with open(os.path.join(OUT, "posts.json"), "w", encoding="utf-8") as f:
+        f.write(render_posts_json(posts))
     with open(os.path.join(PUB, "rss.xml"), "w", encoding="utf-8") as f:
         f.write(render_rss(posts))
     with open(os.path.join(PUB, "blog-sitemap.xml"), "w", encoding="utf-8") as f:
