@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Quem responde o lead em 5 minutos fecha. Quem demora, perde pro concorrente. · Vulto</title>
 <meta name="description" content="Um estudo clássico mostra: responder em 5 minutos dá 21x mais chance de qualificar o lead. A média das empresas B2B? 42 horas.">
-<meta name="theme-color" content="#0b090a">
+<meta name="theme-color" content="#050505">
 <link rel="canonical" href="https://vulto.tech/blog/2026-10-29-regra-dos-5-minutos-lead/">
 <link rel="alternate" type="application/rss+xml" title="Blog da Vulto" href="/rss.xml">
 <meta property="og:type" content="article">
@@ -16,21 +16,23 @@
 <meta property="og:url" content="https://vulto.tech/blog/2026-10-29-regra-dos-5-minutos-lead/">
 <meta property="og:image" content="https://vulto.tech/img/blog/cinco-minutos-og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/favicon.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 <link rel="preload" as="image" href="/img/blog/cinco-minutos.webp" imagesrcset="/img/blog/cinco-minutos-800.webp 800w, /img/blog/cinco-minutos.webp 1600w" imagesizes="(max-width: 760px) 100vw, 1120px">
 <script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<!-- Three.js por CDN com versão fixada; só é baixado no desktop, com WebGL e sem "menos movimento" (ver vulto.js) -->
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <style>
-@font-face { font-family: 'Archivo'; font-style: normal; font-weight: 400 900; font-stretch: 62% 125%; font-display: swap; src: url('/fonts/archivo-400-900.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/ibm-plex-mono-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/ibm-plex-mono-500.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 400; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 500; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-500.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 600; font-stretch: 100%; font-display: swap; src: url('/fonts/ibm-plex-sans-600.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 :root {
-  --bg: #0b090a;
-  --surface: #151113;
-  --surface-2: #1b1517;
+  --bg: #050505;
+  --surface: #0e0e10;
+  --surface-2: #151518;
   --line: rgba(241, 234, 236, 0.12);
   --line-strong: rgba(241, 234, 236, 0.22);
   --accent-text: #ff4a5c;
@@ -41,18 +43,18 @@
   --red-soft: #ff4a5c;
   --red-deep: #5c0a14;
   --on-red: #ffffff;
-  --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  --body: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   color-scheme: dark;
 }
-html { font-size: 106.25%; }
+html { font-size: 106.25%; background: var(--bg); }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background: var(--bg);
+  background: transparent; 
   color: var(--fg);
   font: 400 1rem/1.6 var(--body);
   -webkit-font-smoothing: antialiased;
@@ -71,7 +73,7 @@ html { scroll-padding-top: 5rem; }
 .eyebrow { font: 500 0.78rem/1.2 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--red-soft); }
 h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 .muted { color: var(--muted); }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.3rem; border-radius: 10px; font: 600 1rem/1 var(--body); text-decoration: none; border: 1px solid transparent; transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .3s ease; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.4rem; border-radius: 999px; font: 600 1rem/1 var(--body); text-decoration: none; border: 1px solid transparent; transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .3s ease; }
 .btn:hover { transform: translateY(-1px); }
 .btn-red { background: var(--red); color: var(--on-red); box-shadow: 0 8px 30px -10px var(--red); }
 .btn-red:hover { background: var(--red-soft); }
@@ -81,6 +83,7 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 .nav { position: fixed; inset: 0 0 auto 0; z-index: 60; padding-top: env(safe-area-inset-top, 0px); background: color-mix(in srgb, var(--bg) 62%, transparent); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid var(--line); }
 body { padding-top: calc(4rem + env(safe-area-inset-top, 0px)); }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 4rem; padding-block: 0; }
+.logo { font: 700 1.25rem/1 var(--display); letter-spacing: 0.2em; text-decoration: none; color: var(--fg); }
 .mark { display: inline-flex; line-height: 0; text-decoration: none; }
 .mark img { height: 54px; width: auto; mix-blend-mode: lighten; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
 .nav-links { display: flex; align-items: center; gap: 1.5rem; }
@@ -88,6 +91,13 @@ body { padding-top: calc(4rem + env(safe-area-inset-top, 0px)); }
 .nav-links a:not(.btn):hover, .nav-links a[aria-current="page"] { color: var(--fg); }
 .nav .btn { padding: 0.6rem 1rem; font-size: 0.92rem; }
 @media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
+.scenes-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.scene-slot { display: none; pointer-events: none; }
+html.scenes .scene-slot { display: block; }
+.scene-slot--band { position: relative; width: 100%; height: 260px; margin: 0.6rem 0 0.2rem; }
+.scene-slot--cta { position: relative; width: 100%; height: 200px; margin: 1.6rem 0 -0.4rem; }
+.scene-slot--side { position: absolute; right: 0; top: -1rem; width: min(42%, 460px); height: 300px; }
+.blog-head { position: relative; }
 footer .wrap { padding-block: 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
 footer .mark img { height: 38px; }
 footer nav { display: flex; flex-wrap: wrap; gap: 1.2rem; }
@@ -185,6 +195,7 @@ body::after {
 @keyframes v-caret { 50% { opacity: 0; } }
 @media (max-width: 420px) { .sys-status { font-size: .72rem; gap: .45rem; white-space: nowrap; } }
 .nav .wrap { max-width: 76rem; padding-inline: max(clamp(1.1rem, 4.5vw, 4rem), env(safe-area-inset-left, 0px)); }
+@media (max-width: 900px) { html.scenes .scene-slot--side { display: none; } }
 main.blog { padding: 2.5rem 0 4rem; }
 .narrow { max-width: 720px; }
 .read-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60; pointer-events: none; }
@@ -194,7 +205,7 @@ main.blog { padding: 2.5rem 0 4rem; }
 .kicker .sep { width: 4px; height: 4px; border-radius: 50%; background: var(--line); }
 .kicker .brand-tag { color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: .3rem .6rem; letter-spacing: .08em; }
 .post-head { display: grid; gap: 1rem; padding-top: 1rem; }
-.post-head h1 { font-size: clamp(2rem, 5.2vw, 3.3rem); font-weight: 800; font-stretch: 78%; line-height: 1.04; letter-spacing: -.012em; }
+.post-head h1 { font-size: clamp(2rem, 5.2vw, 3.3rem); font-weight: 700; line-height: 1.04; letter-spacing: -.012em; }
 .post-head .dek { margin: 0; color: var(--muted); font-size: 1.22rem; line-height: 1.5; max-width: 62ch; }
 .byline { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; color: var(--muted); font-size: .92rem; padding-top: .9rem; border-top: 1px solid var(--line); }
 .byline b { color: var(--fg); font-weight: 600; }
@@ -215,11 +226,10 @@ figcaption a:hover { color: var(--fg); border-color: var(--muted); }
 .post .body > p:first-of-type::first-letter {
   float: left;
   font: 900 4.4rem/.82 var(--display);
-  font-stretch: 72%;
   color: var(--red);
   margin: .38rem .6rem 0 0;
 }
-.post .body h2 { font-size: clamp(1.45rem, 3.6vw, 1.95rem); font-weight: 800; font-stretch: 82%; line-height: 1.15; margin: 2.6rem 0 .9rem; }
+.post .body h2 { font-size: clamp(1.45rem, 3.6vw, 1.95rem); font-weight: 700; line-height: 1.15; margin: 2.6rem 0 .9rem; }
 .post .body h3 { font-size: 1.2rem; margin: 1.8rem 0 .6rem; }
 .post .body ul { margin: 0 0 1.25rem; padding-left: 1.25rem; }
 .post .body li { margin-bottom: .55rem; }
@@ -233,7 +243,6 @@ figcaption a:hover { color: var(--fg); border-color: var(--muted); }
   padding: .4rem 0 .4rem 1.6rem;
   border-left: 3px solid var(--red);
   font: 700 1.5rem/1.3 var(--display);
-  font-stretch: 85%;
   color: var(--fg);
 }
 .post .body blockquote::before { content: "“"; position: absolute; left: -.2rem; top: -1.9rem; font: 900 4.5rem/1 var(--display); color: var(--red); opacity: .55; }
@@ -251,7 +260,7 @@ figcaption a:hover { color: var(--fg); border-color: var(--muted); }
 .cta-box { position: relative; overflow: hidden; margin-top: 1.4rem; padding: clamp(1.8rem, 5vw, 2.6rem); border: 1px solid var(--red); border-radius: 18px; text-align: center; background: linear-gradient(180deg, color-mix(in srgb, var(--red) 14%, var(--surface)), var(--surface) 70%); }
 .cta-box::after { content: ""; position: absolute; width: 420px; height: 420px; right: -160px; bottom: -240px; background: radial-gradient(closest-side, color-mix(in srgb, var(--red) 35%, transparent), transparent 70%); pointer-events: none; }
 .cta-box > * { position: relative; z-index: 1; }
-.cta-box h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 900; font-stretch: 75%; text-transform: uppercase; line-height: 1.05; }
+.cta-box h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 700; line-height: 1.08; }
 .cta-box p { margin: .7rem 0 0; color: var(--muted); }
 .cta-box .btn { margin-top: 1.3rem; }
 .related { margin-top: 4rem; padding-top: 2.2rem; border-top: 1px solid var(--line); }
@@ -264,19 +273,19 @@ figcaption a:hover { color: var(--fg); border-color: var(--muted); }
 .thumb img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease-out); }
 .post-card:hover .thumb img, .related-card:hover .thumb img, .lead-story:hover .thumb img { transform: scale(1.04); }
 .card-body { display: grid; gap: .55rem; padding: 0 .4rem; }
-.card-body h3 { font-size: 1.22rem; font-weight: 700; font-stretch: 90%; line-height: 1.22; }
+.card-body h3 { font-size: 1.22rem; font-weight: 700; line-height: 1.22; }
 .card-body p { margin: 0; color: var(--muted); font-size: .97rem; }
 .card-meta { font: 400 .8rem var(--mono); color: var(--muted); }
 .chip { justify-self: start; font: 500 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--red-soft); }
 .blog-head { display: grid; gap: .8rem; margin-bottom: 2rem; }
-.blog-head h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 900; font-stretch: 72%; line-height: .95; text-transform: uppercase; }
+.blog-head h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; line-height: .98; }
 .blog-head p:not(.eyebrow) { margin: 0; color: var(--muted); font-size: 1.15rem; max-width: 60ch; }
 .blog-head .eyebrow { margin: 0; }
 .lead-story { display: grid; grid-template-columns: 1.35fr 1fr; gap: 2rem; align-items: center; text-decoration: none; padding: 1rem; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); transition: border-color .3s ease; }
 .lead-story:hover { border-color: color-mix(in srgb, var(--red) 70%, var(--line)); }
 .lead-story .thumb { border-radius: 12px; }
 .lead-story .card-body { gap: .8rem; padding: .5rem 1rem .5rem 0; }
-.lead-story h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 800; font-stretch: 78%; line-height: 1.05; }
+.lead-story h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 700; line-height: 1.05; }
 .lead-story .card-body p { font-size: 1.05rem; }
 @media (max-width: 860px) { .lead-story { grid-template-columns: 1fr; gap: 1rem; padding: .8rem; } .lead-story .card-body { padding: 0 .4rem .6rem; } }
 .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2.4rem 0 1.4rem; }
@@ -327,18 +336,11 @@ main.blog { padding-top: clamp(1.6rem, 4vw, 3rem); }
   width: min(34rem, 80vw); aspect-ratio: 1; pointer-events: none;
   background: radial-gradient(closest-side, color-mix(in srgb, var(--red) 24%, transparent), transparent 72%);
 }
-.blog-head::after, .cta-box::before {
-  content: ""; position: absolute; z-index: -1; pointer-events: none; aspect-ratio: 400 / 560;
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 560'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23ff4a5c'/><stop offset='.45' stop-color='%23e3172e'/><stop offset='1' stop-color='%235c0a14'/></linearGradient><linearGradient id='f' x1='0' y1='0' x2='0' y2='1'><stop offset='.45' stop-color='white'/><stop offset='1' stop-color='black'/></linearGradient><mask id='m'><rect width='400' height='560' fill='url(%23f)'/></mask></defs><g mask='url(%23m)' fill='none' stroke='url(%23g)' stroke-width='2.2' stroke-linecap='round'><path d='M160 192C142 176 128 152 128 120C128 72 158 36 200 36C242 36 272 72 272 120C272 152 258 176 240 192'/><path d='M160 192C120 204 70 224 48 280C30 326 28 420 20 520'/><path d='M240 192C280 204 330 224 352 280C370 326 372 420 380 520'/><path d='M177 130h13M210 130h13' stroke='%23ff4a5c' stroke-width='2.6'/></g></svg>") center / contain no-repeat;
-}
-.blog-head::after { right: 1rem; top: -2.6rem; height: min(24rem, 62vw); opacity: .55; }
-.cta-box::before { right: 1.5rem; bottom: -3rem; height: 17rem; opacity: .38; }
-@media (max-width: 640px) { .blog-head::after { right: -1.5rem; opacity: .35; } .cta-box::before { opacity: .22; } }
-.blog-head h1 { font-size: clamp(2.6rem, 1rem + 6.6vw, 5.4rem); font-stretch: 66%; letter-spacing: -.018em; word-spacing: .1em; max-width: 12ch; }
-.post-head h1 { font-size: clamp(2.1rem, 1rem + 4.6vw, 3.9rem); font-weight: 900; font-stretch: 66%; letter-spacing: -.016em; word-spacing: .08em; line-height: 1; text-wrap: balance; }
-.post .body h2 { font-weight: 900; font-stretch: 70%; letter-spacing: -.01em; word-spacing: .06em; }
-.lead-story h2 { font-weight: 900; font-stretch: 70%; letter-spacing: -.012em; }
-.cta-box h2 { font-stretch: 66%; letter-spacing: -.014em; }
+.blog-head h1 { font-size: clamp(2.4rem, 1rem + 5vw, 4.4rem); letter-spacing: -.018em; word-spacing: .1em; max-width: 12ch; }
+.post-head h1 { font-size: clamp(1.9rem, 1rem + 3.2vw, 3rem); font-weight: 700; letter-spacing: -.016em; word-spacing: .08em; line-height: 1; text-wrap: balance; }
+.post .body h2 { font-weight: 700; letter-spacing: -.01em; word-spacing: .06em; }
+.lead-story h2 { font-weight: 700; letter-spacing: -.012em; }
+.cta-box h2 { letter-spacing: -.014em; }
 .post-card, .related-card, .lead-story { border-radius: 16px; border: 1px solid var(--line); background: var(--surface); transition: border-color .6s var(--ease-out), transform .8s var(--ease-out); }
 .post-card:hover, .related-card:hover, .lead-story:hover { border-color: var(--line-strong); transform: translateY(-3px); }
 .chip { border: 1px solid color-mix(in srgb, var(--red) 45%, transparent); border-radius: 999px; padding: .28rem .62rem; color: var(--accent-text); }
@@ -357,13 +359,13 @@ footer .wrap { border-top: 1px solid var(--line); }
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "NewsArticle", "headline": "Quem responde o lead em 5 minutos fecha. Quem demora, perde pro concorrente.", "description": "Um estudo clássico mostra: responder em 5 minutos dá 21x mais chance de qualificar o lead. A média das empresas B2B? 42 horas.", "datePublished": "2026-10-29T00:00:00+00:00", "author": {"@type": "Organization", "name": "Redação Vulto"}, "publisher": {"@type": "Organization", "name": "Vulto", "logo": {"@type": "ImageObject", "url": "https://vulto.tech/img/vulto-nome.jpg"}}, "image": ["https://vulto.tech/img/blog/cinco-minutos.webp"], "mainEntityOfPage": "https://vulto.tech/blog/2026-10-29-regra-dos-5-minutos-lead/", "articleSection": "Vendas"}</script>
 </head>
 <body>
+<canvas class="scenes-canvas" id="scenes-canvas" aria-hidden="true"></canvas>
 <header class="nav"><div class="wrap">
-  <a class="mark" href="/" aria-label="Vulto, início"><img src="/img/vulto-nome-sm.jpg" alt="Vulto" width="708" height="300"></a>
+  <a class="logo" href="/" aria-label="Vulto, início">VULTO</a>
   <nav class="nav-links" aria-label="Seções">
-    <a href="/#como-funciona">Como funciona</a>
-    <a href="/#precos">Preços</a>
+    <a href="/#servicos">Serviços</a>
+    <a href="/#cases">Cases</a>
     <a href="/blog/" aria-current="page">Blog</a>
-    <a href="/#duvidas">Dúvidas</a>
     <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/5521951001137">Falar no WhatsApp</a>
   </nav>
 </div></header>
@@ -372,6 +374,7 @@ footer .wrap { border-top: 1px solid var(--line); }
 <article class="post">
   <div class="wrap narrow">
     <a class="back" href="/blog/">← todos os posts</a>
+    <div class="scene-slot scene-slot--band" data-scene="relay" aria-hidden="true"></div>
     <header class="post-head">
       <div class="kicker"><span class="cat">Vendas</span><span class="sep"></span><span class="brand-tag">Conteúdo Vulto</span></div>
       <h1 style="view-transition-name:t-2026-10-29-regra-dos-5-minutos-lead">Quem responde o lead em 5 minutos fecha. Quem demora, perde pro concorrente.</h1>
@@ -404,6 +407,7 @@ footer .wrap { border-top: 1px solid var(--line); }
     
     <aside class="sources" aria-label="Fontes"><h2>Fontes</h2><ol><li><a href="https://resources.rework.com/pt/libraries/lead-management/lead-response-time" target="_blank" rel="noopener">Rework</a><span class="dom">resources.rework.com</span></li></ol></aside>
     <div class="offer-box"><p class="eyebrow">Conheça</p><h3>SaleStack: prospecção automática</h3><p>Um sistema que acha clientes do seu nicho e manda a primeira mensagem por você.</p><a class="btn btn-ghost" data-wa="Oi! Li o post no blog e quero saber mais de SaleStack: prospecção automática." href="https://wa.me/5521951001137">Quero saber mais</a></div>
+    <div class="scene-slot scene-slot--cta" data-scene="beacon" aria-hidden="true"></div>
     <div class="cta-box">
       <h2>Quero 50 leads grátis do meu nicho</h2>
       <p>15 minutos no WhatsApp. Sem compromisso.</p>
@@ -414,15 +418,18 @@ footer .wrap { border-top: 1px solid var(--line); }
 <section class="related wrap" aria-label="Leia também"><h2>Leia também</h2><div class="related-grid"><a class="related-card" href="/blog/2026-11-09-erros-no-atendimento-do-whatsapp-os-3-que-fazem-voce-perder/" data-cat="Vendas"><div class="thumb"><img src="/img/blog/erros-no-atendimento-do-whatsapp-os-3-que-fazem-voce-perder.webp" alt="Arte da Vulto com o título do post: Erros no atendimento do WhatsApp: os 3 que fazem você perder cliente" srcset="/img/blog/erros-no-atendimento-do-whatsapp-os-3-que-fazem-voce-perder-800.webp 800w, /img/blog/erros-no-atendimento-do-whatsapp-os-3-que-fazem-voce-perder.webp 1600w" sizes="(max-width: 860px) 100vw, 360px" width="1600" height="900" loading="lazy" decoding="async"></div><div class="card-body"><span class="chip">Vendas</span><h3>Erros no atendimento do WhatsApp: os 3 que fazem você perder cliente</h3><p>Demora, áudio gigante e nunca chamar pra fechar: veja os 3 erros no atendimento do WhatsApp que espantam cliente e como corrigir cada um com IA.</p><span class="card-meta">9 nov 2026 · 6 min de leitura</span></div></a><a class="related-card" href="/blog/2026-11-11-protestos-em-paris-deixam-hoteis-com-quase-13-mil-diarias/" data-cat="Negócios"><div class="thumb"><img src="/img/blog/protestos-em-paris-deixam-hoteis-com-quase-13-mil-diarias.webp" alt="Arte da Vulto com o título do post: Protestos em Paris deixam hotéis com quase 13 mil diárias canceladas" srcset="/img/blog/protestos-em-paris-deixam-hoteis-com-quase-13-mil-diarias-800.webp 800w, /img/blog/protestos-em-paris-deixam-hoteis-com-quase-13-mil-diarias.webp 1600w" sizes="(max-width: 860px) 100vw, 360px" width="1600" height="900" loading="lazy" decoding="async"></div><div class="card-body"><span class="chip">Negócios</span><h3>Protestos em Paris deixam hotéis com quase 13 mil diárias canceladas</h3><p>Protestos em Paris derrubam reservas dos hotéis. A lição para pousada pequena: sem controle de reservas e de preço, um susto vira prejuízo.</p><span class="card-meta">11 nov 2026 · 4 min de leitura</span></div></a><a class="related-card" href="/blog/2026-11-11-ia-no-negocio-digital-do-atendimento-a-venda-etapa-por-etapa/" data-cat="IA"><div class="thumb"><img src="/img/blog/ia-no-negocio-digital-do-atendimento-a-venda-etapa-por-etapa.webp" alt="Arte da Vulto com o título do post: IA no negócio digital: do atendimento à venda, etapa por etapa" srcset="/img/blog/ia-no-negocio-digital-do-atendimento-a-venda-etapa-por-etapa-800.webp 800w, /img/blog/ia-no-negocio-digital-do-atendimento-a-venda-etapa-por-etapa.webp 1600w" sizes="(max-width: 860px) 100vw, 360px" width="1600" height="900" loading="lazy" decoding="async"></div><div class="card-body"><span class="chip">IA</span><h3>IA no negócio digital: do atendimento à venda, etapa por etapa</h3><p>Veja onde a IA entra em cada etapa do negócio digital: atendimento no WhatsApp, página que vende, tráfego pago e medição, com links oficiais.</p><span class="card-meta">11 nov 2026 · 6 min de leitura</span></div></a></div></section>
 </main>
 <footer><div class="wrap">
-  <a class="mark" href="/" aria-label="Vulto, início"><img src="/img/vulto-nome-sm.jpg" alt="Vulto" width="708" height="300" loading="lazy"></a>
+  <a class="logo" href="/" aria-label="Vulto, início">VULTO</a>
   <nav aria-label="Rodapé">
-    <a href="https://instagram.com/vulto.tech">@vulto.tech</a>
-    <a href="/blog/">Blog</a>
-    <a href="/rss.xml">RSS</a>
+    <a href="/#servicos">Serviços</a>
+    <a href="/#cases">Cases</a>
     <a href="/#precos">Preços</a>
+    <a href="/blog/">Blog</a>
+    <a href="/#duvidas">Dúvidas</a>
+    <a href="/rss.xml">RSS</a>
     <a href="/privacidade/">Privacidade</a>
+    <a href="https://instagram.com/vulto.tech">@vulto.tech</a>
   </nav>
   <p class="privacy">© <span id="ano">2026</span> Vulto.tech · Conteúdo próprio. Imagens com crédito de seus autores.</p>
 </div></footer>
-<script src="/js/vulto.js?v=6" defer></script>
+<script src="/js/vulto.js?v=7" defer></script>
 </body></html>

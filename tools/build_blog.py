@@ -57,7 +57,7 @@ SRC = os.path.join(ROOT, "content", "blog")
 PUB = os.path.join(ROOT, "public")
 OUT = os.path.join(PUB, "blog")
 DEFAULT_OG = "/img/og.jpg"
-ASSET_V = "6"
+ASSET_V = "7"
 
 
 def _css_inline():
@@ -87,6 +87,23 @@ OFERTAS = {
     "shopify": ("Loja Shopify que converte", "Loja montada para vender, pronta para rodar anúncio."),
     "seguranca": ("Auditoria de segurança", "A gente acha a brecha antes do invasor achar."),
 }
+
+# Cena 3D de cada post (ver public/js/scenes.js). Ordem: `cena:` no frontmatter > palavras do título > oferta > mundo.
+CENAS_VALIDAS = {"neural", "relay", "funnel", "shield", "conveyor", "building", "radar", "pipeline", "globe-news"}
+CENA_POR_OFERTA = {"assistente-ia": "neural", "meta-ads": "funnel", "lobby": "building", "mvp": "pipeline",
+                   "salestack": "radar", "seguranca": "shield", "shopify": "conveyor"}
+
+
+def cena_for(p):
+    if p.get("cena") in CENAS_VALIDAS:
+        return p["cena"]
+    txt = (p.get("title", "") + " " + p.get("slug", "")).lower()
+    if re.search(r"golpe|fraude|seguran|espion|invas|vazament|hacker|ataque", txt):
+        return "shield"
+    if re.search(r"whatsapp|atendiment|\blead\b|cobran", txt):
+        return "relay"
+    return CENA_POR_OFERTA.get(p.get("oferta"), "globe-news")
+
 
 MESES = ["", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho",
          "agosto", "setembro", "outubro", "novembro", "dezembro"]
@@ -316,7 +333,7 @@ def head(title, desc, canonical, ogtype, og, schema="", preload=""):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content="{desc}">
-<meta name="theme-color" content="#0b090a">
+<meta name="theme-color" content="#050505">
 <link rel="canonical" href="{canonical}">
 <link rel="alternate" type="application/rss+xml" title="Blog da Vulto" href="/rss.xml">
 <meta property="og:type" content="{ogtype}">
@@ -327,22 +344,28 @@ def head(title, desc, canonical, ogtype, og, schema="", preload=""):
 <meta property="og:url" content="{canonical}">
 <meta property="og:image" content="{SITE}{og}">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/favicon.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 {preload}<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<!-- Three.js por CDN com versão fixada; só é baixado no desktop, com WebGL e sem "menos movimento" (ver vulto.js) -->
+<script type="importmap">{{"imports":{{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}}}</script>
 <style>
 {CSS_INLINE}
 </style>
 {schema}
 </head>
 <body>
+<canvas class="scenes-canvas" id="scenes-canvas" aria-hidden="true"></canvas>
 <header class="nav"><div class="wrap">
-  <a class="mark" href="/" aria-label="Vulto, início"><img src="/img/vulto-nome-sm.jpg" alt="Vulto" width="708" height="300"></a>
+  <a class="logo" href="/" aria-label="Vulto, início">VULTO</a>
   <nav class="nav-links" aria-label="Seções">
-    <a href="/#como-funciona">Como funciona</a>
-    <a href="/#precos">Preços</a>
+    <a href="/#servicos">Serviços</a>
+    <a href="/#cases">Cases</a>
     <a href="/blog/" aria-current="page">Blog</a>
-    <a href="/#duvidas">Dúvidas</a>
     <a class="btn btn-red" data-wa="Oi! Quero o diagnóstico grátis da Vulto." href="https://wa.me/5521951001137">Falar no WhatsApp</a>
   </nav>
 </div></header>
@@ -350,13 +373,16 @@ def head(title, desc, canonical, ogtype, og, schema="", preload=""):
 
 
 FOOT = f"""<footer><div class="wrap">
-  <a class="mark" href="/" aria-label="Vulto, início"><img src="/img/vulto-nome-sm.jpg" alt="Vulto" width="708" height="300" loading="lazy"></a>
+  <a class="logo" href="/" aria-label="Vulto, início">VULTO</a>
   <nav aria-label="Rodapé">
-    <a href="https://instagram.com/vulto.tech">@vulto.tech</a>
-    <a href="/blog/">Blog</a>
-    <a href="/rss.xml">RSS</a>
+    <a href="/#servicos">Serviços</a>
+    <a href="/#cases">Cases</a>
     <a href="/#precos">Preços</a>
+    <a href="/blog/">Blog</a>
+    <a href="/#duvidas">Dúvidas</a>
+    <a href="/rss.xml">RSS</a>
     <a href="/privacidade/">Privacidade</a>
+    <a href="https://instagram.com/vulto.tech">@vulto.tech</a>
   </nav>
   <p class="privacy">© <span id="ano">2026</span> Vulto.tech · Conteúdo próprio. Imagens com crédito de seus autores.</p>
 </div></footer>
@@ -465,6 +491,7 @@ def render_post(p, posts):
 <article class="post">
   <div class="wrap narrow">
     <a class="back" href="/blog/">← todos os posts</a>
+    <div class="scene-slot scene-slot--band" data-scene="{cena_for(p)}" aria-hidden="true"></div>
     <header class="post-head">
       <div class="kicker"><span class="cat">{esc(p['categoria'])}</span><span class="sep"></span><span class="brand-tag">Conteúdo Vulto</span></div>
       <h1 style="view-transition-name:{vt_name('t', p['slug'])}">{esc(p['title'])}</h1>
@@ -480,6 +507,7 @@ def render_post(p, posts):
     {gate_html(p) if p.get('gate') else ''}
     {sources}
     {offer}
+    <div class="scene-slot scene-slot--cta" data-scene="beacon" aria-hidden="true"></div>
     <div class="cta-box">
       <h2>{esc(p['cta'])}</h2>
       <p>15 minutos no WhatsApp. Sem compromisso.</p>
@@ -523,6 +551,7 @@ def render_privacidade():
     body = f"""<main class="blog">
 <article class="post legal">
   <div class="wrap narrow">
+    <div class="scene-slot scene-slot--band" data-scene="shield" aria-hidden="true"></div>
     <header class="post-head">
       <div class="kicker"><span class="cat">LGPD</span></div>
       <h1>Política de privacidade</h1>
@@ -566,6 +595,7 @@ def render_index(posts):
     grid = '<div class="grid">' + "".join(card(p) for p in rest) + "</div>" if rest else ""
     body = f"""<main class="blog"><div class="wrap">
   <header class="blog-head">
+    <div class="scene-slot scene-slot--side" data-scene="globe-news" aria-hidden="true"></div>
     <p class="eyebrow">Um post novo todo dia</p>
     <h1>Blog da Vulto</h1>
     <p>Tecnologia, IA, anúncios e vendas explicados para quem toca um negócio. Sem enrolação.</p>
@@ -607,6 +637,22 @@ def render_sitemap(posts):
             + body + "</urlset>\n")
 
 
+def render_posts_json(posts):
+    """Indice leve dos posts (a home le este arquivo; o motor regenera junto com o blog)."""
+    import json as _json
+    itens = [{
+        "slug": p["slug"],
+        "title": p["title"],
+        "summary": p["description"],
+        "date": parse_date(p["date"]).date().isoformat(),
+        "tag": p["categoria"],
+        "readingTime": p["minutos"],
+        "cover": small_variant(p.get("cover")) or p.get("cover") or "",
+        "coverAlt": p.get("cover_alt", ""),
+    } for p in posts]
+    return _json.dumps(itens, ensure_ascii=False, indent=1) + "\n"
+
+
 def main():
     files = sorted(f for f in os.listdir(SRC) if f.endswith(".md")) if os.path.isdir(SRC) else []
     posts = [parse_post(os.path.join(SRC, f)) for f in files]
@@ -625,6 +671,8 @@ def main():
 
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as f:
         f.write(render_index(posts))
+    with open(os.path.join(OUT, "posts.json"), "w", encoding="utf-8") as f:
+        f.write(render_posts_json(posts))
     with open(os.path.join(PUB, "rss.xml"), "w", encoding="utf-8") as f:
         f.write(render_rss(posts))
     with open(os.path.join(PUB, "blog-sitemap.xml"), "w", encoding="utf-8") as f:

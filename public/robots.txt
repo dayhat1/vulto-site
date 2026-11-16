@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://vulto.tech/sitemap.xml
 Sitemap: https://vulto.tech/blog-sitemap.xml
