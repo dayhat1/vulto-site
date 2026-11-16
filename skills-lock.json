@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "skills": {
+    "3d-web-experience": {
+      "source": "sickn33/agentic-awesome-skills",
+      "sourceType": "github",
+      "skillPath": "skills/3d-web-experience/SKILL.md",
+      "computedHash": "1cbd3f7e059c0f981ac141e3bfe04864791abb8ccd8b51749666edf6792d98f5"
+    },
+    "gsap-scrolltrigger": {
+      "source": "freshtechbro/claudedesignskills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/gsap-scrolltrigger/SKILL.md",
+      "computedHash": "10d2eccd5795f0d825df997898e88cd016f6f53227da1e757939e92d82b54430"
+    },
+    "threejs": {
+      "source": "mrgoonie/claudekit-skills",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/threejs/SKILL.md",
+      "computedHash": "0f06e70b7596e95803b7e3e5de3483a2b312255a9fe089e49eb5c260f3950329"
+    }
+  }
+}
