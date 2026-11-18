@@ -357,6 +357,7 @@ def head(title, desc, canonical, ogtype, og, schema="", preload=""):
 {CSS_INLINE}
 </style>
 {schema}
+<script defer src="https://analytics.200-141-25-4.nip.io/script.js" data-website-id="0618e3d6-20aa-42f9-86f4-b6c3fbe3d674"></script>
 </head>
 <body>
 <canvas class="scenes-canvas" id="scenes-canvas" aria-hidden="true"></canvas>
@@ -561,7 +562,7 @@ def render_privacidade():
 <h2>Quem cuida dos seus dados</h2>
 <p>A Vulto (vulto.tech) é a controladora dos dados coletados neste site. Fale com a gente pelo <a href="{PRIVACIDADE_CONTATO_WA}">WhatsApp</a>{email}.</p>
 <h2>Quais dados coletamos</h2>
-<ul><li>E-mail e WhatsApp (e o nome, se você informar).</li><li>Qual post você liberou e de onde veio o link (ex.: Instagram, direct, nome da campanha).</li><li>Data e hora, o tipo de navegador e uma versão embaralhada (hash) do seu IP, usada só para barrar robôs e abuso. Não guardamos o IP em si.</li><li>Seu aceite: se marcou a caixa, quando e com qual texto.</li></ul>
+<ul><li>E-mail e WhatsApp (e o nome, se você informar).</li><li>Qual post você liberou e de onde veio o link (ex.: Instagram, direct, nome da campanha).</li><li>Data e hora, o tipo de navegador e uma versão embaralhada (hash) do seu IP, usada só para barrar robôs e abuso. Não guardamos o IP em si.</li><li>Seu aceite: se marcou a caixa, quando e com qual texto.</li><li>Estatísticas de navegação (quais páginas são mais lidas, de onde vem o acesso), de forma anônima e agregada, sem cookies e sem IP completo — coletadas por uma ferramenta de analytics que roda em servidor próprio da Vulto.</li></ul>
 <h2>Para que usamos</h2>
 <ul><li>Liberar o conteúdo completo do post para você (e os próximos, sem pedir de novo).</li><li>Enviar conteúdos e ofertas da Vulto por e-mail e WhatsApp, só se você aceitou.</li><li>Entender quais assuntos interessam a quem lê, para escolher os próximos conteúdos.</li><li>Criar públicos de anúncio no Facebook/Instagram a partir do e-mail e telefone embaralhados (hash), só de quem aceitou receber ofertas.</li></ul>
 <p>A base legal é o seu consentimento (art. 7º, I, da LGPD). Não vendemos seus dados.</p>
@@ -570,7 +571,7 @@ def render_privacidade():
 <p>No seu navegador fica salvo só um código de acesso (no armazenamento local do site), para você não precisar preencher o formulário de novo. Ele vale 30 dias e você pode apagá-lo limpando os dados do site.</p>
 <h2>Como cancelar ou pedir exclusão</h2>
 <ul><li>E-mail: clique em “descadastrar” no rodapé de qualquer e-mail nosso.</li><li>WhatsApp: responda <strong>SAIR</strong> em qualquer mensagem.</li><li>Para ver, corrigir ou apagar seus dados (art. 18 da LGPD), chame no <a href="{PRIVACIDADE_CONTATO_WA}">WhatsApp</a>{email}. Respondemos em até 15 dias.</li></ul>
-<p class="muted">Atualizada em 9 de novembro de 2026.</p>
+<p class="muted">Atualizada em 18 de novembro de 2026.</p>
     </div>
   </div>
 </article>
