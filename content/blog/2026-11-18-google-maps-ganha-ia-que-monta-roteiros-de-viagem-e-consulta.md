@@ -10,6 +10,8 @@ cover: "/img/blog/google-maps-ganha-ia-que-monta-roteiros-de-viagem-e-consulta.w
 cover_alt: "Arte da Vulto com o título do post: Google Maps ganha IA que monta roteiros de viagem e consulta horários livres"
 cover_credito: "Arte: Vulto"
 cena: "building"
+reel_id: "20261118-0514-google-maps-ganha-ia-que-monta"
+reel_capa: "/img/blog/google-maps-ganha-ia-que-monta-roteiros-de-viagem-e-consulta-reel.webp"
 draft: false
 ---
 Pensa numa pousada de dez quartos. O dono atende o telefone, responde o WhatsApp, confere a planilha de reservas e ainda resolve o café da manhã. Nesse ritmo, cada pergunta que chega fora de hora vira uma venda que pode escapar.
