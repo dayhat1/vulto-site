@@ -12,6 +12,8 @@ cover_credito: "Arte: Vulto"
 cena: "neural"
 gate: "true"
 minutos_total: "7"
+reel_id: "20261118-0600-nvidia-noticias-hoje-resultado"
+reel_capa: "/img/blog/nvidia-noticias-hoje-resultado-de-us-115-8-bi-e-o-que-muda-para-reel.webp"
 draft: false
 ---
 A Nvidia divulgou o resultado do terceiro trimestre fiscal de 2027 em 17 de novembro de 2026. Junto vieram anúncios de fábrica, de chip e até uma mudança na governança da empresa. Aqui está o resumo do que saiu nas últimas 48 horas, sem achismo.
