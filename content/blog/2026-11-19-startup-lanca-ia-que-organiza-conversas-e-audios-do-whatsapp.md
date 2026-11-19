@@ -10,6 +10,8 @@ cover: "/img/blog/startup-lanca-ia-que-organiza-conversas-e-audios-do-whatsapp.w
 cover_alt: "Arte da Vulto com o título do post: Startup lança IA que organiza conversas e áudios do WhatsApp para equipes de venda"
 cover_credito: "Arte: Vulto"
 cena: "relay"
+reel_id: "20261119-1313-startup-lanca-ia-que-organiza"
+reel_capa: "/img/blog/startup-lanca-ia-que-organiza-conversas-e-audios-do-whatsapp-reel.webp"
 draft: false
 ---
 Pensa numa loja que vende muito pelo WhatsApp. O cliente pergunta o preço na terça, some na quarta e manda um áudio na sexta. Quem atendeu já esqueceu o combinado. A venda fica perdida no meio de centenas de mensagens.
